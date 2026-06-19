@@ -7,164 +7,198 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif;
+        body {
+            font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
             background-attachment: fixed;
-            color: #e2e8f0; }
-        .mono { font-family: 'Fira Code', monospace; }
-        .card { transition: all 0.3s ease; }
-        .correct { border-color: #10b981; background-color: #ecfdf5; }
-        .incorrect { border-color: #ef4444; background-color: #fef2f2; }
+            color: #e2e8f0;
+        }
+        .mono {
+            font-family: 'Fira Code', monospace;
+        }
+        .glass-card {
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .correct { border-color: #10b981; background-color: rgba(16, 185, 129, 0.1); color: #34d399; }
+        .incorrect { border-color: #ef4444; background-color: rgba(239, 68, 68, 0.1); color: #f87171; }
         /* Styling for the interactive bits */
         .bit-box { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; user-select: none; }
-        .bit-box.active { background-color: #4f46e5; border-color: #4338ca; color: white; transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4); }
+        .bit-box.active { background-color: #0d9488; border-color: #0f766e; color: white; transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.4); }
         .bit-box.active .bit-power { color: rgba(255, 255, 255, 0.7); }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen pb-12">
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
 
-    <nav class="bg-indigo-600 text-white p-4 shadow-lg mb-8">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-tight">NetzwerkMaster <span class="font-light text-indigo-200">v1.3</span></h1>
-            <div class="text-sm bg-indigo-700 px-3 py-1 rounded-full">Interactive Binary Learning</div>
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='its.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
         </div>
-    </nav>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-emerald-500 mb-4">
+                IPv4 Subnetting Trainer
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Interactive Binary Learning
+            </p>
+        </div>
+    </div>
 
-    <main class="max-w-4xl mx-auto px-4">
+    <main class="max-w-4xl mx-auto px-4 w-full">
         
-        <section id="theory" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-indigo-600 flex items-center">
+        <section id="theory" class="glass-card rounded-2xl p-6 mb-8 border border-slate-700/50">
+            <h2 class="text-2xl font-semibold mb-4 text-teal-400 flex items-center">
                 <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
                 Der Trick mit den Bits
             </h2>
-            <div class="grid md:grid-cols-2 gap-6 text-slate-600 text-sm leading-relaxed">
+            <div class="grid md:grid-cols-2 gap-6 text-slate-300 text-sm leading-relaxed">
                 <div>
                     <p class="mb-3">Jedes Oktett besteht aus 8 Bits. Die Maske füllt diese von links nach rechts mit Einsen auf.</p>
-                    <p>Nutze das <strong>interaktive Bit-Tool unten</strong>, um zu verstehen, wie Dezimalzahlen wie 192 oder 224 aus binären Einsen entstehen.</p>
+                    <p>Nutze das <strong class="text-slate-200">interaktive Bit-Tool unten</strong>, um zu verstehen, wie Dezimalzahlen wie 192 oder 224 aus binären Einsen entstehen.</p>
                 </div>
-                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
-                    <h3 class="font-bold text-indigo-800 mb-2 text-xs uppercase">Die Magic Number Regel:</h3>
+                <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-slate-200 mb-2 text-xs uppercase">Die Magic Number Regel:</h3>
                     <p>Subnetzmaske-Endwert von 256 abziehen. <br>
-                    <span class="font-bold text-indigo-600 italic">Beispiel: .240 -> 256 - 240 = 16.</span> <br>
+                    <span class="font-bold text-teal-400 italic">Beispiel: .240 -> 256 - 240 = 16.</span> <br>
                     Deine Netze springen in 16er Schritten (0, 16, 32...).</p>
                 </div>
             </div>
         </section>
 
-        <section class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden mb-8">
-            <div class="bg-slate-900 text-white p-8 text-center">
-                <p class="text-slate-400 uppercase tracking-widest text-xs font-bold mb-2">Aktuelle Aufgabe</p>
-                <div id="current-problem" class="text-4xl md:text-5xl font-mono font-bold text-indigo-400">
-                    192.168.10.45 /27
-                </div>
-                <button onclick="generateProblem()" class="mt-6 bg-indigo-600 hover:bg-indigo-500 px-6 py-2 rounded-full font-semibold transition text-sm">
+        <section class="glass-card relative rounded-2xl p-8 border border-slate-700/50 shadow-2xl mb-8">
+            <div class="flex justify-between items-start mb-6">
+                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                    <span class="text-teal-400">📝</span> Aktuelle Aufgabe
+                </h2>
+                <button onclick="generateProblem()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg border border-slate-700 transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
                     Neue Aufgabe würfeln
                 </button>
             </div>
 
-            <div class="p-8">
+            <div class="bg-slate-900/80 rounded-xl p-6 border border-slate-800 mb-6 text-center">
+                <div id="current-problem" class="text-4xl md:text-5xl font-mono font-bold text-teal-400 tracking-wider">
+                    192.168.10.45 /27
+                </div>
+            </div>
+
+            <div class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Subnetzmaske (Dezimal)</label>
-                            <input type="text" id="ans-mask" placeholder="z.B. 255.255.255.0" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none mono">
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Subnetzmaske (Dezimal)</label>
+                            <input type="text" id="ans-mask" placeholder="z.B. 255.255.255.0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Netzwerk-Adresse</label>
-                            <input type="text" id="ans-network" placeholder="Netz-ID" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none mono">
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Netzwerk-Adresse</label>
+                            <input type="text" id="ans-network" placeholder="Netz-ID" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Broadcast-Adresse</label>
-                            <input type="text" id="ans-broadcast" placeholder="Broadcast" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none mono">
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Broadcast-Adresse</label>
+                            <input type="text" id="ans-broadcast" placeholder="Broadcast" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Anzahl nutzbarer Hosts</label>
-                            <input type="number" id="ans-hosts" placeholder="2^n - 2" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none mono">
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Anzahl nutzbarer Hosts</label>
+                            <input type="number" id="ans-hosts" placeholder="2^n - 2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600">
                         </div>
                     </div>
 
-                    <div class="flex flex-col justify-center space-y-4">
-                        <button onclick="checkAnswers()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg transition transform active:scale-95">
+                    <div class="flex flex-col justify-center space-y-4 pt-4">
+                        <button onclick="checkAnswers()" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-4 rounded-xl shadow-lg transition-colors shadow-teal-500/20 active:scale-95">
                             Antwort prüfen
                         </button>
-                        <button onclick="toggleSolution()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 rounded-xl transition">
+                        <button onclick="toggleSolution()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-3 rounded-xl border border-slate-700 transition-colors">
                             Lösung & Erklärung
                         </button>
-                        <div id="feedback-msg" class="hidden p-4 rounded-xl text-center font-bold"></div>
+                        <div id="feedback-msg" class="hidden"></div>
                     </div>
                 </div>
 
-                <div id="solution-area" class="hidden mt-8 pt-8 border-t border-slate-100">
-                    <h3 class="text-xl font-bold mb-4 text-indigo-900">Schritt-für-Schritt Lösung:</h3>
-                    <div id="solution-steps" class="space-y-4 text-slate-700"></div>
+                <div id="solution-area" class="hidden mt-8 pt-8 border-t border-slate-800">
+                    <h3 class="text-xl font-bold mb-4 text-slate-200 flex items-center gap-2">
+                        <span class="text-teal-400">💡</span> Schritt-für-Schritt Lösung:
+                    </h3>
+                    <div class="bg-slate-900/50 rounded-xl p-6 border border-slate-800">
+                        <div id="solution-steps" class="space-y-4 text-slate-300"></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="grid md:grid-cols-3 gap-4">
+        <section class="grid md:grid-cols-3 gap-4 mb-12">
             <!-- Interaktive Binär-Stellenwerte -->
-            <div class="md:col-span-2 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="md:col-span-2 glass-card p-4 rounded-xl border border-slate-700/50 shadow-sm">
                 <div class="flex justify-between items-center mb-4">
-                    <h4 class="font-bold text-indigo-600">Interaktive Binär-Stellenwerte</h4>
-                    <button onclick="resetBits()" class="text-[10px] bg-slate-100 px-2 py-1 rounded hover:bg-slate-200 font-bold uppercase text-slate-500 transition">Reset</button>
+                    <h4 class="font-bold text-teal-400">Interaktive Binär-Stellenwerte</h4>
+                    <button onclick="resetBits()" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-slate-700 font-bold uppercase text-slate-400 transition">Reset</button>
                 </div>
                 
                 <div class="grid grid-cols-4 sm:grid-cols-8 gap-2 mb-4">
                     <!-- Bit Boxes Generated by JS -->
-                    <div id="bit-7" onclick="toggleBit(7)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
-                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>7</sup></span>
-                        <span class="text-sm font-bold mono">128</span>
+                    <div id="bit-7" onclick="toggleBit(7)" class="bit-box flex flex-col items-center p-2 bg-slate-900/80 rounded-lg border border-slate-700/50">
+                        <span class="bit-power text-[10px] text-slate-500 font-bold">2<sup>7</sup></span>
+                        <span class="text-sm font-bold mono text-slate-300">128</span>
                     </div>
-                    <div id="bit-6" onclick="toggleBit(6)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
-                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>6</sup></span>
-                        <span class="text-sm font-bold mono">64</span>
+                    <div id="bit-6" onclick="toggleBit(6)" class="bit-box flex flex-col items-center p-2 bg-slate-900/80 rounded-lg border border-slate-700/50">
+                        <span class="bit-power text-[10px] text-slate-500 font-bold">2<sup>6</sup></span>
+                        <span class="text-sm font-bold mono text-slate-300">64</span>
                     </div>
-                    <div id="bit-5" onclick="toggleBit(5)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
-                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>5</sup></span>
-                        <span class="text-sm font-bold mono">32</span>
+                    <div id="bit-5" onclick="toggleBit(5)" class="bit-box flex flex-col items-center p-2 bg-slate-900/80 rounded-lg border border-slate-700/50">
+                        <span class="bit-power text-[10px] text-slate-500 font-bold">2<sup>5</sup></span>
+                        <span class="text-sm font-bold mono text-slate-300">32</span>
                     </div>
-                    <div id="bit-4" onclick="toggleBit(4)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
-                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>4</sup></span>
-                        <span class="text-sm font-bold mono">16</span>
+                    <div id="bit-4" onclick="toggleBit(4)" class="bit-box flex flex-col items-center p-2 bg-slate-900/80 rounded-lg border border-slate-700/50">
+                        <span class="bit-power text-[10px] text-slate-500 font-bold">2<sup>4</sup></span>
+                        <span class="text-sm font-bold mono text-slate-300">16</span>
                     </div>
-                    <div id="bit-3" onclick="toggleBit(3)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
-                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>3</sup></span>
-                        <span class="text-sm font-bold mono">8</span>
+                    <div id="bit-3" onclick="toggleBit(3)" class="bit-box flex flex-col items-center p-2 bg-slate-900/80 rounded-lg border border-slate-700/50">
+                        <span class="bit-power text-[10px] text-slate-500 font-bold">2<sup>3</sup></span>
+                        <span class="text-sm font-bold mono text-slate-300">8</span>
                     </div>
-                    <div id="bit-2" onclick="toggleBit(2)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
-                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>2</sup></span>
-                        <span class="text-sm font-bold mono">4</span>
+                    <div id="bit-2" onclick="toggleBit(2)" class="bit-box flex flex-col items-center p-2 bg-slate-900/80 rounded-lg border border-slate-700/50">
+                        <span class="bit-power text-[10px] text-slate-500 font-bold">2<sup>2</sup></span>
+                        <span class="text-sm font-bold mono text-slate-300">4</span>
                     </div>
-                    <div id="bit-1" onclick="toggleBit(1)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
-                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>1</sup></span>
-                        <span class="text-sm font-bold mono">2</span>
+                    <div id="bit-1" onclick="toggleBit(1)" class="bit-box flex flex-col items-center p-2 bg-slate-900/80 rounded-lg border border-slate-700/50">
+                        <span class="bit-power text-[10px] text-slate-500 font-bold">2<sup>1</sup></span>
+                        <span class="text-sm font-bold mono text-slate-300">2</span>
                     </div>
-                    <div id="bit-0" onclick="toggleBit(0)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
-                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>0</sup></span>
-                        <span class="text-sm font-bold mono">1</span>
+                    <div id="bit-0" onclick="toggleBit(0)" class="bit-box flex flex-col items-center p-2 bg-slate-900/80 rounded-lg border border-slate-700/50">
+                        <span class="bit-power text-[10px] text-slate-500 font-bold">2<sup>0</sup></span>
+                        <span class="text-sm font-bold mono text-slate-300">1</span>
                     </div>
                 </div>
 
-                <div class="bg-slate-900 rounded-xl p-3 flex justify-between items-center text-white">
+                <div class="bg-slate-900/80 rounded-xl p-3 flex justify-between items-center border border-slate-800">
                     <div class="flex flex-col">
-                        <span class="text-[10px] text-slate-400 uppercase font-bold">Binär-Muster</span>
-                        <span id="binary-pattern" class="mono font-bold text-indigo-400 tracking-widest text-lg">00000000</span>
+                        <span class="text-[10px] text-slate-500 uppercase font-bold">Binär-Muster</span>
+                        <span id="binary-pattern" class="mono font-bold text-teal-400 tracking-widest text-lg">00000000</span>
                     </div>
                     <div class="text-right">
-                        <span class="text-[10px] text-slate-400 uppercase font-bold">Dezimal-Summe</span>
-                        <div class="text-2xl font-bold mono text-emerald-400" id="bit-sum-display">0</div>
+                        <span class="text-[10px] text-slate-500 uppercase font-bold">Dezimal-Summe</span>
+                        <div class="text-2xl font-bold mono text-teal-400" id="bit-sum-display">0</div>
                     </div>
                 </div>
             </div>
 
             <!-- Host Formula -->
-            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                <h4 class="font-bold text-indigo-600 mb-2">Host-Formel</h4>
-                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-center">
-                    <p class="text-lg font-mono font-bold text-indigo-600">2<sup>h</sup> - 2</p>
-                    <p class="text-[10px] text-slate-400 mt-1 uppercase font-bold">h = Hostbits (Nullen)</p>
+            <div class="glass-card p-4 rounded-xl border border-slate-700/50 shadow-sm">
+                <h4 class="font-bold text-teal-400 mb-2">Host-Formel</h4>
+                <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800 text-center">
+                    <p class="text-lg font-mono font-bold text-teal-400">2<sup>h</sup> - 2</p>
+                    <p class="text-[10px] text-slate-500 mt-1 uppercase font-bold">h = Hostbits (Nullen)</p>
                 </div>
-                <p class="text-[11px] text-slate-500 mt-3 leading-tight italic">Beispiel /27: 32 - 27 = 5 Hostbits. <br> 2<sup>5</sup> = 32. Minus 2 = 30 Hosts.</p>
+                <p class="text-[11px] text-slate-400 mt-3 leading-tight italic">Beispiel /27: 32 - 27 = 5 Hostbits. <br> 2<sup>5</sup> = 32. Minus 2 = 30 Hosts.</p>
             </div>
         </section>
     </main>
@@ -288,10 +322,10 @@
             fb.classList.remove('hidden');
             if (allCorrect) {
                 fb.innerText = "Hervorragend! Alles richtig berechnet. 🚀";
-                fb.className = "p-4 rounded-xl text-center font-bold bg-emerald-100 text-emerald-800 border border-emerald-200";
+                fb.className = "p-4 rounded-xl text-center font-bold bg-teal-900/30 text-teal-400 border border-teal-500/50 mt-4";
             } else {
                 fb.innerText = "Einige Werte stimmen noch nicht. Nutze das Bit-Tool!";
-                fb.className = "p-4 rounded-xl text-center font-bold bg-amber-100 text-amber-800 border border-amber-200";
+                fb.className = "p-4 rounded-xl text-center font-bold bg-amber-900/30 text-amber-400 border border-amber-500/50 mt-4";
             }
         }
 
@@ -309,31 +343,31 @@
             const hostBits = 32 - currentCIDR;
 
             steps.innerHTML = `
-                <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl">
-                    <p class="font-bold">1. Die Maske finden:</p>
-                    <p class="text-sm">Für /${currentCIDR} sind im letzten Oktett ${currentCIDR - 24} Bits auf 1 gesetzt. <br>
-                    Klicke im Bit-Tool die ersten ${currentCIDR - 24} Bits an. Das ergibt: <span class="mono font-bold">${lastOctetMask}</span>.</p>
+                <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">1. Die Maske finden:</p>
+                    <p class="text-sm mt-1 text-slate-400">Für /${currentCIDR} sind im letzten Oktett ${currentCIDR - 24} Bits auf 1 gesetzt. <br>
+                    Klicke im Bit-Tool die ersten ${currentCIDR - 24} Bits an. Das ergibt: <span class="mono font-bold text-teal-400">${lastOctetMask}</span>.</p>
                 </div>
-                <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl">
-                    <p class="font-bold">2. Die Magic Number:</p>
-                    <p class="text-sm">Rechnung: <span class="mono">256 - ${lastOctetMask} = ${magicNumber}</span>. <br>
+                <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">2. Die Magic Number:</p>
+                    <p class="text-sm mt-1 text-slate-400">Rechnung: <span class="mono">256 - ${lastOctetMask} = ${magicNumber}</span>. <br>
                     Deine Netze springen in ${magicNumber}er Schritten (0, ${magicNumber}, ${magicNumber * 2}...).</p>
                 </div>
-                <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl">
-                    <p class="font-bold">3. Das Netzwerk eingrenzen:</p>
-                    <p class="text-sm">Wo liegt die IP-Zahl ${currentIP.split('.').pop()}? <br>
-                    Das Netz startet bei dem Vielfachen der Magic Number, das direkt darunter liegt: <span class="mono font-bold text-indigo-600">${solution.network.split('.').pop()}</span>.</p>
+                <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">3. Das Netzwerk eingrenzen:</p>
+                    <p class="text-sm mt-1 text-slate-400">Wo liegt die IP-Zahl ${currentIP.split('.').pop()}? <br>
+                    Das Netz startet bei dem Vielfachen der Magic Number, das direkt darunter liegt: <span class="mono font-bold text-teal-400">${solution.network.split('.').pop()}</span>.</p>
                 </div>
-                <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl">
-                    <p class="font-bold">4. Die Broadcast-Adresse finden:</p>
-                    <p class="text-sm">Der Broadcast ist die letzte Adresse vor dem nächsten Netz. <br>
+                <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">4. Die Broadcast-Adresse finden:</p>
+                    <p class="text-sm mt-1 text-slate-400">Der Broadcast ist die letzte Adresse vor dem nächsten Netz. <br>
                     Rechnung: <span class="mono">Netz-ID (${solution.network.split('.').pop()}) + Magic Number (${magicNumber}) - 1 = ${solution.broadcast.split('.').pop()}</span>. <br>
-                    Vollständige IP: <span class="mono font-bold text-indigo-600">${solution.broadcast}</span>.</p>
+                    Vollständige IP: <span class="mono font-bold text-teal-400">${solution.broadcast}</span>.</p>
                 </div>
-                <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl">
-                    <p class="font-bold">5. Nutzbare Hosts:</p>
-                    <p class="text-sm">32 Bit insgesamt - ${currentCIDR} Netzbits = <b>${hostBits} Hostbits</b>.<br>
-                    Formel: 2<sup>${hostBits}</sup> - 2 = <span class="mono font-bold">${solution.hosts}</span>.</p>
+                <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">5. Nutzbare Hosts:</p>
+                    <p class="text-sm mt-1 text-slate-400">32 Bit insgesamt - ${currentCIDR} Netzbits = <b>${hostBits} Hostbits</b>.<br>
+                    Formel: 2<sup>${hostBits}</sup> - 2 = <span class="mono font-bold text-teal-400">${solution.hosts}</span>.</p>
                 </div>
             `;
             area.scrollIntoView({ behavior: 'smooth' });
