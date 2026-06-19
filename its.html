@@ -63,7 +63,7 @@
         <section class="mb-16">
             <h2 class="text-3xl font-bold text-white mb-8 border-b border-slate-700 pb-3">ITS (IT-Systeme)</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-<!-- Card 1: Subnetting Trainer -->
+            <!-- Card 1: IPv4 SubnetTrainer -->
             <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
                 <div>
                     <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
@@ -74,7 +74,7 @@
                         Berechne Netz-IDs, Broadcasts und nutzbare Host-Adressen. Inklusive interaktivem Bit-Schalter und Schritt-für-Schritt-Erklärung über die Magic Number.
                     </p>
                 </div>
-                <a href="SubnetTrainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-indigo-600/20">
+                <a href="IPv4SubnetTrainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-indigo-600/20">
                     Trainer starten
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
@@ -82,7 +82,7 @@
                 </a>
             </div>
 
-            <!-- Card 2: Subnet Calculator -->
+            <!-- Card 2: Subnet Slider -->
             <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
                 <div>
                     <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
@@ -93,7 +93,7 @@
                         Verschiebe das Präfix dynamisch über einen Schieberegler und beobachte sofort, wie sich Subnetzmaske, verfügbare Host-Anzahlen und die Bitstrukturen verändern.
                     </p>
                 </div>
-                <a href="SubnetCalculator.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 active:bg-slate-900 text-slate-200 hover:text-white font-medium rounded-xl border border-slate-700 transition-colors">
+                <a href="SubnetSlider.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 active:bg-slate-900 text-slate-200 hover:text-white font-medium rounded-xl border border-slate-700 transition-colors">
                     Rechner öffnen
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
@@ -101,13 +101,32 @@
                 </a>
             </div>
 
-            <!-- Card 3: IPv6 Trainer -->
+            <!-- Card 3: IPv6 SubnetTrainer -->
             <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
                 <div>
                     <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
                         🌐
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-2">IPv6 Trainer</h2>
+                    <h2 class="text-xl font-bold text-white mb-2">IPv6 SubnetTrainer</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Übe das Subnetting von IPv6-Adressen mit detaillierten Schritt-für-Schritt Erklärungen.
+                    </p>
+                </div>
+                <a href="IPv6SubnetTrainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-purple-600/20">
+                    Trainer starten
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+                
+            <!-- Card 4: IPv6 Trainer -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                        🌐
+                    </div>
+                    <h2 class="text-xl font-bold text-white mb-2">IPv6 KürzungsTrainer</h2>
                     <p class="text-slate-400 text-sm leading-relaxed mb-6">
                         Übe das Komprimieren von IPv6-Adressen und das Finden von Netzwerk-Präfixen mit detaillierten Schritt-für-Schritt Erklärungen.
                     </p>
@@ -120,7 +139,7 @@
                 </a>
             </div>
 
-            <!-- Card 4: OSI Model Trainer -->
+            <!-- Card 5: OSI Model Trainer -->
             <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
                 <div>
                     <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
