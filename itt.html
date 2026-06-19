@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT-Ausbildung Lernwerkzeuge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+        }
+        .mono {
+            font-family: 'Fira Code', monospace;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 12px 20px -8px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-indigo-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+                IT-Ausbildung Workspace
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                IT-Ausbildung Lernwerkzeuge
+            </h1>
+            <p class="mt-4 text-base md:text-lg text-slate-400 max-w-xl mx-auto">
+                Lernwerkzeuge für ITT (IT-Technik)
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8">
+            <a href="index.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors border border-slate-700 w-max">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zum Hauptmenü
+            </a>
+        </div>
+
+        <!-- Subject Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-white mb-8 border-b border-slate-700 pb-3">ITT (IT-Technik)</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+
+            <!-- Empty State Card -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-center items-center text-center group h-full min-h-[250px]">
+                <div class="w-12 h-12 rounded-xl bg-slate-500/10 border border-slate-500/20 flex items-center justify-center text-slate-400 text-xl font-bold mb-4 opacity-50">
+                    ⏳
+                </div>
+                <h3 class="text-lg font-semibold text-slate-300 mb-2">In Planung</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    Noch keine Lernwerkzeuge in diesem Fach verfügbar.
+                </p>
+            </div>
+
+            </div>
+        </section>
+
+        <!-- Tech Info Tag -->
+        <div class="mt-auto text-center pt-8">
+            <span class="mono text-xs text-slate-500 bg-slate-900/50 px-3 py-1.5 rounded-md border border-slate-800/60">
+                Lokal autonom • 100% Client-Side • HTML & CSS
+            </span>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 mono mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPv6 Subnetting Trainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+        }
+        .mono {
+            font-family: 'Fira Code', monospace;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .correct { border-color: #10b981; background-color: rgba(16, 185, 129, 0.1); color: #34d399; }
+        .incorrect { border-color: #ef4444; background-color: rgba(239, 68, 68, 0.1); color: #f87171; }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex items-center justify-between mb-8">
+            <a href="its.html" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </a>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-emerald-500 mb-4">
+                IPv6 Subnetting Trainer
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Übe das Berechnen von IPv6-Subnetzen.
+            </p>
+        </div>
+
+    <main class="max-w-4xl mx-auto px-4 w-full">
+        <!-- Problem Section -->
+        <section class="mb-12 relative">
+            <div class="absolute -inset-1 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-2xl blur opacity-20"></div>
+            <div class="glass-card relative rounded-2xl p-8 border border-slate-700/50 shadow-2xl">
+                <div class="flex justify-between items-start mb-6">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-teal-400">📝</span> Aktuelle Aufgabe
+                    </h2>
+                    <button onclick="generateProblem()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg border border-slate-700 transition-colors flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Neue Aufgabe
+                    </button>
+                </div>
+
+                <div class="bg-slate-900/80 rounded-xl p-6 border border-slate-800 mb-6">
+                    <p class="text-slate-300 text-lg mb-2" id="problem-description">
+                        Gegeben ist das Provider-Netz:
+                    </p>
+                    <p id="current-problem" class="text-3xl font-mono text-teal-400 text-center py-4 tracking-wider font-bold">
+                        --
+                    </p>
+                    <p class="text-slate-300 text-lg mt-4" id="problem-question">
+                        --
+                    </p>
+                </div>
+
+                <!-- Inputs -->
+                <div class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-2">Anzahl der Subnetz-Bits</label>
+                            <input type="number" id="ans-subnet-bits" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 16">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-2">Anzahl möglicher Subnetze</label>
+                            <input type="number" id="ans-subnet-count" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 65536">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Präfix des Subnetzes mit dem <span id="target-subnet-index">Index X</span> (komprimierte Schreibweise mit /64)</label>
+                        <input type="text" id="ans-subnet-prefix" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 2001:db8:1:a::/64">
+                    </div>
+
+                    <div class="flex gap-4 pt-4">
+                        <button onclick="checkAnswers()" class="flex-1 bg-teal-600 hover:bg-teal-500 text-white font-semibold py-3 px-6 rounded-xl transition-colors shadow-lg shadow-teal-500/20">
+                            Antworten prüfen
+                        </button>
+                        <button onclick="toggleSolution()" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-xl border border-slate-700 transition-colors">
+                            Lösung anzeigen
+                        </button>
+                    </div>
+
+                    <div id="feedback-msg" class="hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section id="solution-area" class="hidden mb-12">
+            <div class="glass-card rounded-2xl p-8 border border-slate-700/50">
+                <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                    <span class="text-teal-400">💡</span> Lösungsweg
+                </h3>
+                <div class="bg-slate-900/50 rounded-xl p-6 border border-slate-800">
+                    <div id="solution-steps" class="space-y-4 text-slate-300"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 mono mt-8">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+    </div>
+</body>
+</html>
+<script>
+    let solution = {
+        subnetBits: 0,
+        subnetCount: 0,
+        targetSubnetPrefix: ""
+    };
+
+    // Convert hex string to zero-padded 4-char string
+    function padHex(hex) {
+        return hex.padStart(4, '0');
+    }
+
+    // Convert decimal to zero-padded 4-char hex string
+    function decToHexBlock(dec) {
+        return dec.toString(16).padStart(4, '0');
+    }
+
+    // Compress IPv6 address according to rules
+    function compressIPv6(blocks) {
+        let compressedBlocks = blocks.map(block => parseInt(block, 16).toString(16));
+
+        let maxZeroLen = 0;
+        let maxZeroIndex = -1;
+        let currentZeroLen = 0;
+        let currentZeroIndex = -1;
+
+        for (let i = 0; i < compressedBlocks.length; i++) {
+            if (compressedBlocks[i] === "0") {
+                if (currentZeroLen === 0) currentZeroIndex = i;
+                currentZeroLen++;
+                if (currentZeroLen > maxZeroLen) {
+                    maxZeroLen = currentZeroLen;
+                    maxZeroIndex = currentZeroIndex;
+                }
+            } else {
+                currentZeroLen = 0;
+            }
+        }
+
+        if (maxZeroLen > 1) {
+            let compressedString = "";
+            for (let i = 0; i < compressedBlocks.length; i++) {
+                if (i === maxZeroIndex) {
+                    compressedString += "::";
+                    i += maxZeroLen - 1;
+                } else {
+                    compressedString += compressedBlocks[i];
+                    if (i < compressedBlocks.length - 1 && i + 1 !== maxZeroIndex) {
+                        compressedString += ":";
+                    }
+                }
+            }
+            // Fix trailing :: issue if it ends with colon
+            if (compressedString.endsWith(":") && !compressedString.endsWith("::")) {
+                compressedString = compressedString.slice(0, -1);
+            }
+            return compressedString;
+        }
+        return compressedBlocks.join(':');
+    }
+
+    function generateProblem() {
+        // Reset UI
+        document.getElementById('solution-area').classList.add('hidden');
+        document.getElementById('feedback-msg').classList.add('hidden');
+        ['ans-subnet-bits', 'ans-subnet-count', 'ans-subnet-prefix'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.value = "";
+                el.classList.remove('correct', 'incorrect');
+            }
+        });
+
+        // Determine starting prefix (either /48 or /56 or /60)
+        const startingPrefixes = [48, 52, 56, 60];
+        const currentCIDR = startingPrefixes[Math.floor(Math.random() * startingPrefixes.length)];
+        const targetCIDR = 64;
+
+        // Generate a random provider prefix based on standard ranges (e.g. 2001:db8...)
+        let blocks = ["2001", "0db8"];
+
+        // Block 3 (bits 32-47)
+        let block3 = Math.floor(Math.random() * 65536);
+        blocks.push(decToHexBlock(block3));
+
+        // Block 4 (bits 48-63) depending on currentCIDR
+        let block4 = 0;
+        if (currentCIDR > 48) {
+            // How many bits in block 4 are given by the provider?
+            const bitsInBlock4 = currentCIDR - 48;
+            // Generate random value for those bits and shift them left
+            let val = Math.floor(Math.random() * Math.pow(2, bitsInBlock4));
+            block4 = val << (16 - bitsInBlock4);
+        }
+        blocks.push(decToHexBlock(block4));
+
+        // Fill remaining with zero
+        for(let i=4; i<8; i++) {
+            blocks.push("0000");
+        }
+
+        // Calculate problem parameters
+        let basePrefix = compressIPv6(blocks);
+        if(!basePrefix.includes("::")) {
+            // Find first zero to replace, but usually compressIPv6 handles this.
+            // If it ends with 0 block and compressIPv6 didn't use ::
+            if (blocks[7] === "0000") basePrefix += "::";
+        } else if (!basePrefix.endsWith("::") && blocks[7] === "0000") {
+             // Incase we need to ensure it's a valid prefix format
+             // Actually compressIPv6 should be fine.
+        }
+
+        document.getElementById('current-problem').innerText = `${basePrefix}/${currentCIDR}`;
+
+        // Ask for a specific subnet index.
+        const subnetBits = targetCIDR - currentCIDR;
+        const subnetCount = Math.pow(2, subnetBits);
+
+        solution.subnetBits = subnetBits;
+        solution.subnetCount = subnetCount;
+
+        // Ask for a random subnet index (1-based for human readability, but maybe limit max to avoid huge numbers)
+        // Let's keep it reasonable, e.g., max 256 for the question to avoid hex conversion being too difficult
+        let targetIndex = Math.floor(Math.random() * Math.min(subnetCount, 256));
+
+        // Target index in problem description will be 1-based or 0-based. Let's use 0-based for hex simplicity, or 10th subnet.
+        // Let's ask for e.g. "das Subnetz mit dem Index X (0-basiert)"
+        document.getElementById('problem-question').innerHTML = `Wie viele Subnetz-Bits werden für die Einteilung in <span class="mono font-bold text-white">/64</span> Netze benötigt, wie viele Subnetze entstehen insgesamt und wie lautet das <span class="mono font-bold text-white">/64</span> Subnetz mit dem <strong>Index ${targetIndex.toString(16).toUpperCase()} (hexadezimal)</strong>?`;
+
+        document.getElementById('target-subnet-index').innerText = `Index ${targetIndex.toString(16).toUpperCase()} (hex)`;
+
+        // Calculate the target subnet prefix
+        // Since we are moving from currentCIDR to /64, the subnet bits are entirely within block 4 (bits 48-63)
+        // because starting prefixes are 48, 52, 56, 60.
+        // Block 4 has the provider prefix bits (if currentCIDR > 48) and the subnet bits.
+
+        // Bits in block 4 belonging to provider
+        const providerBitsInBlock4 = currentCIDR - 48; // 0 to 12
+        // Subnet bits
+        // The subnet index needs to be shifted to the correct position within block 4.
+        // Since target is 64, the subnet bits occupy the rest of block 4.
+        // Wait, index is the subnet number. It gets added to block 4 starting at the bit position currentCIDR.
+        // Specifically, it takes up the lower (64 - currentCIDR) bits of block 4.
+        // So we just add the targetIndex to block 4.
+        // Example: /56. Provider bits: 8. Subnet bits: 8.
+        // block4 = PP00 (hex). index = 0x1A. Result block4 = PP1A.
+
+        let targetBlock4 = block4 + targetIndex;
+        let targetBlocks = [...blocks];
+        targetBlocks[3] = decToHexBlock(targetBlock4);
+
+        let targetCompressed = compressIPv6(targetBlocks);
+        if(!targetCompressed.endsWith("::")) {
+            targetCompressed += "::"; // Force ends with :: for network prefix
+            targetCompressed = targetCompressed.replace("::::", "::");
+        }
+
+        solution.targetSubnetPrefix = targetCompressed + "/64";
+
+        // Generate Steps text
+        solution.steps = `
+            <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+                <p class="font-bold text-slate-200">1. Subnetz-Bits berechnen:</p>
+                <p class="text-sm mt-1 text-slate-400">
+                    Neues Präfix (${targetCIDR}) - Altes Präfix (${currentCIDR}) =
+                    <span class="mono font-bold text-teal-400">${subnetBits}</span> Bits.
+                </p>
+            </div>
+            <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+                <p class="font-bold text-slate-200">2. Anzahl der Subnetze berechnen:</p>
+                <p class="text-sm mt-1 text-slate-400">
+                    2 hoch (Anzahl der Subnetz-Bits) = 2<sup>${subnetBits}</sup> =
+                    <span class="mono font-bold text-teal-400">${subnetCount}</span> mögliche Subnetze.
+                </p>
+            </div>
+            <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+                <p class="font-bold text-slate-200">3. Präfix des bestimmten Subnetzes bilden:</p>
+                <p class="text-sm mt-1 text-slate-400">
+                    Der 4. Block (Hextet) enthält die Bits 49 bis 64.<br>
+                    Das Basis-Hextet ist <span class="mono">${decToHexBlock(block4)}</span>.<br>
+                    Addiere den Subnetz-Index (Hex: ${targetIndex.toString(16).padStart(2, '0')}) an die entsprechende Stelle.<br>
+                    Neues 4. Hextet: <span class="mono">${decToHexBlock(targetBlock4)}</span>.<br>
+                    Setze die Blöcke zusammen und komprimiere:
+                    <span class="mono font-bold text-teal-400">${solution.targetSubnetPrefix}</span>
+                </p>
+            </div>
+        `;
+    }
+
+    function checkAnswers() {
+        const userBits = document.getElementById('ans-subnet-bits').value.trim();
+        const userCount = document.getElementById('ans-subnet-count').value.trim();
+        const userPrefix = document.getElementById('ans-subnet-prefix').value.trim();
+
+        let allCorrect = true;
+        const check = (id, val, sol) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            // Case-insensitive comparison and parsing for numbers
+            if (val.toLowerCase() === String(sol).toLowerCase()) {
+                el.classList.add('correct');
+                el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect');
+                el.classList.remove('correct');
+                allCorrect = false;
+            }
+        };
+
+        check('ans-subnet-bits', userBits, solution.subnetBits);
+        check('ans-subnet-count', userCount, solution.subnetCount);
+        check('ans-subnet-prefix', userPrefix, solution.targetSubnetPrefix);
+
+        const fb = document.getElementById('feedback-msg');
+        fb.classList.remove('hidden');
+        if (allCorrect) {
+            fb.innerText = "Hervorragend! Alles richtig berechnet. 🚀";
+            fb.className = "p-4 rounded-xl text-center font-bold bg-teal-900/30 text-teal-400 border border-teal-500/50 mt-4";
+        } else {
+            fb.innerText = "Einige Werte stimmen noch nicht. Überprüfe die Regeln.";
+            fb.className = "p-4 rounded-xl text-center font-bold bg-amber-900/30 text-amber-400 border border-amber-500/50 mt-4";
+        }
+    }
+
+    function toggleSolution() {
+        const area = document.getElementById('solution-area');
+        if (!area.classList.contains('hidden')) {
+            area.classList.add('hidden');
+            return;
+        }
+
+        area.classList.remove('hidden');
+        const steps = document.getElementById('solution-steps');
+        steps.innerHTML = solution.steps;
+        area.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Initialization
+    window.onload = generateProblem;
+</script>

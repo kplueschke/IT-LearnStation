@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Subnet Trainer</title>
+    <style>
+        body { font-family: sans-serif; background: #121212; color: #e0e0e0; display: flex; justify-content: center; padding: 20px; }
+        .card { background: #1e1e1e; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); width: 100%; max-width: 400px; }
+        h2 { color: #00ff9d; margin-top: 0; }
+        input[type="range"] { width: 100%; accent-color: #00ff9d; margin: 20px 0; }
+        .result { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .val { color: #00ff9d; font-weight: bold; float: right; }
+        .binary { font-family: monospace; font-size: 0.85rem; color: #888; margin-top: 10px; display: block; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Subnet Calculator</h2>
+        <label>Präfix: <span id="prefixVal" class="val">/24</span></label>
+        <input type="range" id="cidr" min="1" max="32" value="24" oninput="calc()">
+        
+        <div class="result">
+            <p>Maske: <span id="mask" class="val">255.255.255.0</span></p>
+            <p>Nutzbare Hosts: <span id="hosts" class="val">254</span></p>
+            <p>Netze (von /24): <span id="subnets" class="val">1</span></p>
+            <span id="binMask" class="binary">11111111.11111111.11111111.00000000</span>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const p = document.getElementById('cidr').value;
+            document.getElementById('prefixVal').innerText = '/' + p;
+            
+            // Maske berechnen
+            let maskArr = [];
+            for (let i = 0; i < 4; i++) {
+                let n = Math.min(Math.max(p - i * 8, 0), 8);
+                maskArr.push(n ? (256 - Math.pow(2, 8 - n)) : 0);
+            }
+            document.getElementById('mask').innerText = maskArr.join('.');
+            
+            // Hosts berechnen
+            const h = Math.pow(2, 32 - p) - 2;
+            document.getElementById('hosts').innerText = h < 0 ? 0 : h.toLocaleString();
+            
+            // Subnetze (Basis /24)
+            const s = p >= 24 ? Math.pow(2, p - 24) : 'N/A';
+            document.getElementById('subnets').innerText = s;
+
+            // Binär-Darstellung
+            let bin = "";
+            for(let i=1; i<=32; i++) {
+                bin += i <= p ? "1" : "0";
+                if(i % 8 === 0 && i < 32) bin += ".";
+            }
+            document.getElementById('binMask').innerText = bin;
+        }
+    </script>
+</body>
+</html>

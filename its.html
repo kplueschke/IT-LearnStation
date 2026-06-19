@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT-Ausbildung Lernwerkzeuge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+        }
+        .mono {
+            font-family: 'Fira Code', monospace;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 12px 20px -8px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-indigo-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+                IT-Ausbildung Workspace
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                IT-Ausbildung Lernwerkzeuge
+            </h1>
+            <p class="mt-4 text-base md:text-lg text-slate-400 max-w-xl mx-auto">
+                Lernwerkzeuge für ITS (IT-Systeme)
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8">
+            <a href="index.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors border border-slate-700 w-max">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zum Hauptmenü
+            </a>
+        </div>
+
+        <!-- Subject Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-white mb-8 border-b border-slate-700 pb-3">ITS (IT-Systeme)</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+<!-- Card 1: Subnetting Trainer -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                        🎯
+                    </div>
+                    <h2 class="text-xl font-bold text-white mb-2">IPv4 Trainer</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Berechne Netz-IDs, Broadcasts und nutzbare Host-Adressen. Inklusive interaktivem Bit-Schalter und Schritt-für-Schritt-Erklärung über die Magic Number.
+                    </p>
+                </div>
+                <a href="SubnetTrainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-indigo-600/20">
+                    Trainer starten
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Card 2: Subnet Calculator -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                        🎛️
+                    </div>
+                    <h2 class="text-xl font-bold text-white mb-2">Visual Slider Calculator</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Verschiebe das Präfix dynamisch über einen Schieberegler und beobachte sofort, wie sich Subnetzmaske, verfügbare Host-Anzahlen und die Bitstrukturen verändern.
+                    </p>
+                </div>
+                <a href="SubnetCalculator.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 active:bg-slate-900 text-slate-200 hover:text-white font-medium rounded-xl border border-slate-700 transition-colors">
+                    Rechner öffnen
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Card 3: IPv6 Trainer -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                        🌐
+                    </div>
+                    <h2 class="text-xl font-bold text-white mb-2">IPv6 Trainer</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Übe das Komprimieren von IPv6-Adressen und das Finden von Netzwerk-Präfixen mit detaillierten Schritt-für-Schritt Erklärungen.
+                    </p>
+                </div>
+                <a href="IPv6Trainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-purple-600/20">
+                    Trainer starten
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Card 4: OSI Model Trainer -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                        🧩
+                    </div>
+                    <h2 class="text-xl font-bold text-white mb-2">OSI Modell Puzzle</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Ziehe Protokolle, Geräte und PDUs auf die entsprechenden Schichten des OSI-Modells per Drag & Drop, um dein Wissen zu testen.
+                    </p>
+                </div>
+                <a href="OsiTrainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-orange-600 hover:bg-orange-500 active:bg-orange-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-orange-600/20">
+                    Puzzle starten
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            </div>
+            </div>
+        </section>
+
+        <!-- Tech Info Tag -->
+        <div class="mt-auto text-center pt-8">
+            <span class="mono text-xs text-slate-500 bg-slate-900/50 px-3 py-1.5 rounded-md border border-slate-800/60">
+                Lokal autonom • 100% Client-Side • HTML & CSS
+            </span>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 mono mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+</body>
+</html>

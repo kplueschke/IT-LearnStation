@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktiver IPv4 Subnetting Trainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .mono { font-family: 'Fira Code', monospace; }
+        .card { transition: all 0.3s ease; }
+        .correct { border-color: #10b981; background-color: #ecfdf5; }
+        .incorrect { border-color: #ef4444; background-color: #fef2f2; }
+        /* Styling for the interactive bits */
+        .bit-box { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; user-select: none; }
+        .bit-box.active { background-color: #4f46e5; border-color: #4338ca; color: white; transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4); }
+        .bit-box.active .bit-power { color: rgba(255, 255, 255, 0.7); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen pb-12">
+
+    <nav class="bg-indigo-600 text-white p-4 shadow-lg mb-8">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-tight">NetzwerkMaster <span class="font-light text-indigo-200">v1.3</span></h1>
+            <div class="text-sm bg-indigo-700 px-3 py-1 rounded-full">Interactive Binary Learning</div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4">
+        
+        <section id="theory" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-indigo-600 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                Der Trick mit den Bits
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6 text-slate-600 text-sm leading-relaxed">
+                <div>
+                    <p class="mb-3">Jedes Oktett besteht aus 8 Bits. Die Maske füllt diese von links nach rechts mit Einsen auf.</p>
+                    <p>Nutze das <strong>interaktive Bit-Tool unten</strong>, um zu verstehen, wie Dezimalzahlen wie 192 oder 224 aus binären Einsen entstehen.</p>
+                </div>
+                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                    <h3 class="font-bold text-indigo-800 mb-2 text-xs uppercase">Die Magic Number Regel:</h3>
+                    <p>Subnetzmaske-Endwert von 256 abziehen. <br>
+                    <span class="font-bold text-indigo-600 italic">Beispiel: .240 -> 256 - 240 = 16.</span> <br>
+                    Deine Netze springen in 16er Schritten (0, 16, 32...).</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden mb-8">
+            <div class="bg-slate-900 text-white p-8 text-center">
+                <p class="text-slate-400 uppercase tracking-widest text-xs font-bold mb-2">Aktuelle Aufgabe</p>
+                <div id="current-problem" class="text-4xl md:text-5xl font-mono font-bold text-indigo-400">
+                    192.168.10.45 /27
+                </div>
+                <button onclick="generateProblem()" class="mt-6 bg-indigo-600 hover:bg-indigo-500 px-6 py-2 rounded-full font-semibold transition text-sm">
+                    Neue Aufgabe würfeln
+                </button>
+            </div>
+
+            <div class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Subnetzmaske (Dezimal)</label>
+                            <input type="text" id="ans-mask" placeholder="z.B. 255.255.255.0" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Netzwerk-Adresse</label>
+                            <input type="text" id="ans-network" placeholder="Netz-ID" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Broadcast-Adresse</label>
+                            <input type="text" id="ans-broadcast" placeholder="Broadcast" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Anzahl nutzbarer Hosts</label>
+                            <input type="number" id="ans-hosts" placeholder="2^n - 2" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none mono">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col justify-center space-y-4">
+                        <button onclick="checkAnswers()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg transition transform active:scale-95">
+                            Antwort prüfen
+                        </button>
+                        <button onclick="toggleSolution()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 rounded-xl transition">
+                            Lösung & Erklärung
+                        </button>
+                        <div id="feedback-msg" class="hidden p-4 rounded-xl text-center font-bold"></div>
+                    </div>
+                </div>
+
+                <div id="solution-area" class="hidden mt-8 pt-8 border-t border-slate-100">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-900">Schritt-für-Schritt Lösung:</h3>
+                    <div id="solution-steps" class="space-y-4 text-slate-700"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid md:grid-cols-3 gap-4">
+            <!-- Interaktive Binär-Stellenwerte -->
+            <div class="md:col-span-2 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h4 class="font-bold text-indigo-600">Interaktive Binär-Stellenwerte</h4>
+                    <button onclick="resetBits()" class="text-[10px] bg-slate-100 px-2 py-1 rounded hover:bg-slate-200 font-bold uppercase text-slate-500 transition">Reset</button>
+                </div>
+                
+                <div class="grid grid-cols-4 sm:grid-cols-8 gap-2 mb-4">
+                    <!-- Bit Boxes Generated by JS -->
+                    <div id="bit-7" onclick="toggleBit(7)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>7</sup></span>
+                        <span class="text-sm font-bold mono">128</span>
+                    </div>
+                    <div id="bit-6" onclick="toggleBit(6)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>6</sup></span>
+                        <span class="text-sm font-bold mono">64</span>
+                    </div>
+                    <div id="bit-5" onclick="toggleBit(5)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>5</sup></span>
+                        <span class="text-sm font-bold mono">32</span>
+                    </div>
+                    <div id="bit-4" onclick="toggleBit(4)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>4</sup></span>
+                        <span class="text-sm font-bold mono">16</span>
+                    </div>
+                    <div id="bit-3" onclick="toggleBit(3)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>3</sup></span>
+                        <span class="text-sm font-bold mono">8</span>
+                    </div>
+                    <div id="bit-2" onclick="toggleBit(2)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>2</sup></span>
+                        <span class="text-sm font-bold mono">4</span>
+                    </div>
+                    <div id="bit-1" onclick="toggleBit(1)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>1</sup></span>
+                        <span class="text-sm font-bold mono">2</span>
+                    </div>
+                    <div id="bit-0" onclick="toggleBit(0)" class="bit-box flex flex-col items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <span class="bit-power text-[10px] text-slate-400 font-bold">2<sup>0</sup></span>
+                        <span class="text-sm font-bold mono">1</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 rounded-xl p-3 flex justify-between items-center text-white">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold">Binär-Muster</span>
+                        <span id="binary-pattern" class="mono font-bold text-indigo-400 tracking-widest text-lg">00000000</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold">Dezimal-Summe</span>
+                        <div class="text-2xl font-bold mono text-emerald-400" id="bit-sum-display">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Host Formula -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <h4 class="font-bold text-indigo-600 mb-2">Host-Formel</h4>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-center">
+                    <p class="text-lg font-mono font-bold text-indigo-600">2<sup>h</sup> - 2</p>
+                    <p class="text-[10px] text-slate-400 mt-1 uppercase font-bold">h = Hostbits (Nullen)</p>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-3 leading-tight italic">Beispiel /27: 32 - 27 = 5 Hostbits. <br> 2<sup>5</sup> = 32. Minus 2 = 30 Hosts.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let currentIP = "";
+        let currentCIDR = 24;
+        let solution = {};
+        let activeBits = [false, false, false, false, false, false, false, false];
+
+        // --- IP Calculation Helpers ---
+        function ipToLong(ip) {
+            return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0;
+        }
+
+        function longToIp(long) {
+            return [
+                (long >>> 24) & 0xFF,
+                (long >>> 16) & 0xFF,
+                (long >>> 8) & 0xFF,
+                long & 0xFF
+            ].join('.');
+        }
+
+        // --- Interactive Bit Logic ---
+        function toggleBit(index) {
+            activeBits[index] = !activeBits[index];
+            const el = document.getElementById(`bit-${index}`);
+            if (activeBits[index]) {
+                el.classList.add('active');
+            } else {
+                el.classList.remove('active');
+            }
+            updateBitSum();
+        }
+
+        function resetBits() {
+            activeBits = activeBits.map(() => false);
+            for(let i=0; i<8; i++) {
+                document.getElementById(`bit-${i}`).classList.remove('active');
+            }
+            updateBitSum();
+        }
+
+        function updateBitSum() {
+            let sum = 0;
+            let pattern = "";
+            // Logic: bits are indexed 7 down to 0 for sum calculation
+            for (let i = 7; i >= 0; i--) {
+                if (activeBits[i]) {
+                    sum += Math.pow(2, i);
+                    pattern += "1";
+                } else {
+                    pattern += "0";
+                }
+            }
+            document.getElementById('bit-sum-display').innerText = sum;
+            document.getElementById('binary-pattern').innerText = pattern;
+        }
+
+        // --- Trainer Core Logic ---
+        function generateProblem() {
+            document.getElementById('solution-area').classList.add('hidden');
+            document.getElementById('feedback-msg').classList.add('hidden');
+            ['ans-mask', 'ans-network', 'ans-broadcast', 'ans-hosts'].forEach(id => {
+                const el = document.getElementById(id);
+                el.value = "";
+                el.classList.remove('correct', 'incorrect');
+            });
+
+            const firstOctet = [10, 172, 192][Math.floor(Math.random() * 3)];
+            let ipParts = [firstOctet, Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)];
+            currentIP = ipParts.join('.');
+            // Fokus auf /24 bis /30 für den Anfang
+            currentCIDR = Math.floor(Math.random() * (30 - 24 + 1)) + 24; 
+
+            document.getElementById('current-problem').innerText = `${currentIP} /${currentCIDR}`;
+            calculateSolution();
+        }
+
+        function calculateSolution() {
+            const ipLong = ipToLong(currentIP);
+            const maskLong = (0xFFFFFFFF << (32 - currentCIDR)) >>> 0;
+            const networkLong = (ipLong & maskLong) >>> 0;
+            const broadcastLong = (networkLong | (~maskLong)) >>> 0;
+            const numHosts = Math.pow(2, 32 - currentCIDR) - 2;
+
+            solution = {
+                mask: longToIp(maskLong),
+                network: longToIp(networkLong),
+                broadcast: longToIp(broadcastLong),
+                hosts: numHosts
+            };
+        }
+
+        function checkAnswers() {
+            const userMask = document.getElementById('ans-mask').value.trim();
+            const userNet = document.getElementById('ans-network').value.trim();
+            const userBC = document.getElementById('ans-broadcast').value.trim();
+            const userHosts = document.getElementById('ans-hosts').value.trim();
+
+            let allCorrect = true;
+            const check = (id, val, sol) => {
+                const el = document.getElementById(id);
+                if (val == sol) {
+                    el.classList.add('correct');
+                    el.classList.remove('incorrect');
+                } else {
+                    el.classList.add('incorrect');
+                    el.classList.remove('correct');
+                    allCorrect = false;
+                }
+            };
+
+            check('ans-mask', userMask, solution.mask);
+            check('ans-network', userNet, solution.network);
+            check('ans-broadcast', userBC, solution.broadcast);
+            check('ans-hosts', userHosts, solution.hosts);
+
+            const fb = document.getElementById('feedback-msg');
+            fb.classList.remove('hidden');
+            if (allCorrect) {
+                fb.innerText = "Hervorragend! Alles richtig berechnet. 🚀";
+                fb.className = "p-4 rounded-xl text-center font-bold bg-emerald-100 text-emerald-800 border border-emerald-200";
+            } else {
+                fb.innerText = "Einige Werte stimmen noch nicht. Nutze das Bit-Tool!";
+                fb.className = "p-4 rounded-xl text-center font-bold bg-amber-100 text-amber-800 border border-amber-200";
+            }
+        }
+
+        function toggleSolution() {
+            const area = document.getElementById('solution-area');
+            if (!area.classList.contains('hidden')) {
+                area.classList.add('hidden');
+                return;
+            }
+            
+            area.classList.remove('hidden');
+            const steps = document.getElementById('solution-steps');
+            const lastOctetMask = parseInt(solution.mask.split('.').pop());
+            const magicNumber = 256 - lastOctetMask;
+            const hostBits = 32 - currentCIDR;
+
+            steps.innerHTML = `
+                <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl">
+                    <p class="font-bold">1. Die Maske finden:</p>
+                    <p class="text-sm">Für /${currentCIDR} sind im letzten Oktett ${currentCIDR - 24} Bits auf 1 gesetzt. <br>
+                    Klicke im Bit-Tool die ersten ${currentCIDR - 24} Bits an. Das ergibt: <span class="mono font-bold">${lastOctetMask}</span>.</p>
+                </div>
+                <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl">
+                    <p class="font-bold">2. Die Magic Number:</p>
+                    <p class="text-sm">Rechnung: <span class="mono">256 - ${lastOctetMask} = ${magicNumber}</span>. <br>
+                    Deine Netze springen in ${magicNumber}er Schritten (0, ${magicNumber}, ${magicNumber * 2}...).</p>
+                </div>
+                <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl">
+                    <p class="font-bold">3. Das Netzwerk eingrenzen:</p>
+                    <p class="text-sm">Wo liegt die IP-Zahl ${currentIP.split('.').pop()}? <br>
+                    Das Netz startet bei dem Vielfachen der Magic Number, das direkt darunter liegt: <span class="mono font-bold text-indigo-600">${solution.network.split('.').pop()}</span>.</p>
+                </div>
+                <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl">
+                    <p class="font-bold">4. Die Broadcast-Adresse finden:</p>
+                    <p class="text-sm">Der Broadcast ist die letzte Adresse vor dem nächsten Netz. <br>
+                    Rechnung: <span class="mono">Netz-ID (${solution.network.split('.').pop()}) + Magic Number (${magicNumber}) - 1 = ${solution.broadcast.split('.').pop()}</span>. <br>
+                    Vollständige IP: <span class="mono font-bold text-indigo-600">${solution.broadcast}</span>.</p>
+                </div>
+                <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl">
+                    <p class="font-bold">5. Nutzbare Hosts:</p>
+                    <p class="text-sm">32 Bit insgesamt - ${currentCIDR} Netzbits = <b>${hostBits} Hostbits</b>.<br>
+                    Formel: 2<sup>${hostBits}</sup> - 2 = <span class="mono font-bold">${solution.hosts}</span>.</p>
+                </div>
+            `;
+            area.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.onload = generateProblem;
+    </script>
+</body>
+</html>
