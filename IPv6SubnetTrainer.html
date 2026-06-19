@@ -93,6 +93,21 @@
                         <input type="text" id="ans-subnet-prefix" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 2001:db8:1:a::/64">
                     </div>
 
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-2">Erstes mögliches Subnetz (komprimierte Schreibweise mit /64)</label>
+                            <input type="text" id="ans-first-subnet" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 2001:db8:1::/64">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-2">Letztes mögliches Subnetz (komprimierte Schreibweise mit /64)</label>
+                            <input type="text" id="ans-last-subnet" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 2001:db8:1:ffff::/64">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Anzahl der Host-Bits (Interface ID)</label>
+                        <input type="number" id="ans-host-bits" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 64">
+                    </div>
+
                     <div class="flex gap-4 pt-4">
                         <button onclick="checkAnswers()" class="flex-1 bg-teal-600 hover:bg-teal-500 text-white font-semibold py-3 px-6 rounded-xl transition-colors shadow-lg shadow-teal-500/20">
                             Antworten prüfen
@@ -192,7 +207,7 @@
         // Reset UI
         document.getElementById('solution-area').classList.add('hidden');
         document.getElementById('feedback-msg').classList.add('hidden');
-        ['ans-subnet-bits', 'ans-subnet-count', 'ans-subnet-prefix'].forEach(id => {
+        ['ans-subnet-bits', 'ans-subnet-count', 'ans-subnet-prefix', 'ans-first-subnet', 'ans-last-subnet', 'ans-host-bits'].forEach(id => {
             const el = document.getElementById(id);
             if (el) {
                 el.value = "";
@@ -286,6 +301,32 @@
 
         solution.targetSubnetPrefix = targetCompressed + "/64";
 
+        // Calculate First Subnet (Index 0)
+        let firstBlock4 = block4 + 0;
+        let firstBlocks = [...blocks];
+        firstBlocks[3] = decToHexBlock(firstBlock4);
+        let firstCompressed = compressIPv6(firstBlocks);
+        if(!firstCompressed.endsWith("::")) {
+            firstCompressed += "::";
+            firstCompressed = firstCompressed.replace("::::", "::");
+        }
+        solution.firstSubnet = firstCompressed + "/64";
+
+        // Calculate Last Subnet (Index subnetCount - 1)
+        let lastIndex = subnetCount - 1;
+        let lastBlock4 = block4 + lastIndex;
+        let lastBlocks = [...blocks];
+        lastBlocks[3] = decToHexBlock(lastBlock4);
+        let lastCompressed = compressIPv6(lastBlocks);
+        if(!lastCompressed.endsWith("::")) {
+            lastCompressed += "::";
+            lastCompressed = lastCompressed.replace("::::", "::");
+        }
+        solution.lastSubnet = lastCompressed + "/64";
+
+        // Host bits
+        solution.hostBits = 128 - targetCIDR;
+
         // Generate Steps text
         solution.steps = `
             <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
@@ -313,6 +354,19 @@
                     <span class="mono font-bold text-teal-400">${solution.targetSubnetPrefix}</span>
                 </p>
             </div>
+            <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+                <p class="font-bold text-slate-200">4. Erstes und Letztes Subnetz:</p>
+                <p class="text-sm mt-1 text-slate-400">
+                    Das <strong>erste Subnetz</strong> hat immer den Index 0: <span class="mono font-bold text-teal-400">${solution.firstSubnet}</span>.<br>
+                    Das <strong>letzte Subnetz</strong> hat den maximalen Index (${lastIndex.toString(16).toUpperCase()} hex): <span class="mono font-bold text-teal-400">${solution.lastSubnet}</span>.
+                </p>
+            </div>
+            <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+                <p class="font-bold text-slate-200">5. Host-Bits (Interface ID):</p>
+                <p class="text-sm mt-1 text-slate-400">
+                    128 Gesamtbits - ${targetCIDR} Netzbits = <span class="mono font-bold text-teal-400">${solution.hostBits}</span> Host-Bits (Interface ID).
+                </p>
+            </div>
         `;
     }
 
@@ -320,6 +374,9 @@
         const userBits = document.getElementById('ans-subnet-bits').value.trim();
         const userCount = document.getElementById('ans-subnet-count').value.trim();
         const userPrefix = document.getElementById('ans-subnet-prefix').value.trim();
+        const userFirst = document.getElementById('ans-first-subnet').value.trim();
+        const userLast = document.getElementById('ans-last-subnet').value.trim();
+        const userHostBits = document.getElementById('ans-host-bits').value.trim();
 
         let allCorrect = true;
         const check = (id, val, sol) => {
@@ -339,6 +396,9 @@
         check('ans-subnet-bits', userBits, solution.subnetBits);
         check('ans-subnet-count', userCount, solution.subnetCount);
         check('ans-subnet-prefix', userPrefix, solution.targetSubnetPrefix);
+        check('ans-first-subnet', userFirst, solution.firstSubnet);
+        check('ans-last-subnet', userLast, solution.lastSubnet);
+        check('ans-host-bits', userHostBits, solution.hostBits);
 
         const fb = document.getElementById('feedback-msg');
         fb.classList.remove('hidden');
