@@ -42,11 +42,11 @@
 
             <div class="glass-card rounded-2xl p-6 flex items-center justify-between">
                 <div>
-                    <h3 class="text-xl font-semibold text-white">Matrix Effekt</h3>
-                    <p class="text-sm text-slate-400 mt-1">Aktiviert oder deaktiviert den Matrix-Regen im Hintergrund.</p>
+                    <h3 class="text-xl font-semibold text-white">Matrix Stil</h3>
+                    <p class="text-sm text-slate-400 mt-1">Wechselt zwischen modernem Tech-Regen und dem klassischen grünen Film-Regen.</p>
                 </div>
                 <div>
-                    <button id="settings-matrix-toggle" class="px-4 py-2 rounded bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30 transition-colors border border-indigo-500/30">
+                    <button id="settings-matrix-style-toggle" class="px-4 py-2 rounded bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30 transition-colors border border-indigo-500/30">
                         Umschalten
                     </button>
                 </div>
@@ -74,17 +74,6 @@
     </footer>
 
     <script src="matrix.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const matrixToggleBtn = document.getElementById('settings-matrix-toggle');
-            if (matrixToggleBtn) {
-                matrixToggleBtn.addEventListener('click', () => {
-                    if (typeof toggleMatrix === 'function') {
-                        toggleMatrix();
-                    }
-                });
-            }
-        });
-    </script>
+
 </body>
 </html>
