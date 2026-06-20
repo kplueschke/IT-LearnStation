@@ -1,2 +1,2 @@
 # IT-LearnStation
-tools to master my it school
+Learn tools to master the it school
