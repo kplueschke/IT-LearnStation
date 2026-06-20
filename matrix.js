@@ -28,12 +28,14 @@ const initialsColor = getInitialsColor();
 const fontSize = 14;
 let columns = canvas.width / fontSize;
 let drops = [];
+let lastKpDrop = [];
 
 // Initialize drops
 const isInitialized = sessionStorage.getItem('matrixInitialized');
 
 function initDrops() {
     for (let x = 0; x < columns; x++) {
+        lastKpDrop[x] = -100; // Initialize to a negative value so it doesn't block initial spawns
         if (isInitialized) {
             // Random start positions if already visited to pre-fill screen
             drops[x] = Math.random() * (canvas.height / fontSize);
@@ -62,12 +64,22 @@ function draw() {
         // Random character
         let text = chars.charAt(Math.floor(Math.random() * chars.length));
 
+        // Ensure distance between K/P blocks
+        const minVerticalDistance = 20;
+        let isFarEnoughVertically = Math.abs(drops[i] - lastKpDrop[i]) > minVerticalDistance;
+        let isFarEnoughHorizontally = true;
+
+        // Check adjacent columns to prevent spawning side-by-side
+        if (i > 0 && Math.abs(drops[i] - lastKpDrop[i-1]) < minVerticalDistance) isFarEnoughHorizontally = false;
+        if (i < drops.length - 1 && Math.abs(drops[i] - lastKpDrop[i+1]) < minVerticalDistance) isFarEnoughHorizontally = false;
+
         // Occasionally use initials K on top of P
-        if (Math.random() < 0.01) {
+        if (Math.random() < 0.005 && isFarEnoughVertically && isFarEnoughHorizontally) {
             ctx.fillStyle = initialsColor;
             ctx.fillText('K', i * fontSize, drops[i] * fontSize);
             ctx.fillText('P', i * fontSize, (drops[i] + 1) * fontSize);
             ctx.fillStyle = 'rgba(99, 102, 241, 0.3)'; // Restore normal color
+            lastKpDrop[i] = drops[i]; // Update the last drop position
             drops[i]++; // Skip an extra drop so P isn't immediately overwritten
         } else {
             // Draw the normal character
