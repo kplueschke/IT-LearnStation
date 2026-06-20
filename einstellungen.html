@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einstellungen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-indigo-500/10 via-transparent to-transparent blur-3xl pointer-events-none z-0"></div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-16 max-w-4xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Back Button -->
+        <div class="mb-8">
+            <a href="index.html" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zum Hauptmenü
+            </a>
+        </div>
+
+        <!-- Header -->
+        <div class="mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Einstellungen
+            </h1>
+            <p class="mt-4 text-base md:text-lg text-slate-400">
+                Passen Sie hier Ihre Erfahrung an.
+            </p>
+        </div>
+
+        <!-- Settings Cards -->
+        <div class="space-y-6">
+
+            <div class="glass-card rounded-2xl p-6 flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-semibold text-white">Matrix Effekt</h3>
+                    <p class="text-sm text-slate-400 mt-1">Aktiviert oder deaktiviert den Matrix-Regen im Hintergrund.</p>
+                </div>
+                <div>
+                    <button id="settings-matrix-toggle" class="px-4 py-2 rounded bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30 transition-colors border border-indigo-500/30">
+                        Umschalten
+                    </button>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-semibold text-white">Dark Mode</h3>
+                    <p class="text-sm text-slate-400 mt-1">Dunkles Design ist als Standard für diese Plattform vorausgesetzt.</p>
+                </div>
+                <div>
+                    <button class="px-4 py-2 rounded bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700" disabled>
+                        Aktiviert
+                    </button>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 flex items-center justify-between">
+                <div class="w-full">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold text-white">Soundeffekte Lautstärke</h3>
+                        <span class="text-sm text-emerald-400 font-mono">50%</span>
+                    </div>
+                    <input type="range" min="0" max="100" value="50" class="w-full">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const matrixToggleBtn = document.getElementById('settings-matrix-toggle');
+            if (matrixToggleBtn) {
+                matrixToggleBtn.addEventListener('click', () => {
+                    if (typeof toggleMatrix === 'function') {
+                        toggleMatrix();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
