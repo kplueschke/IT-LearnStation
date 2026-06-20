@@ -39,7 +39,7 @@
             </a>
         </div>
         <div class="text-center mb-12">
-            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-emerald-500 mb-4">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-500 mb-4">
                 IPv6 Subnetting Trainer
             </h1>
             <p class="text-slate-400 max-w-2xl mx-auto">
@@ -50,13 +50,13 @@
     <main class="max-w-4xl mx-auto px-4 w-full">
         <!-- Problem Section -->
         <section class="mb-12 relative">
-            <div class="absolute -inset-1 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-2xl blur opacity-20"></div>
+            <div class="absolute -inset-1 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl blur opacity-20"></div>
             <div class="glass-card relative rounded-2xl p-8 border border-slate-700/50 shadow-2xl">
                 <div class="flex justify-between items-start mb-6">
                     <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                        <span class="text-teal-400">📝</span> Aktuelle Aufgabe
+                        <span class="text-purple-400">📝</span> Aktuelle Aufgabe
                     </h2>
-                    <button onclick="generateProblem()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg border border-slate-700 transition-colors flex items-center gap-2">
+                    <button onclick="generateProblem()" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                         </svg>
@@ -68,7 +68,7 @@
                     <p class="text-slate-300 text-lg mb-2" id="problem-description">
                         Gegeben ist das Provider-Netz:
                     </p>
-                    <p id="current-problem" class="text-3xl font-mono text-teal-400 text-center py-4 tracking-wider font-bold">
+                    <p id="current-problem" class="text-3xl font-mono text-purple-400 text-center py-4 tracking-wider font-bold">
                         --
                     </p>
                     <p class="text-slate-300 text-lg mt-4" id="problem-question">
@@ -81,35 +81,35 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-slate-400 mb-2">Anzahl der Subnetz-Bits</label>
-                            <input type="number" id="ans-subnet-bits" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 16">
+                            <input type="number" id="ans-subnet-bits" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder-slate-600" placeholder="z.B. 16">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-400 mb-2">Anzahl möglicher Subnetze</label>
-                            <input type="number" id="ans-subnet-count" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 65536">
+                            <input type="number" id="ans-subnet-count" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder-slate-600" placeholder="z.B. 65536">
                         </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-400 mb-2">Präfix des Subnetzes mit dem <span id="target-subnet-index">Index X</span> (komprimierte Schreibweise mit /64)</label>
-                        <input type="text" id="ans-subnet-prefix" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 2001:db8:1:a::/64">
+                        <input type="text" id="ans-subnet-prefix" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder-slate-600" placeholder="z.B. 2001:db8:1:a::/64">
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-slate-400 mb-2">Erstes mögliches Subnetz (komprimierte Schreibweise mit /64)</label>
-                            <input type="text" id="ans-first-subnet" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 2001:db8:1::/64">
+                            <input type="text" id="ans-first-subnet" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder-slate-600" placeholder="z.B. 2001:db8:1::/64">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-400 mb-2">Letztes mögliches Subnetz (komprimierte Schreibweise mit /64)</label>
-                            <input type="text" id="ans-last-subnet" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 2001:db8:1:ffff::/64">
+                            <input type="text" id="ans-last-subnet" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder-slate-600" placeholder="z.B. 2001:db8:1:ffff::/64">
                         </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-400 mb-2">Anzahl der Host-Bits (Interface ID)</label>
-                        <input type="number" id="ans-host-bits" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-600" placeholder="z.B. 64">
+                        <input type="number" id="ans-host-bits" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono text-lg focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder-slate-600" placeholder="z.B. 64">
                     </div>
 
                     <div class="flex gap-4 pt-4">
-                        <button onclick="checkAnswers()" class="flex-1 bg-teal-600 hover:bg-teal-500 text-white font-semibold py-3 px-6 rounded-xl transition-colors shadow-lg shadow-teal-500/20">
+                        <button onclick="checkAnswers()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-6 rounded-xl transition-colors shadow-lg shadow-emerald-500/20">
                             Antworten prüfen
                         </button>
                         <button onclick="toggleSolution()" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-xl border border-slate-700 transition-colors">
@@ -126,7 +126,7 @@
         <section id="solution-area" class="hidden mb-12">
             <div class="glass-card rounded-2xl p-8 border border-slate-700/50">
                 <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                    <span class="text-teal-400">💡</span> Lösungsweg
+                    <span class="text-purple-400">💡</span> Lösungsweg
                 </h3>
                 <div class="bg-slate-900/50 rounded-xl p-6 border border-slate-800">
                     <div id="solution-steps" class="space-y-4 text-slate-300"></div>
@@ -211,7 +211,8 @@
             const el = document.getElementById(id);
             if (el) {
                 el.value = "";
-                el.classList.remove('correct', 'incorrect');
+                el.classList.remove('correct', 'border-emerald-500', 'bg-emerald-900/20', 'text-emerald-400', 'incorrect', 'border-red-500', 'bg-red-900/20', 'text-red-400');
+                el.classList.add('border-slate-700', 'bg-slate-900', 'text-slate-200');
             }
         });
 
@@ -329,21 +330,21 @@
 
         // Generate Steps text
         solution.steps = `
-            <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+            <div class="bg-slate-800/50 border-l-4 border-purple-500 p-4 rounded-r-xl">
                 <p class="font-bold text-slate-200">1. Subnetz-Bits berechnen:</p>
                 <p class="text-sm mt-1 text-slate-400">
                     Neues Präfix (${targetCIDR}) - Altes Präfix (${currentCIDR}) =
-                    <span class="mono font-bold text-teal-400">${subnetBits}</span> Bits.
+                    <span class="mono font-bold text-purple-400">${subnetBits}</span> Bits.
                 </p>
             </div>
-            <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+            <div class="bg-slate-800/50 border-l-4 border-purple-500 p-4 rounded-r-xl">
                 <p class="font-bold text-slate-200">2. Anzahl der Subnetze berechnen:</p>
                 <p class="text-sm mt-1 text-slate-400">
                     2 hoch (Anzahl der Subnetz-Bits) = 2<sup>${subnetBits}</sup> =
-                    <span class="mono font-bold text-teal-400">${subnetCount}</span> mögliche Subnetze.
+                    <span class="mono font-bold text-purple-400">${subnetCount}</span> mögliche Subnetze.
                 </p>
             </div>
-            <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+            <div class="bg-slate-800/50 border-l-4 border-purple-500 p-4 rounded-r-xl">
                 <p class="font-bold text-slate-200">3. Präfix des bestimmten Subnetzes bilden:</p>
                 <p class="text-sm mt-1 text-slate-400">
                     Der 4. Block (Hextet) enthält die Bits 49 bis 64.<br>
@@ -351,20 +352,20 @@
                     Addiere den Subnetz-Index (Hex: ${targetIndex.toString(16).padStart(2, '0')}) an die entsprechende Stelle.<br>
                     Neues 4. Hextet: <span class="mono">${decToHexBlock(targetBlock4)}</span>.<br>
                     Setze die Blöcke zusammen und komprimiere:
-                    <span class="mono font-bold text-teal-400">${solution.targetSubnetPrefix}</span>
+                    <span class="mono font-bold text-purple-400">${solution.targetSubnetPrefix}</span>
                 </p>
             </div>
-            <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+            <div class="bg-slate-800/50 border-l-4 border-purple-500 p-4 rounded-r-xl">
                 <p class="font-bold text-slate-200">4. Erstes und Letztes Subnetz:</p>
                 <p class="text-sm mt-1 text-slate-400">
-                    Das <strong>erste Subnetz</strong> hat immer den Index 0: <span class="mono font-bold text-teal-400">${solution.firstSubnet}</span>.<br>
-                    Das <strong>letzte Subnetz</strong> hat den maximalen Index (${lastIndex.toString(16).toUpperCase()} hex): <span class="mono font-bold text-teal-400">${solution.lastSubnet}</span>.
+                    Das <strong>erste Subnetz</strong> hat immer den Index 0: <span class="mono font-bold text-purple-400">${solution.firstSubnet}</span>.<br>
+                    Das <strong>letzte Subnetz</strong> hat den maximalen Index (${lastIndex.toString(16).toUpperCase()} hex): <span class="mono font-bold text-purple-400">${solution.lastSubnet}</span>.
                 </p>
             </div>
-            <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
+            <div class="bg-slate-800/50 border-l-4 border-purple-500 p-4 rounded-r-xl">
                 <p class="font-bold text-slate-200">5. Host-Bits (Interface ID):</p>
                 <p class="text-sm mt-1 text-slate-400">
-                    128 Gesamtbits - ${targetCIDR} Netzbits = <span class="mono font-bold text-teal-400">${solution.hostBits}</span> Host-Bits (Interface ID).
+                    128 Gesamtbits - ${targetCIDR} Netzbits = <span class="mono font-bold text-purple-400">${solution.hostBits}</span> Host-Bits (Interface ID).
                 </p>
             </div>
         `;
@@ -384,11 +385,11 @@
             if (!el) return;
             // Case-insensitive comparison and parsing for numbers
             if (val.toLowerCase() === String(sol).toLowerCase()) {
-                el.classList.add('correct');
-                el.classList.remove('incorrect');
+                el.classList.add('correct', 'border-emerald-500', 'bg-emerald-900/20', 'text-emerald-400');
+                el.classList.remove('incorrect', 'border-red-500', 'bg-red-900/20', 'text-red-400', 'border-slate-700', 'bg-slate-900', 'text-slate-200');
             } else {
-                el.classList.add('incorrect');
-                el.classList.remove('correct');
+                el.classList.add('incorrect', 'border-red-500', 'bg-red-900/20', 'text-red-400');
+                el.classList.remove('correct', 'border-emerald-500', 'bg-emerald-900/20', 'text-emerald-400', 'border-slate-700', 'bg-slate-900', 'text-slate-200');
                 allCorrect = false;
             }
         };
@@ -404,7 +405,7 @@
         fb.classList.remove('hidden');
         if (allCorrect) {
             fb.innerText = "Hervorragend! Alles richtig berechnet. 🚀";
-            fb.className = "p-4 rounded-xl text-center font-bold bg-teal-900/30 text-teal-400 border border-teal-500/50 mt-4";
+            fb.className = "p-4 rounded-xl text-center font-bold bg-emerald-900/30 text-emerald-400 border border-emerald-500/50 mt-4";
         } else {
             fb.innerText = "Einige Werte stimmen noch nicht. Überprüfe die Regeln.";
             fb.className = "p-4 rounded-xl text-center font-bold bg-amber-900/30 text-amber-400 border border-amber-500/50 mt-4";
