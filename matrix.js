@@ -46,7 +46,12 @@ function draw() {
 
     for (let i = 0; i < drops.length; i++) {
         // Random character
-        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        let text = chars.charAt(Math.floor(Math.random() * chars.length));
+
+        // Occasionally use initials K or P
+        if (Math.random() < 0.05) {
+            text = Math.random() < 0.5 ? 'K' : 'P';
+        }
 
         // Draw the character
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
