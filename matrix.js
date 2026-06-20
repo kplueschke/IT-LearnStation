@@ -157,6 +157,7 @@ if (isInitialized) {
 }
 
 let matrixInterval = null;
+let isPaused = sessionStorage.getItem('matrixPaused') === 'true';
 
 function toggleMatrixStyle() {
     currentStyle = currentStyle === 'custom' ? 'classic' : 'custom';
@@ -174,13 +175,59 @@ function toggleMatrixStyle() {
     initDrops();
 }
 
-// Start animation
-matrixInterval = setInterval(draw, 33);
+function updatePauseButtonIcon() {
+    const pauseBtn = document.getElementById('matrix-pause-btn');
+    if (!pauseBtn) return;
+
+    if (isPaused) {
+        // Play icon
+        pauseBtn.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347c-.75.412-1.667-.13-1.667-.986V5.653Z" />
+            </svg>
+        `;
+    } else {
+        // Pause icon
+        pauseBtn.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        `;
+    }
+}
+
+function togglePause() {
+    isPaused = !isPaused;
+    sessionStorage.setItem('matrixPaused', isPaused);
+    updatePauseButtonIcon();
+
+    if (isPaused) {
+        if (matrixInterval) {
+            clearInterval(matrixInterval);
+            matrixInterval = null;
+        }
+    } else {
+        if (!matrixInterval) {
+            matrixInterval = setInterval(draw, 33);
+        }
+    }
+}
+
+// Start animation if not paused
+if (!isPaused) {
+    matrixInterval = setInterval(draw, 33);
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const styleBtn = document.getElementById('settings-matrix-style-toggle');
     if (styleBtn) {
         styleBtn.textContent = currentStyle === 'custom' ? 'Wechseln zu Classic' : 'Wechseln zu Custom';
         styleBtn.addEventListener('click', toggleMatrixStyle);
+    }
+
+    const pauseBtn = document.getElementById('matrix-pause-btn');
+    if (pauseBtn) {
+        updatePauseButtonIcon();
+        pauseBtn.addEventListener('click', togglePause);
     }
 });
