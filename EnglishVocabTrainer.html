@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Englisch Vokabeltrainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+   <!-- Header -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='englisch.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-600 mb-4">
+                Vokabeltrainer
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Übe Englisch-Vokabeln. Übersetze das angezeigte Wort.
+            </p>
+        </div>
+
+        <div class="max-w-2xl mx-auto">
+            <div class="glass-card rounded-2xl p-8 flex flex-col gap-6 text-center">
+                <div class="flex justify-between items-center text-sm font-mono text-slate-400 mb-4 border-b border-slate-700/50 pb-4">
+                    <span>Modus: <span id="mode-display" class="text-yellow-400 font-bold cursor-pointer hover:text-yellow-300" onclick="toggleMode()">Englisch -> Deutsch</span></span>
+                    <span>Fortschritt: <span id="score-display" class="text-white">0 / 0</span></span>
+                </div>
+
+                <div class="min-h-[120px] flex flex-col justify-center items-center">
+                    <h2 id="word-display" class="text-4xl font-bold text-white mb-2 tracking-tight">Laden...</h2>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <input type="text" id="answer-input" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-lg text-white focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all text-center" placeholder="Übersetzung eingeben..." autocomplete="off">
+
+                    <button id="check-btn" onclick="checkAnswer()" class="w-full py-3 px-4 bg-yellow-600 hover:bg-yellow-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-yellow-600/20">
+                        Prüfen
+                    </button>
+
+                    <button id="next-btn" onclick="nextWord()" class="hidden w-full py-3 px-4 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-xl transition-colors">
+                        Nächstes Wort
+                    </button>
+                </div>
+
+                <div id="feedback" class="mt-4 p-4 rounded-xl hidden font-medium transition-all text-lg"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script>
+        const vocabulary = [{"english": "automotive sector", "german": "Automobilbranche"}, {"english": "directions", "german": "Wegbeschreibung"}, {"english": "to give directions", "german": "den Weg beschreiben"}, {"english": "to swap", "german": "tauschen"}, {"english": "to show sb around", "german": "jdn herumf\u00fchren"}, {"english": "floor plan", "german": "Grundriss, Lageplan"}, {"english": "formal", "german": "formell, f\u00f6rmlich"}, {"english": "suitable", "german": "geeignet, passend"}, {"english": "to avoid", "german": "vermeiden"}, {"english": "illness", "german": "Krankheit"}, {"english": "politics", "german": "Politik"}, {"english": "journey", "german": "Fahrt, Anreise"}, {"english": "pay", "german": "Bezahlung, Gehalt"}, {"english": "response", "german": "Antwort, Reaktion"}, {"english": "to be based in ...", "german": "seinen Sitz in ... haben, in ... sein"}, {"english": "fantastic", "german": "phantastisch, toll"}, {"english": "view", "german": "Aussicht, Blick"}, {"english": "in fact", "german": "tats\u00e4chlich, eigentlich"}, {"english": "Excuse me.", "german": "Verzeihung. / Entschuldigung."}, {"english": "to hold up sb", "german": "jdn aufhalten"}, {"english": "to keep sb waiting", "german": "jdn warten lassen"}, {"english": "refreshment", "german": "Erfrischung"}, {"english": "Account Department", "german": "Buchhaltung"}, {"english": "onboarding", "german": "einarbeiten"}, {"english": "premises", "german": "Gel\u00e4nde (Betriebs-)"}, {"english": "basement", "german": "Keller"}, {"english": "open-plan Office", "german": "Gro\u00dfraumb\u00fcro"}, {"english": "complaints", "german": "Beschwerden"}, {"english": "subsidiary", "german": "Tochterfirma"}, {"english": "Legal Department", "german": "Rechtsabteilung"}, {"english": "Human Resources", "german": "Personalabteilung"}, {"english": "R&D (Research and Development)", "german": "Forschung und Entwicklung"}, {"english": "Software Development", "german": "Softwareentwicklung"}, {"english": "Hardware Support", "german": "Hardware Support"}, {"english": "Quality Assurance", "german": "Qualit\u00e4tssicherung"}, {"english": "Sales & Marketing", "german": "Vertrieb"}, {"english": "Customer Service", "german": "Kundendienst"}, {"english": "Reception", "german": "Rezeption"}, {"english": "workplace", "german": "Arbeitsplatz"}, {"english": "to carry out sth", "german": "etw durchf\u00fchren"}, {"english": "measure", "german": "Ma\u00dfnahme"}, {"english": "survey", "german": "Umfrage"}, {"english": "means of communication", "german": "Kommunikationsmittel"}, {"english": "improvement", "german": "Verbesserung"}, {"english": "to rank", "german": "einstufen, (in einer Rangliste) bewerten"}, {"english": "to get a message across", "german": "eine Botschaft vermitteln"}, {"english": "and so on", "german": "und so weiter"}, {"english": "face-to-face", "german": "pers\u00f6nlich"}, {"english": "to sort sth out", "german": "etw kl\u00e4ren, etw in Ordnung bringen"}, {"english": "in writing", "german": "schriftlich"}, {"english": "text (message)", "german": "SMS"}, {"english": "to get at sth", "german": "auf etw hinauswollen"}, {"english": "to attach", "german": "(E-Mail:) anh\u00e4ngen"}, {"english": "to copy in sb", "german": "jdn auf CC in den Verteiler setzen"}, {"english": "structured", "german": "strukturiert"}, {"english": "to access sth", "german": "auf etw zugreifen"}, {"english": "all over the place", "german": "\u00fcberall (in der Weltgeschichte)"}, {"english": "access (to sth)", "german": "Zugriff (auf etw)"}, {"english": "storage", "german": "(Daten-)Speicherung"}, {"english": "to select", "german": "ausw\u00e4hlen"}, {"english": "to mention (sth to sb)", "german": "(etw jdm gegen\u00fcber) erw\u00e4hnen"}, {"english": "to bring up sth", "german": "etw zur Sprache bringen"}, {"english": "to take up time", "german": "Zeit beanspruchen"}, {"english": "slide", "german": "(Pr\u00e4sentation:) Folie"}, {"english": "waste of time", "german": "Zeitverschwendung"}, {"english": "hand-out", "german": "Arbeitsblatt, Informationsblatt, Merkblatt"}, {"english": "to consider sth", "german": "etw in Betracht ziehen, \u00fcber etw nachdenken"}, {"english": "graphic image", "german": "Grafik"}, {"english": "to brainstorm", "german": "Ideen sammeln"}, {"english": "quantity", "german": "Menge, Anzahl"}, {"english": "instruction", "german": "Anweisung"}, {"english": "to record", "german": "aufzeichnen, festhalten"}, {"english": "attachment", "german": "(E-Mail:) Anhang"}, {"english": "recruitment", "german": "Personalvermittlung"}, {"english": "headquarters", "german": "Zentrale, Hauptsitz"}, {"english": "aspect", "german": "Gesichtspunkt, Aspekt"}, {"english": "condition", "german": "Bedingung"}, {"english": "to be big believers in sth", "german": "fest von etw \u00fcberzeugt sein"}, {"english": "balance", "german": "Gleichgewicht"}, {"english": "to suit sb/sth", "german": "(zu) jdm/etw passen"}, {"english": "flexible", "german": "variabel, flexibel"}, {"english": "annual leave", "german": "Jahresurlaub"}, {"english": "sick leave", "german": "Krankentage"}, {"english": "unpaid leave", "german": "unbezahlter Urlaub"}, {"english": "to work remotely", "german": "von zu Hause aus arbeiten, ortsungebunden arbeiten"}, {"english": "to co-ordinate", "german": "(aufeinander) abstimmen, koordinieren"}, {"english": "in addition", "german": "au\u00dferdem"}, {"english": "permission", "german": "Genehmigung, Erlaubnis"}, {"english": "clothing", "german": "Kleidung"}, {"english": "neat", "german": "sauber, ordentlich"}, {"english": "casual", "german": "zwanglos, locker"}, {"english": "functionality", "german": "Funktionen"}, {"english": "applicant", "german": "Bewerber/in"}, {"english": "to look sth up", "german": "etw nachschlagen, etw nachlesen"}, {"english": "to work closely with sb", "german": "eng mit jdm zusammenarbeiten"}, {"english": "test data", "german": "Pr\u00fcfdaten"}, {"english": "to test", "german": "pr\u00fcfen, testen"}, {"english": "defect", "german": "Mangel, Fehler"}, {"english": "user", "german": "Benutzer/in, Anwender/in, User/in"}, {"english": "creative", "german": "kreativ"}, {"english": "finish", "german": "Ende"}, {"english": "commute", "german": "Fahrt zur Arbeit"}, {"english": "update (on sth)", "german": "aktuelle Informationen (zu etw)"}, {"english": "to raise sth", "german": "etw ansprechen, auf etw aufmerksam machen"}, {"english": "to remove", "german": "entfernen, aus dem Weg r\u00e4umen"}, {"english": "roadblock", "german": "Hindernis"}, {"english": "to slow sb down", "german": "jdn aufhalten, jdn bremsen"}, {"english": "to affect sb/sth", "german": "sich auf jdn/etw auswirken"}, {"english": "to force", "german": "zwingen"}, {"english": "relationship", "german": "Beziehung, Verh\u00e4ltnis"}, {"english": "easily understandable", "german": "leicht verst\u00e4ndlich"}, {"english": "detailed", "german": "ausf\u00fchrlich, genau"}, {"english": "comment", "german": "Kommentar"}, {"english": "productive", "german": "produktiv"}, {"english": "to separate", "german": "trennen"}, {"english": "to ensure", "german": "daf\u00fcr sorgen, sicherstellen"}, {"english": "obstacle", "german": "Hindernis"}, {"english": "to fix", "german": "(etw) in Ordnung bringen, reparieren"}, {"english": "to update", "german": "auf den neuesten Stand bringen"}, {"english": "timeline", "german": "Zeitschiene"}, {"english": "report", "german": "Bericht, Meldung"}, {"english": "interface", "german": "Schnittstelle, Interface"}, {"english": "specification", "german": "technische Anforderung(en)"}, {"english": "test plan", "german": "Pr\u00fcfplan"}, {"english": "likes and dislikes pl", "german": "Vorlieben und Abneigungen"}, {"english": "to pin", "german": "(mit einer Nadel) befestigen, anheften"}, {"english": "gallery walk", "german": "Galerierundgang"}, {"english": "phase", "german": "Stadium, Phase"}, {"english": "feedback", "german": "R\u00fcckmeldung(en)"}, {"english": "conversation", "german": "Gespr\u00e4ch"}, {"english": "to propose", "german": "vorschlagen"}, {"english": "guideline", "german": "Richtlinie, Leitfaden"}, {"english": "output", "german": "Arbeitsergebnis(se)"}, {"english": "request", "german": "Wunsch, Bitte"}, {"english": "stand-up", "german": "im Stehen"}, {"english": "even though", "german": "obwohl"}, {"english": "agenda", "german": "Tagesordnung"}, {"english": "to keep sth to a minimum", "german": "etw auf ein Mindestma\u00df beschr\u00e4nken"}, {"english": "spontaneous", "german": "spontan"}, {"english": "issue", "german": "Frage, Problem"}, {"english": "to concentrate on sth", "german": "sich auf etw konzentrieren"}, {"english": "period of time", "german": "(gewisse) Zeit"}, {"english": "critical", "german": "wichtig, unentbehrlich"}, {"english": "the executives pl", "german": "die Betriebsleitung"}, {"english": "to be paperless", "german": "kein Papier (mehr) verwenden"}, {"english": "to favour", "german": "favorisieren, bevorzugen"}, {"english": "preference", "german": "Vorliebe, Wunsch"}, {"english": "to invest", "german": "investieren"}, {"english": "concern", "german": "Bedenken, Sorge"}, {"english": "not ... at all", "german": "\u00fcberhaupt nicht"}, {"english": "to chat", "german": "chatten"}, {"english": "author", "german": "Verfasser/in"}, {"english": "to acknowledge sth", "german": "etw anerkennen"}, {"english": "to pretend", "german": "so tun, als ob"}, {"english": "point of view", "german": "Sicht"}, {"english": "to set sth aside", "german": "etw (f\u00fcr etw) vorsehen"}, {"english": "expectation", "german": "Erwartung"}, {"english": "instant(ly)", "german": "sofortig, sofort"}, {"english": "productivity", "german": "Produktivit\u00e4t"}, {"english": "starting point", "german": "Ausgangspunkt"}, {"english": "to adjust", "german": "anpassen, regeln"}, {"english": "as we go along", "german": "im Lauf von etw, nach und nach"}, {"english": "lifetime (of a project)", "german": "Laufzeit (eines Projekts)"}, {"english": "smart", "german": "klug"}, {"english": "individual(ly)", "german": "einzeln"}, {"english": "invite", "german": "Einladung"}, {"english": "schedule", "german": "Zeitplan"}, {"english": "to run behind schedule", "german": "im R\u00fcckstand sein"}, {"english": "pros and cons pl", "german": "Argumente daf\u00fcr und dagegen, Vor- und Nachteile"}, {"english": "remote working", "german": "Arbeit von zu Hause, ortsungebundenes Arbeiten"}, {"english": "to interrupt", "german": "unterbrechen, st\u00f6ren"}, {"english": "to solve", "german": "l\u00f6sen"}, {"english": "noise", "german": "L\u00e4rm"}, {"english": "meeting room", "german": "Sitzungszimmer, Konferenzraum"}, {"english": "drawback", "german": "Nachteil"}, {"english": "distraction", "german": "Ablenkung"}, {"english": "noise level", "german": "L\u00e4rmpegel"}, {"english": "downside", "german": "Schattenseite, Nachteil"}, {"english": "on the downside", "german": "auf der Negativseite; andererseits"}, {"english": "to turn sth off", "german": "etw ausschalten, etw abstellen"}, {"english": "disaster", "german": "Katastrophe"}, {"english": "upside", "german": "Vorteil, Plus"}, {"english": "to respond to sth", "german": "auf etw reagieren"}, {"english": "instantaneous(ly)", "german": "sofort, augenblicklich"}, {"english": "to progress", "german": "vorankommen"}, {"english": "to clarify", "german": "kl\u00e4ren, abkl\u00e4ren"}, {"english": "complex", "german": "kompliziert, komplex"}, {"english": "to state", "german": "angeben, erkl\u00e4ren, nennen, sagen"}, {"english": "Please hold the line", "german": "Bleiben Sie bitte dran."}, {"english": "The line is busy", "german": "Der Anschluss ist besetzt."}, {"english": "I'll put you through", "german": "Ich stelle Sie durch."}, {"english": "I didn't catch that. Could you please repeat it?", "german": "Ich habe nicht verstanden. Bitte wiederholen Sie."}, {"english": "Could you spell your Name please?", "german": "Buchstabieren Sie bitte Ihren Namen."}, {"english": "Would you like to speak to someone else?", "german": "M\u00f6chten Sie jemanden anderen sprechen?"}, {"english": "I'm trying to connect you", "german": "Ich versuche, Sie zu verbinden."}, {"english": "Would you like to leave a message?", "german": "M\u00f6chten Sie eine Nachricht hinterlassen?"}, {"english": "The person you wish to speak to is not available at the moment.", "german": "Die Person, mit der Sie sprechen m\u00f6chten, ist im Moment nicht da."}, {"english": "Whats your Name please?", "german": "Wie ist Ihr Name bitte?"}];
+
+        let currentWordIndex = -1;
+        let mode = 'en-de'; // 'en-de' or 'de-en'
+        let attempts = 0;
+        let correctAnswers = 0;
+        let wordsQueue = [];
+
+        const wordDisplay = document.getElementById('word-display');
+        const answerInput = document.getElementById('answer-input');
+        const checkBtn = document.getElementById('check-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackEl = document.getElementById('feedback');
+        const scoreDisplay = document.getElementById('score-display');
+        const modeDisplay = document.getElementById('mode-display');
+
+        function initQueue() {
+            wordsQueue = [...Array(vocabulary.length).keys()];
+            shuffleArray(wordsQueue);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function toggleMode() {
+            mode = mode === 'en-de' ? 'de-en' : 'en-de';
+            modeDisplay.textContent = mode === 'en-de' ? 'Englisch -> Deutsch' : 'Deutsch -> Englisch';
+            nextWord();
+        }
+
+        function nextWord() {
+            if (wordsQueue.length === 0) {
+                initQueue();
+            }
+
+            currentWordIndex = wordsQueue.pop();
+            const wordObj = vocabulary[currentWordIndex];
+
+            wordDisplay.textContent = mode === 'en-de' ? wordObj.english : wordObj.german;
+
+            answerInput.value = '';
+            answerInput.disabled = false;
+            answerInput.focus();
+
+            checkBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+
+            feedbackEl.classList.add('hidden');
+            feedbackEl.className = 'mt-4 p-4 rounded-xl hidden font-medium transition-all text-lg';
+        }
+
+        function checkAnswer() {
+            const userAnswer = answerInput.value.trim().toLowerCase();
+            if (!userAnswer) return;
+
+            const wordObj = vocabulary[currentWordIndex];
+            const correctAnswer = mode === 'en-de' ? wordObj.german : wordObj.english;
+
+            attempts++;
+
+            // Basic matching - could be improved for multiple meanings
+            const isCorrect = correctAnswer.toLowerCase().includes(userAnswer) || userAnswer.includes(correctAnswer.toLowerCase());
+
+            if (isCorrect) {
+                correctAnswers++;
+                feedbackEl.textContent = 'Richtig!';
+                feedbackEl.classList.add('bg-emerald-500/20', 'text-emerald-400', 'border', 'border-emerald-500/30');
+            } else {
+                feedbackEl.innerHTML = `Falsch.<br><span class="text-sm mt-2 block text-slate-300">Richtige Antwort: <strong>${correctAnswer}</strong></span>`;
+                feedbackEl.classList.add('bg-red-500/20', 'text-red-400', 'border', 'border-red-500/30');
+            }
+
+            scoreDisplay.textContent = `${correctAnswers} / ${attempts}`;
+            feedbackEl.classList.remove('hidden');
+
+            answerInput.disabled = true;
+            checkBtn.classList.add('hidden');
+            nextBtn.classList.remove('hidden');
+            nextBtn.focus();
+        }
+
+        answerInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !answerInput.disabled) {
+                checkAnswer();
+            }
+        });
+
+        // Initialize
+        initQueue();
+        nextWord();
+    </script>
+</body>
+</html>
