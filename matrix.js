@@ -11,6 +11,20 @@ window.addEventListener('resize', resizeCanvas);
 
 // Characters to use in the matrix rain (binary + some tech symbols)
 const chars = '01';
+
+// Determine initials color based on the current page
+function getInitialsColor() {
+    const path = window.location.pathname.toLowerCase();
+    if (path.includes('ap.html')) return 'rgba(239, 68, 68, 0.9)'; // red-500
+    if (path.includes('bgp.html')) return 'rgba(168, 85, 247, 0.9)'; // purple-500
+    if (path.includes('englisch.html')) return 'rgba(234, 179, 8, 0.9)'; // yellow-500
+    if (path.includes('itag.html')) return 'rgba(249, 115, 22, 0.9)'; // orange-500
+    if (path.includes('itt.html')) return 'rgba(59, 130, 246, 0.9)'; // blue-500
+    if (path.includes('pug.html')) return 'rgba(180, 83, 9, 0.9)'; // amber-700
+    if (path.includes('its.html')) return 'rgba(16, 185, 129, 0.9)'; // emerald-500
+    return 'rgba(255, 255, 255, 0.8)'; // default white for index.html
+}
+const initialsColor = getInitialsColor();
 const fontSize = 14;
 let columns = canvas.width / fontSize;
 let drops = [];
@@ -50,8 +64,10 @@ function draw() {
 
         // Occasionally use initials K on top of P
         if (Math.random() < 0.05) {
+            ctx.fillStyle = initialsColor;
             ctx.fillText('K', i * fontSize, drops[i] * fontSize);
             ctx.fillText('P', i * fontSize, (drops[i] + 1) * fontSize);
+            ctx.fillStyle = 'rgba(99, 102, 241, 0.3)'; // Restore normal color
             drops[i]++; // Skip an extra drop so P isn't immediately overwritten
         } else {
             // Draw the normal character
