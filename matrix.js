@@ -2,12 +2,18 @@ const canvas = document.getElementById('matrix-bg');
 const ctx = canvas.getContext('2d');
 
 function resizeCanvas() {
+    let tempCanvas = null;
+    if (canvas.width > 0 && canvas.height > 0) {
+        tempCanvas = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    }
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    if (tempCanvas) {
+        ctx.putImageData(tempCanvas, 0, 0);
+    }
 }
 
 resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
 
 // Configuration for styles
 let currentStyle = sessionStorage.getItem('matrixStyle') || 'custom';
@@ -140,9 +146,14 @@ function drawCustom() {
     }
 }
 
-// Handle resize properly by resetting columns
+// Handle resize properly by resetting columns only if width changes
+let lastWidth = window.innerWidth;
 window.addEventListener('resize', () => {
-    initDrops();
+    resizeCanvas();
+    if (window.innerWidth !== lastWidth) {
+        initDrops();
+        lastWidth = window.innerWidth;
+    }
 });
 
 // If already initialized, simulate drawing frames to populate screen immediately
