@@ -272,8 +272,8 @@
             const firstOctet = [10, 172, 192][Math.floor(Math.random() * 3)];
             let ipParts = [firstOctet, Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)];
             currentIP = ipParts.join('.');
-            // Fokus auf /24 bis /30 für den Anfang
-            currentCIDR = Math.floor(Math.random() * (30 - 24 + 1)) + 24; 
+            // Zufällige CIDR zwischen /1 und /30
+            currentCIDR = Math.floor(Math.random() * 30) + 1;
 
             document.getElementById('current-problem').innerText = `${currentIP} /${currentCIDR}`;
             calculateSolution();
@@ -338,30 +338,47 @@
             
             area.classList.remove('hidden');
             const steps = document.getElementById('solution-steps');
-            const lastOctetMask = parseInt(solution.mask.split('.').pop());
-            const magicNumber = 256 - lastOctetMask;
+
+            const interestingOctetIndex = Math.floor((currentCIDR - 1) / 8);
+            const interestingOctetNumber = interestingOctetIndex + 1;
+            const bitsInInterestingOctet = currentCIDR - (interestingOctetIndex * 8);
+
+            const maskParts = solution.mask.split('.');
+            const interestingOctetMask = parseInt(maskParts[interestingOctetIndex]);
+            const magicNumber = 256 - interestingOctetMask;
             const hostBits = 32 - currentCIDR;
+
+            const ipParts = currentIP.split('.');
+            const ipInterestingOctetValue = ipParts[interestingOctetIndex];
+
+            const networkParts = solution.network.split('.');
+            const networkInterestingOctetValue = networkParts[interestingOctetIndex];
+
+            const broadcastParts = solution.broadcast.split('.');
+            const broadcastInterestingOctetValue = broadcastParts[interestingOctetIndex];
 
             steps.innerHTML = `
                 <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
                     <p class="font-bold text-slate-200">1. Die Maske finden:</p>
-                    <p class="text-sm mt-1 text-slate-400">Für /${currentCIDR} sind im letzten Oktett ${currentCIDR - 24} Bits auf 1 gesetzt. <br>
-                    Klicke im Bit-Tool die ersten ${currentCIDR - 24} Bits an. Das ergibt: <span class="mono font-bold text-teal-400">${lastOctetMask}</span>.</p>
+                    <p class="text-sm mt-1 text-slate-400">Für /${currentCIDR} ist das "interessante Oktett" das ${interestingOctetNumber}. Oktett. Dort sind ${bitsInInterestingOctet} Bits auf 1 gesetzt. <br>
+                    Klicke im Bit-Tool die ersten ${bitsInInterestingOctet} Bits an. Das ergibt in diesem Oktett: <span class="mono font-bold text-teal-400">${interestingOctetMask}</span>.</p>
                 </div>
                 <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
                     <p class="font-bold text-slate-200">2. Die Magic Number:</p>
-                    <p class="text-sm mt-1 text-slate-400">Rechnung: <span class="mono">256 - ${lastOctetMask} = ${magicNumber}</span>. <br>
-                    Deine Netze springen in ${magicNumber}er Schritten (0, ${magicNumber}, ${magicNumber * 2}...).</p>
+                    <p class="text-sm mt-1 text-slate-400">Rechnung: <span class="mono">256 - ${interestingOctetMask} = ${magicNumber}</span>. <br>
+                    Deine Netze springen in diesem Oktett in ${magicNumber}er Schritten (0, ${magicNumber}, ${magicNumber * 2}...).</p>
                 </div>
                 <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
                     <p class="font-bold text-slate-200">3. Das Netzwerk eingrenzen:</p>
-                    <p class="text-sm mt-1 text-slate-400">Wo liegt die IP-Zahl ${currentIP.split('.').pop()}? <br>
-                    Das Netz startet bei dem Vielfachen der Magic Number, das direkt darunter liegt: <span class="mono font-bold text-teal-400">${solution.network.split('.').pop()}</span>.</p>
+                    <p class="text-sm mt-1 text-slate-400">Wo liegt die IP-Zahl ${ipInterestingOctetValue} im ${interestingOctetNumber}. Oktett? <br>
+                    Das Netz startet bei dem Vielfachen der Magic Number, das direkt darunter liegt: <span class="mono font-bold text-teal-400">${networkInterestingOctetValue}</span>. <br>
+                    ${interestingOctetNumber < 4 ? "Alle folgenden Oktette der Netzadresse werden zu 0." : ""}</p>
                 </div>
                 <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
                     <p class="font-bold text-slate-200">4. Die Broadcast-Adresse finden:</p>
                     <p class="text-sm mt-1 text-slate-400">Der Broadcast ist die letzte Adresse vor dem nächsten Netz. <br>
-                    Rechnung: <span class="mono">Netz-ID (${solution.network.split('.').pop()}) + Magic Number (${magicNumber}) - 1 = ${solution.broadcast.split('.').pop()}</span>. <br>
+                    Rechnung für das ${interestingOctetNumber}. Oktett: <span class="mono">Netz-Wert (${networkInterestingOctetValue}) + Magic Number (${magicNumber}) - 1 = ${broadcastInterestingOctetValue}</span>. <br>
+                    ${interestingOctetNumber < 4 ? "Alle folgenden Oktette der Broadcast-Adresse werden zu 255. <br>" : ""}
                     Vollständige IP: <span class="mono font-bold text-teal-400">${solution.broadcast}</span>.</p>
                 </div>
                 <div class="bg-slate-800/50 border-l-4 border-teal-500 p-4 rounded-r-xl">
