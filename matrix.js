@@ -46,10 +46,17 @@ function draw() {
 
     for (let i = 0; i < drops.length; i++) {
         // Random character
-        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        let text = chars.charAt(Math.floor(Math.random() * chars.length));
 
-        // Draw the character
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        // Occasionally use initials K on top of P
+        if (Math.random() < 0.05) {
+            ctx.fillText('K', i * fontSize, drops[i] * fontSize);
+            ctx.fillText('P', i * fontSize, (drops[i] + 1) * fontSize);
+            drops[i]++; // Skip an extra drop so P isn't immediately overwritten
+        } else {
+            // Draw the normal character
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        }
 
         // Reset drop to top randomly
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
