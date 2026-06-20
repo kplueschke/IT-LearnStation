@@ -15,14 +15,14 @@ const chars = '01';
 // Determine initials color based on the current page
 function getInitialsColor() {
     const path = window.location.pathname.toLowerCase();
-    if (path.includes('ap.html')) return 'rgba(239, 68, 68, 0.3)'; // red-500
-    if (path.includes('bgp.html')) return 'rgba(168, 85, 247, 0.3)'; // purple-500
-    if (path.includes('englisch.html')) return 'rgba(234, 179, 8, 0.3)'; // yellow-500
-    if (path.includes('itag.html')) return 'rgba(249, 115, 22, 0.3)'; // orange-500
-    if (path.includes('itt.html')) return 'rgba(59, 130, 246, 0.3)'; // blue-500
-    if (path.includes('pug.html')) return 'rgba(148, 163, 184, 0.3)'; // slate-400
-    if (path.includes('its.html')) return 'rgba(16, 185, 129, 0.3)'; // emerald-500
-    return 'rgba(255, 255, 255, 0.2)'; // default white for index.html
+    if (path.includes('ap.html')) return 'rgba(239, 68, 68, 0.5)'; // red-500
+    if (path.includes('bgp.html')) return 'rgba(168, 85, 247, 0.5)'; // purple-500
+    if (path.includes('englisch.html')) return 'rgba(234, 179, 8, 0.5)'; // yellow-500
+    if (path.includes('itag.html')) return 'rgba(249, 115, 22, 0.5)'; // orange-500
+    if (path.includes('itt.html')) return 'rgba(59, 130, 246, 0.5)'; // blue-500
+    if (path.includes('pug.html')) return 'rgba(148, 163, 184, 0.5)'; // slate-400
+    if (path.includes('its.html')) return 'rgba(16, 185, 129, 0.5)'; // emerald-500
+    return 'rgba(255, 255, 255, 0.4)'; // default white for index.html
 }
 const initialsColor = getInitialsColor();
 const fontSize = 14;
