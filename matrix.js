@@ -16,8 +16,23 @@ let columns = canvas.width / fontSize;
 let drops = [];
 
 // Initialize drops
-for (let x = 0; x < columns; x++) {
-    drops[x] = 1;
+const isInitialized = sessionStorage.getItem('matrixInitialized');
+
+function initDrops() {
+    for (let x = 0; x < columns; x++) {
+        if (isInitialized) {
+            // Random start positions if already visited to pre-fill screen
+            drops[x] = Math.random() * (canvas.height / fontSize);
+        } else {
+            // Start from top on initial load
+            drops[x] = 1;
+        }
+    }
+}
+initDrops();
+
+if (!isInitialized) {
+    sessionStorage.setItem('matrixInitialized', 'true');
 }
 
 function draw() {
@@ -49,10 +64,19 @@ function draw() {
 window.addEventListener('resize', () => {
     columns = canvas.width / fontSize;
     drops = [];
-    for (let x = 0; x < columns; x++) {
-        drops[x] = 1;
-    }
+    initDrops();
 });
+
+// If already initialized, simulate drawing frames to populate screen immediately
+if (isInitialized) {
+    // Fill background black once
+    ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Draw ahead 50 frames
+    for (let i = 0; i < 50; i++) {
+        draw();
+    }
+}
 
 // Run animation at ~30 FPS for a calmer effect
 setInterval(draw, 33);
