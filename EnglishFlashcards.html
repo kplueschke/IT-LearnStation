@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Englisch Vokabeltrainer</title>
+    <title>Englisch Lernkarten</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -22,37 +22,39 @@
         </div>
         <div class="text-center mb-12">
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-600 mb-4">
-                Vokabeltrainer
+                Lernkarten
             </h1>
             <p class="text-slate-400 max-w-2xl mx-auto">
-                Übe Englisch-Vokabeln. Übersetze das angezeigte Wort.
+                Übe Englisch-Vokabeln mit Lernkarten. Drehe die Karte um und bewerte dich selbst.
             </p>
         </div>
 
         <div class="max-w-2xl mx-auto">
             <div class="glass-card rounded-2xl p-8 flex flex-col gap-6 text-center">
                 <div class="flex justify-between items-center text-sm font-mono text-slate-400 mb-4 border-b border-slate-700/50 pb-4">
-                    <span>Modus: <span id="mode-display" class="text-yellow-400 font-bold cursor-pointer hover:text-yellow-300" onclick="toggleMode()">Englisch -> Deutsch</span></span>
+                    <span>Modus: <span id="mode-display" class="text-yellow-400 font-bold">Englisch -> Deutsch</span></span>
                     <span>Fortschritt: <span id="score-display" class="text-white">0 / 0</span></span>
                 </div>
 
                 <div class="min-h-[120px] flex flex-col justify-center items-center">
                     <h2 id="word-display" class="text-4xl font-bold text-white mb-2 tracking-tight">Laden...</h2>
+                    <div id="answer-display" class="text-3xl font-medium text-yellow-500 mt-4 hidden"></div>
                 </div>
 
                 <div class="flex flex-col gap-4">
-                    <input type="text" id="answer-input" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-lg text-white focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all text-center" placeholder="Übersetzung eingeben..." autocomplete="off">
-
-                    <button id="check-btn" onclick="checkAnswer()" class="w-full py-3 px-4 bg-yellow-600 hover:bg-yellow-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-yellow-600/20">
-                        Prüfen
+                    <button id="flip-btn" onclick="flipCard()" class="w-full py-3 px-4 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-xl transition-colors shadow-lg">
+                        Karte umdrehen
                     </button>
 
-                    <button id="next-btn" onclick="nextWord()" class="hidden w-full py-3 px-4 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-xl transition-colors">
-                        Nächstes Wort
-                    </button>
+                    <div id="eval-btns" class="hidden flex gap-4">
+                        <button onclick="checkAnswer(false)" class="flex-1 py-3 px-4 bg-red-600/80 hover:bg-red-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-red-600/20">
+                            Nicht gewusst
+                        </button>
+                        <button onclick="checkAnswer(true)" class="flex-1 py-3 px-4 bg-emerald-600/80 hover:bg-emerald-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                            Gewusst
+                        </button>
+                    </div>
                 </div>
-
-                <div id="feedback" class="mt-4 p-4 rounded-xl hidden font-medium transition-all text-lg"></div>
             </div>
         </div>
     </div>
@@ -72,10 +74,9 @@
         let wordsQueue = [];
 
         const wordDisplay = document.getElementById('word-display');
-        const answerInput = document.getElementById('answer-input');
-        const checkBtn = document.getElementById('check-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const feedbackEl = document.getElementById('feedback');
+        const answerDisplay = document.getElementById('answer-display');
+        const flipBtn = document.getElementById('flip-btn');
+        const evalBtns = document.getElementById('eval-btns');
         const scoreDisplay = document.getElementById('score-display');
         const modeDisplay = document.getElementById('mode-display');
 
@@ -91,68 +92,48 @@
             }
         }
 
-        function toggleMode() {
-            mode = mode === 'en-de' ? 'de-en' : 'en-de';
-            modeDisplay.textContent = mode === 'en-de' ? 'Englisch -> Deutsch' : 'Deutsch -> Englisch';
-            nextWord();
-        }
-
         function nextWord() {
             if (wordsQueue.length === 0) {
                 initQueue();
             }
+
+            // Randomly switch mode
+            mode = Math.random() > 0.5 ? 'en-de' : 'de-en';
+            modeDisplay.textContent = mode === 'en-de' ? 'Englisch -> Deutsch' : 'Deutsch -> Englisch';
 
             currentWordIndex = wordsQueue.pop();
             const wordObj = vocabulary[currentWordIndex];
 
             wordDisplay.textContent = mode === 'en-de' ? wordObj.english : wordObj.german;
 
-            answerInput.value = '';
-            answerInput.disabled = false;
-            answerInput.focus();
-
-            checkBtn.classList.remove('hidden');
-            nextBtn.classList.add('hidden');
-
-            feedbackEl.classList.add('hidden');
-            feedbackEl.className = 'mt-4 p-4 rounded-xl hidden font-medium transition-all text-lg';
+            answerDisplay.textContent = '';
+            answerDisplay.classList.add('hidden');
+            evalBtns.classList.add('hidden');
+            flipBtn.classList.remove('hidden');
         }
 
-        function checkAnswer() {
-            const userAnswer = answerInput.value.trim().toLowerCase();
-            if (!userAnswer) return;
-
+        function flipCard() {
             const wordObj = vocabulary[currentWordIndex];
             const correctAnswer = mode === 'en-de' ? wordObj.german : wordObj.english;
 
-            attempts++;
+            answerDisplay.textContent = correctAnswer;
+            answerDisplay.classList.remove('hidden');
 
-            // Basic matching - could be improved for multiple meanings
-            const isCorrect = correctAnswer.toLowerCase().includes(userAnswer) || userAnswer.includes(correctAnswer.toLowerCase());
+            flipBtn.classList.add('hidden');
+            evalBtns.classList.remove('hidden');
+        }
+
+        function checkAnswer(isCorrect) {
+            attempts++;
 
             if (isCorrect) {
                 correctAnswers++;
-                feedbackEl.textContent = 'Richtig!';
-                feedbackEl.classList.add('bg-emerald-500/20', 'text-emerald-400', 'border', 'border-emerald-500/30');
-            } else {
-                feedbackEl.innerHTML = `Falsch.<br><span class="text-sm mt-2 block text-slate-300">Richtige Antwort: <strong>${correctAnswer}</strong></span>`;
-                feedbackEl.classList.add('bg-red-500/20', 'text-red-400', 'border', 'border-red-500/30');
             }
 
             scoreDisplay.textContent = `${correctAnswers} / ${attempts}`;
-            feedbackEl.classList.remove('hidden');
 
-            answerInput.disabled = true;
-            checkBtn.classList.add('hidden');
-            nextBtn.classList.remove('hidden');
-            nextBtn.focus();
+            nextWord();
         }
-
-        answerInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !answerInput.disabled) {
-                checkAnswer();
-            }
-        });
 
         // Initialize
         initQueue();
