@@ -85,5 +85,42 @@ if (isInitialized) {
     }
 }
 
+let isMatrixPaused = sessionStorage.getItem('matrixPaused') === 'true';
+let matrixInterval = null;
+
+function updatePauseButtonIcon() {
+    const btn = document.getElementById('matrix-pause-btn');
+    if (!btn) return;
+    if (isMatrixPaused) {
+        // Play icon
+        btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" /></svg>';
+    } else {
+        // Pause icon
+        btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" /></svg>';
+    }
+}
+
+function toggleMatrix() {
+    isMatrixPaused = !isMatrixPaused;
+    sessionStorage.setItem('matrixPaused', isMatrixPaused.toString());
+    updatePauseButtonIcon();
+
+    if (isMatrixPaused) {
+        if (matrixInterval) clearInterval(matrixInterval);
+    } else {
+        matrixInterval = setInterval(draw, 33);
+    }
+}
+
 // Run animation at ~30 FPS for a calmer effect
-setInterval(draw, 33);
+if (!isMatrixPaused) {
+    matrixInterval = setInterval(draw, 33);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updatePauseButtonIcon();
+    const btn = document.getElementById('matrix-pause-btn');
+    if (btn) {
+        btn.addEventListener('click', toggleMatrix);
+    }
+});
