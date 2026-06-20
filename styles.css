@@ -58,8 +58,8 @@ body {
 }
 
 .glass-card-hover-amber:hover {
-    border-color: rgba(245, 158, 11, 0.4);
-    box-shadow: 0 12px 20px -8px rgba(245, 158, 11, 0.3);
+    border-color: rgba(180, 83, 9, 0.4);
+    box-shadow: 0 12px 20px -8px rgba(180, 83, 9, 0.3);
 }
 
 /* Drag and Drop Elements */
