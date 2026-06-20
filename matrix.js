@@ -9,8 +9,15 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-// Characters to use in the matrix rain (binary + some tech symbols)
-const chars = '01';
+// Configuration for styles
+let currentStyle = sessionStorage.getItem('matrixStyle') || 'custom';
+
+// Characters to use in the custom matrix rain (binary + some tech symbols)
+const customChars = '01';
+
+// Characters to use in the classic matrix rain
+const classicAlphabet = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890";
+const classicChars = classicAlphabet.split("");
 
 // Determine initials color based on the current page
 function getInitialsColor() {
@@ -25,7 +32,8 @@ function getInitialsColor() {
     return 'rgba(255, 255, 255, 0.2)'; // default white for index.html
 }
 const initialsColor = getInitialsColor();
-const fontSize = 14;
+
+let fontSize = currentStyle === 'classic' ? 16 : 14;
 let columns = canvas.width / fontSize;
 let drops = [];
 let lastKpDrop = [];
@@ -34,6 +42,11 @@ let lastKpDrop = [];
 const isInitialized = sessionStorage.getItem('matrixInitialized');
 
 function initDrops() {
+    fontSize = currentStyle === 'classic' ? 16 : 14;
+    columns = canvas.width / fontSize;
+    drops = [];
+    lastKpDrop = [];
+
     for (let x = 0; x < columns; x++) {
         lastKpDrop[x] = -100; // Initialize to a negative value so it doesn't block initial spawns
         if (isInitialized) {
@@ -52,6 +65,38 @@ if (!isInitialized) {
 }
 
 function draw() {
+    if (currentStyle === 'classic') {
+        drawClassic();
+    } else {
+        drawCustom();
+    }
+}
+
+function drawClassic() {
+    // Semi-transparent black background to create trail effect
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Text color to classic matrix green
+    ctx.fillStyle = '#0F0';
+    ctx.font = fontSize + 'px monospace';
+
+    for (let i = 0; i < drops.length; i++) {
+        // Random character
+        const text = classicChars[Math.floor(Math.random() * classicChars.length)];
+
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        // Reset drop to top randomly
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+
+        drops[i]++;
+    }
+}
+
+function drawCustom() {
     // Semi-transparent black background to create trail effect
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -62,7 +107,7 @@ function draw() {
 
     for (let i = 0; i < drops.length; i++) {
         // Random character
-        let text = chars.charAt(Math.floor(Math.random() * chars.length));
+        let text = customChars.charAt(Math.floor(Math.random() * customChars.length));
 
         // Ensure distance between K/P blocks
         const minVerticalDistance = 20;
@@ -97,8 +142,6 @@ function draw() {
 
 // Handle resize properly by resetting columns
 window.addEventListener('resize', () => {
-    columns = canvas.width / fontSize;
-    drops = [];
     initDrops();
 });
 
@@ -113,42 +156,31 @@ if (isInitialized) {
     }
 }
 
-let isMatrixPaused = sessionStorage.getItem('matrixPaused') === 'true';
 let matrixInterval = null;
 
-function updatePauseButtonIcon() {
-    const btn = document.getElementById('matrix-pause-btn');
-    if (!btn) return;
-    if (isMatrixPaused) {
-        // Play icon
-        btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" /></svg>';
-    } else {
-        // Pause icon
-        btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" /></svg>';
+function toggleMatrixStyle() {
+    currentStyle = currentStyle === 'custom' ? 'classic' : 'custom';
+    sessionStorage.setItem('matrixStyle', currentStyle);
+
+    // Update button text if it exists
+    const styleBtn = document.getElementById('settings-matrix-style-toggle');
+    if (styleBtn) {
+        styleBtn.textContent = currentStyle === 'custom' ? 'Wechseln zu Classic' : 'Wechseln zu Custom';
     }
+
+    // Clear canvas and re-init
+    ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    initDrops();
 }
 
-function toggleMatrix() {
-    isMatrixPaused = !isMatrixPaused;
-    sessionStorage.setItem('matrixPaused', isMatrixPaused.toString());
-    updatePauseButtonIcon();
-
-    if (isMatrixPaused) {
-        if (matrixInterval) clearInterval(matrixInterval);
-    } else {
-        matrixInterval = setInterval(draw, 33);
-    }
-}
-
-// Run animation at ~30 FPS for a calmer effect
-if (!isMatrixPaused) {
-    matrixInterval = setInterval(draw, 33);
-}
+// Start animation
+matrixInterval = setInterval(draw, 33);
 
 document.addEventListener('DOMContentLoaded', () => {
-    updatePauseButtonIcon();
-    const btn = document.getElementById('matrix-pause-btn');
-    if (btn) {
-        btn.addEventListener('click', toggleMatrix);
+    const styleBtn = document.getElementById('settings-matrix-style-toggle');
+    if (styleBtn) {
+        styleBtn.textContent = currentStyle === 'custom' ? 'Wechseln zu Classic' : 'Wechseln zu Custom';
+        styleBtn.addEventListener('click', toggleMatrixStyle);
     }
 });
