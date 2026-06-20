@@ -48,13 +48,15 @@ function draw() {
         // Random character
         let text = chars.charAt(Math.floor(Math.random() * chars.length));
 
-        // Occasionally use initials K or P
+        // Occasionally use initials K on top of P
         if (Math.random() < 0.05) {
-            text = Math.random() < 0.5 ? 'K' : 'P';
+            ctx.fillText('K', i * fontSize, drops[i] * fontSize);
+            ctx.fillText('P', i * fontSize, (drops[i] + 1) * fontSize);
+            drops[i]++; // Skip an extra drop so P isn't immediately overwritten
+        } else {
+            // Draw the normal character
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
         }
-
-        // Draw the character
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
         // Reset drop to top randomly
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
