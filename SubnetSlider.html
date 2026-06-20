@@ -2,37 +2,149 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Subnet Trainer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPv4 Subnet Slider</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif;
+        body {
+            font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
             background-attachment: fixed;
-            color: #e2e8f0; display: flex; justify-content: center; padding: 20px; }
-        .card { background: #1e1e1e; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); width: 100%; max-width: 400px; }
-        h2 { color: #00ff9d; margin-top: 0; }
-        input[type="range"] { width: 100%; accent-color: #00ff9d; margin: 20px 0; }
-        .result { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-top: 20px; }
-        .val { color: #00ff9d; font-weight: bold; float: right; }
-        .binary { font-family: monospace; font-size: 0.85rem; color: #888; margin-top: 10px; display: block; }
+            color: #e2e8f0;
+        }
+        .mono {
+            font-family: 'Fira Code', monospace;
+        }
+        .glass-card {
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #2dd4bf; /* teal-400 */
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
+            border: 2px solid #0f766e; /* teal-700 */
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #1e293b; /* slate-800 */
+            border-radius: 4px;
+            border: 1px solid #334155; /* slate-700 */
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        input[type=range]::-moz-range-thumb {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #2dd4bf;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
+            border: 2px solid #0f766e;
+        }
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #1e293b;
+            border-radius: 4px;
+            border: 1px solid #334155;
+        }
     </style>
 </head>
-<body>
-    <div class="card">
-        <h2>Subnet Calculator</h2>
-        <label>Präfix: <span id="prefixVal" class="val">/24</span></label>
-        <input type="range" id="cidr" min="1" max="32" value="24" oninput="calc()">
-        
-        <div class="result">
-            <p>Maske: <span id="mask" class="val">255.255.255.0</span></p>
-            <p>Nutzbare Hosts: <span id="hosts" class="val">254</span></p>
-            <p>Netze (von /24): <span id="subnets" class="val">1</span></p>
-            <span id="binMask" class="binary">11111111.11111111.11111111.00000000</span>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='its.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-emerald-500 mb-4">
+                IPv4 Subnet Slider
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Verschiebe den Slider, um Präfix, Maske, Hosts und Binärmuster dynamisch zu berechnen.
+            </p>
         </div>
     </div>
 
+    <main class="max-w-4xl mx-auto px-4 w-full mb-auto">
+        <section class="glass-card relative rounded-2xl p-8 border border-slate-700/50 shadow-2xl mb-8">
+
+            <div class="mb-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-teal-400">🎛️</span> Präfix einstellen
+                    </h2>
+                    <div class="text-3xl font-mono font-bold text-teal-400 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800" id="prefixVal">
+                        /24
+                    </div>
+                </div>
+
+                <div class="px-2 py-6">
+                    <input type="range" id="cidr" min="1" max="32" value="24" oninput="calc()">
+                </div>
+                <div class="flex justify-between text-xs text-slate-500 font-mono px-2">
+                    <span>/1</span>
+                    <span>/8</span>
+                    <span>/16</span>
+                    <span>/24</span>
+                    <span>/32</span>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-slate-900/80 rounded-xl p-5 border border-slate-800">
+                    <p class="text-xs font-bold text-slate-500 uppercase mb-2">Subnetzmaske</p>
+                    <p class="text-xl font-mono font-bold text-slate-200" id="mask">255.255.255.0</p>
+                </div>
+                <div class="bg-slate-900/80 rounded-xl p-5 border border-slate-800">
+                    <p class="text-xs font-bold text-slate-500 uppercase mb-2">Nutzbare Hosts</p>
+                    <p class="text-xl font-mono font-bold text-slate-200" id="hosts">254</p>
+                </div>
+                <div class="bg-slate-900/80 rounded-xl p-5 border border-slate-800">
+                    <p class="text-xs font-bold text-slate-500 uppercase mb-2">Netze (aus /24)</p>
+                    <p class="text-xl font-mono font-bold text-slate-200" id="subnets">1</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/80 rounded-xl p-6 border border-slate-800 text-center">
+                <p class="text-xs font-bold text-slate-500 uppercase mb-3">Binär-Darstellung der Maske</p>
+                <div id="binMask" class="text-lg md:text-xl font-mono font-bold text-teal-400 tracking-widest break-all">
+                    11111111.11111111.11111111.00000000
+                </div>
+            </div>
+
+        </section>
+    </main>
+
     <script>
         function calc() {
-            const p = document.getElementById('cidr').value;
+            const p = parseInt(document.getElementById('cidr').value, 10);
             document.getElementById('prefixVal').innerText = '/' + p;
             
             // Maske berechnen
@@ -43,22 +155,38 @@
             }
             document.getElementById('mask').innerText = maskArr.join('.');
             
-            // Hosts berechnen
+            // Hosts berechnen (2^(32-p) - 2), min 0
             const h = Math.pow(2, 32 - p) - 2;
-            document.getElementById('hosts').innerText = h < 0 ? 0 : h.toLocaleString();
+            document.getElementById('hosts').innerText = h < 0 ? 0 : h.toLocaleString('de-DE');
             
             // Subnetze (Basis /24)
-            const s = p >= 24 ? Math.pow(2, p - 24) : 'N/A';
+            let s;
+            if (p >= 24) {
+                s = Math.pow(2, p - 24);
+            } else {
+                s = "N/A";
+            }
             document.getElementById('subnets').innerText = s;
 
             // Binär-Darstellung
             let bin = "";
-            for(let i=1; i<=32; i++) {
-                bin += i <= p ? "1" : "0";
-                if(i % 8 === 0 && i < 32) bin += ".";
+            for(let i = 1; i <= 32; i++) {
+                if (i <= p) {
+                    // Netzbits
+                    bin += '<span class="text-teal-400">1</span>';
+                } else {
+                    // Hostbits
+                    bin += '<span class="text-slate-600">0</span>';
+                }
+                if(i % 8 === 0 && i < 32) {
+                    bin += '<span class="text-slate-400">.</span>';
+                }
             }
-            document.getElementById('binMask').innerText = bin;
+            document.getElementById('binMask').innerHTML = bin;
         }
+
+        // Initialize on load
+        window.onload = calc;
     </script>
 </body>
 </html>
