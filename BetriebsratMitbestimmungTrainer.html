@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Betriebliche Mitbestimmung (Betriebsrat & JAV)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+   <!-- Header -->
+    <div class="container mx-auto px-4 py-8 relative z-10 flex-grow">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='pug.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-400 mb-4">
+                Betriebliche Mitbestimmung
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Ordne die Mitwirkungs- und Mitbestimmungsrechte korrekt zu.
+            </p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto items-start relative z-10">
+
+            <!-- Drop Zones -->
+            <div class="w-full lg:w-2/3 glass-card rounded-2xl p-6 flex flex-col gap-4" id="rights-container">
+                <h2 class="text-xl font-bold text-white mb-2 text-center">Rechte & Gremien</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Mitbestimmung -->
+                    <div class="drop-zone flex flex-col min-h-[150px] border-2 rounded-xl p-3 border-emerald-500/50 bg-emerald-500/10" data-category="mitbestimmung">
+                        <div class="text-base font-semibold text-emerald-300 mb-2 border-b border-emerald-700/50 pb-1">Echte Mitbestimmung (BR)</div>
+                        <div class="text-xs text-emerald-400/70 mb-2">Zustimmung zwingend erforderlich</div>
+                        <div class="flex flex-wrap gap-2 items-start min-h-[50px] w-full" data-drop-area="mitbestimmung"></div>
+                    </div>
+
+                    <!-- Mitwirkung -->
+                    <div class="drop-zone flex flex-col min-h-[150px] border-2 rounded-xl p-3 border-blue-500/50 bg-blue-500/10" data-category="mitwirkung">
+                        <div class="text-base font-semibold text-blue-300 mb-2 border-b border-blue-700/50 pb-1">Mitwirkung (BR)</div>
+                        <div class="text-xs text-blue-400/70 mb-2">Anhörung / Beratung nötig</div>
+                        <div class="flex flex-wrap gap-2 items-start min-h-[50px] w-full" data-drop-area="mitwirkung"></div>
+                    </div>
+
+                    <!-- Information -->
+                    <div class="drop-zone flex flex-col min-h-[150px] border-2 rounded-xl p-3 border-orange-500/50 bg-orange-500/10" data-category="information">
+                        <div class="text-base font-semibold text-orange-300 mb-2 border-b border-orange-700/50 pb-1">Informationsrecht (BR)</div>
+                        <div class="text-xs text-orange-400/70 mb-2">Muss unterrichtet werden</div>
+                        <div class="flex flex-wrap gap-2 items-start min-h-[50px] w-full" data-drop-area="information"></div>
+                    </div>
+
+                    <!-- JAV -->
+                    <div class="drop-zone flex flex-col min-h-[150px] border-2 rounded-xl p-3 border-purple-500/50 bg-purple-500/10" data-category="jav">
+                        <div class="text-base font-semibold text-purple-300 mb-2 border-b border-purple-700/50 pb-1">Aufgaben der JAV</div>
+                        <div class="text-xs text-purple-400/70 mb-2">Jugend- & Auszubildendenvertretung</div>
+                        <div class="flex flex-wrap gap-2 items-start min-h-[50px] w-full" data-drop-area="jav"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item Pool (Draggables) -->
+            <div class="w-full lg:w-1/3 glass-card rounded-2xl p-6 sticky top-8">
+                <h2 class="text-xl font-bold text-white mb-4 text-center">Situationen / Themen</h2>
+                <div class="flex flex-col gap-2 min-h-[300px] max-h-[500px] overflow-y-auto pr-2 custom-scrollbar" id="item-pool">
+                    <!-- Items will be generated here by JS -->
+                </div>
+
+                <div class="mt-6 flex gap-4">
+                    <button id="btn-check" class="flex-1 py-3 px-4 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-slate-600/20">
+                        Prüfen
+                    </button>
+                    <button id="btn-reset" class="py-3 px-4 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors border border-slate-600">
+                        Reset
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 mono relative z-10 bg-black/20 backdrop-blur-sm mt-8">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script>
+        // Draggable Items Data
+        const draggablesData = [
+            // Echte Mitbestimmung
+            { id: "item-1", text: "Einführung von Kurzarbeit", category: "mitbestimmung" },
+            { id: "item-2", text: "Festlegung der täglichen Arbeitszeit", category: "mitbestimmung" },
+            { id: "item-3", text: "Aufstellung eines Urlaubsplans", category: "mitbestimmung" },
+            { id: "item-4", text: "Verhaltensregeln im Betrieb (z.B. Rauchverbot)", category: "mitbestimmung" },
+            { id: "item-5", text: "Einführung technischer Überwachungseinrichtungen", category: "mitbestimmung" },
+
+            // Mitwirkung
+            { id: "item-6", text: "Jede Kündigung (vorherige Anhörung)", category: "mitwirkung" },
+            { id: "item-7", text: "Betriebliche Berufsbildungsmaßnahmen (Beratung)", category: "mitwirkung" },
+
+            // Information
+            { id: "item-8", text: "Wirtschaftliche Lage des Unternehmens", category: "information" },
+            { id: "item-9", text: "Planung von Neu- und Umbauten", category: "information" },
+            { id: "item-10", text: "Gestaltung von Arbeitsplätzen", category: "information" },
+
+            // JAV
+            { id: "item-11", text: "Überwachung der Einhaltung des JArbSchG", category: "jav" },
+            { id: "item-12", text: "Beantragung von Maßnahmen beim BR speziell für Azubis", category: "jav" },
+            { id: "item-13", text: "Entgegennahme von Anregungen jugendlicher Arbeitnehmer", category: "jav" }
+        ];
+
+        const pool = document.getElementById('item-pool');
+        const checkBtn = document.getElementById('btn-check');
+        const resetBtn = document.getElementById('btn-reset');
+        const dropZones = document.querySelectorAll('.drop-zone');
+
+        let draggedItem = null;
+
+        // Initialize UI
+        function init() {
+            // Add drop zone event listeners
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('dragenter', handleDragEnter);
+                zone.addEventListener('dragleave', handleDragLeave);
+                zone.addEventListener('drop', handleDrop);
+            });
+
+            // Add drop listener to pool
+            pool.addEventListener('dragover', handleDragOver);
+            pool.addEventListener('drop', handleDropToPool);
+
+            // Render Items
+            renderItems();
+        }
+
+        function renderItems() {
+            pool.innerHTML = '';
+            // Shuffle draggables for randomness
+            const shuffled = [...draggablesData].sort(() => 0.5 - Math.random());
+
+            shuffled.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'draggable-item bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-sm font-medium text-slate-200 shadow-sm hover:bg-slate-700 select-none cursor-move w-full';
+                el.draggable = true;
+                el.id = item.id;
+                el.textContent = item.text;
+                el.dataset.correctCategory = item.category;
+
+                el.addEventListener('dragstart', handleDragStart);
+                el.addEventListener('dragend', handleDragEnd);
+
+                pool.appendChild(el);
+            });
+        }
+
+        // Drag and Drop Handlers
+        function handleDragStart(e) {
+            draggedItem = this;
+            setTimeout(() => this.classList.add('opacity-50'), 0);
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd() {
+            this.classList.remove('opacity-50');
+            draggedItem = null;
+            document.querySelectorAll('.drop-zone').forEach(zone => zone.classList.remove('drag-over', 'ring-2', 'ring-white/50'));
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            if(this.classList.contains('drop-zone')) {
+                this.classList.add('drag-over', 'ring-2', 'ring-white/50');
+            }
+        }
+
+        function handleDragLeave() {
+            if(this.classList.contains('drop-zone')) {
+                this.classList.remove('drag-over', 'ring-2', 'ring-white/50');
+            }
+        }
+
+        function handleDrop(e) {
+            e.stopPropagation();
+            this.classList.remove('drag-over', 'ring-2', 'ring-white/50');
+
+            // Append to the drop area inside the layer div
+            const dropArea = this.querySelector('[data-drop-area]');
+            if (draggedItem && dropArea) {
+                // Reset styling
+                draggedItem.classList.remove('bg-emerald-600/80', 'border-emerald-400', 'bg-red-600/80', 'border-red-400', 'bg-slate-800', 'border-slate-600', 'w-full');
+                draggedItem.classList.add('bg-slate-800', 'border-slate-600', 'flex-grow'); // Adjust size for dropzone
+                dropArea.appendChild(draggedItem);
+            }
+            return false;
+        }
+
+        function handleDropToPool(e) {
+            e.stopPropagation();
+            if (draggedItem) {
+                // Reset styling
+                draggedItem.classList.remove('bg-emerald-600/80', 'border-emerald-400', 'bg-red-600/80', 'border-red-400', 'bg-slate-800', 'border-slate-600', 'flex-grow');
+                draggedItem.classList.add('bg-slate-800', 'border-slate-600', 'w-full');
+                pool.appendChild(draggedItem);
+            }
+            return false;
+        }
+
+        // Check Logic
+        checkBtn.addEventListener('click', () => {
+            const allItems = document.querySelectorAll('.draggable-item');
+            let allCorrect = true;
+
+            allItems.forEach(item => {
+                const parentArea = item.parentElement;
+
+                // Remove previous check styles
+                item.classList.remove('bg-emerald-600/80', 'border-emerald-400', 'bg-red-600/80', 'border-red-400', 'bg-slate-800', 'border-slate-600');
+
+                if (parentArea.id === 'item-pool') {
+                    item.classList.add('bg-slate-800', 'border-slate-600');
+                    allCorrect = false;
+                } else {
+                    const currentCategory = parentArea.dataset.dropArea;
+                    const correctCategory = item.dataset.correctCategory;
+
+                    if (currentCategory === correctCategory) {
+                        item.classList.add('bg-emerald-600/80', 'border-emerald-400');
+                    } else {
+                        item.classList.add('bg-red-600/80', 'border-red-400');
+                        allCorrect = false;
+                    }
+                }
+            });
+
+            if (allCorrect && document.querySelectorAll('#item-pool .draggable-item').length === 0) {
+                 checkBtn.textContent = "Perfekt gelöst! 🎉";
+                 checkBtn.classList.replace('bg-slate-600', 'bg-emerald-600');
+                 checkBtn.classList.replace('hover:bg-slate-500', 'hover:bg-emerald-500');
+                 checkBtn.classList.replace('shadow-slate-600/20', 'shadow-emerald-600/20');
+                 setTimeout(() => {
+                     checkBtn.textContent = "Prüfen";
+                     checkBtn.classList.replace('bg-emerald-600', 'bg-slate-600');
+                     checkBtn.classList.replace('hover:bg-emerald-500', 'hover:bg-slate-500');
+                     checkBtn.classList.replace('shadow-emerald-600/20', 'shadow-slate-600/20');
+                 }, 3000);
+            }
+        });
+
+        // Reset Logic
+        resetBtn.addEventListener('click', () => {
+            // Move all items back to pool and reset styles
+            const allItems = document.querySelectorAll('.draggable-item');
+            allItems.forEach(item => {
+                item.classList.remove('bg-emerald-600/80', 'border-emerald-400', 'bg-red-600/80', 'border-red-400', 'bg-slate-800', 'border-slate-600', 'flex-grow');
+                item.classList.add('bg-slate-800', 'border-slate-600', 'w-full');
+                pool.appendChild(item);
+            });
+            // Shuffle them again
+            renderItems();
+        });
+
+        // Initialize on load
+        init();
+    </script>
+    <script src="matrix.js"></script>
+</body>
+</html>
