@@ -351,7 +351,7 @@ canvas.addEventListener('click', (event) => {
     const clickY = event.clientY - rect.top;
 
     // We expand the bounding box slightly to make clicking easier
-    const hitPadding = 10;
+    const hitPadding = 40;
 
     for (let i = activeKPs.length - 1; i >= 0; i--) {
         let kp = activeKPs[i];
