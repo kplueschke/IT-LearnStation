@@ -349,7 +349,7 @@ window.addEventListener('click', (e) => {
     const y = e.clientY;
 
     // Check if clicked near any active K/P
-    const clickRadius = fontSize * 2; // Tolerance
+    const clickRadius = fontSize * 3; // Tolerance
 
     for (let i = activeKPs.length - 1; i >= 0; i--) {
         const kp = activeKPs[i];
