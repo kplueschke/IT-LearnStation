@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>SQL Query Trainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between bg-[#0a0a0a]">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-red-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+   <!-- Header -->
+    <div class="container mx-auto px-4 py-8 relative z-10 flex-grow flex flex-col">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='ap.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-red-600 mb-4 font-mono">
+                SQL Query Trainer
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Schreibe die passenden SQL-Statements für die folgenden Aufgaben.
+            </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto w-full relative z-10 flex-grow">
+            <div class="grid md:grid-cols-2 gap-6 items-start">
+
+                <!-- Schema Panel -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col gap-4">
+                    <div class="flex items-center gap-2 text-red-400 mb-2 border-b border-slate-700/50 pb-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                        <h2 class="font-mono font-semibold">Datenbankschema</h2>
+                    </div>
+                    <div id="schema-display" class="font-mono text-sm text-slate-300 space-y-3">
+                        Laden...
+                    </div>
+                </div>
+
+                <!-- Task & Input Panel -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col gap-6">
+                    <div class="flex justify-between items-center text-sm font-mono text-slate-400 border-b border-slate-700/50 pb-2">
+                        <span>Aufgabe</span>
+                        <span>Fortschritt: <span id="score-display" class="text-white">0 / 0</span></span>
+                    </div>
+
+                    <div class="mb-2">
+                        <p id="task-description" class="text-slate-200 text-lg">Laden...</p>
+                    </div>
+
+                    <div class="flex flex-col gap-3">
+                        <div class="relative">
+                            <div class="absolute top-0 right-0 px-2 py-1 bg-slate-800 rounded-bl-lg border-b border-l border-slate-700 text-xs text-slate-500 font-mono">query.sql</div>
+                            <textarea id="sql-input" class="w-full h-32 bg-slate-900/80 border border-slate-700 rounded-xl p-4 pt-6 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-mono resize-y" placeholder="SELECT * FROM..."></textarea>
+                        </div>
+
+                        <button id="check-btn" onclick="checkAnswer()" class="w-full py-3 px-4 bg-red-600 hover:bg-red-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-red-600/20">
+                            Ausführen
+                        </button>
+
+                        <button id="next-btn" onclick="nextTask()" class="hidden w-full py-3 px-4 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-xl transition-colors">
+                            Nächste Aufgabe
+                        </button>
+                    </div>
+
+                    <div id="feedback" class="mt-2 p-4 rounded-xl hidden font-medium transition-all text-sm border flex flex-col gap-2"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+    <script>
+        const schemas = {
+            mitarbeiterDB: {
+                name: "MitarbeiterDB",
+                tables: [
+                    {
+                        name: "mitarbeiter",
+                        columns: ["id (INT, PK)", "vorname (VARCHAR)", "nachname (VARCHAR)", "abteilung_id (INT, FK)", "gehalt (DECIMAL)"]
+                    },
+                    {
+                        name: "abteilungen",
+                        columns: ["id (INT, PK)", "name (VARCHAR)", "standort (VARCHAR)"]
+                    }
+                ]
+            },
+            shopDB: {
+                name: "ShopDB",
+                tables: [
+                    {
+                        name: "kunden",
+                        columns: ["kunden_id (INT, PK)", "name (VARCHAR)", "stadt (VARCHAR)"]
+                    },
+                    {
+                        name: "bestellungen",
+                        columns: ["bestell_id (INT, PK)", "kunden_id (INT, FK)", "datum (DATE)", "betrag (DECIMAL)"]
+                    }
+                ]
+            }
+        };
+
+        const tasks = [
+            {
+                schema: "mitarbeiterDB",
+                description: "Wähle den Vor- und Nachnamen aller Mitarbeiter aus.",
+                expectedRegex: /^select\s+vorname\s*,\s*nachname\s+from\s+mitarbeiter\s*;?$/i,
+                solution: "SELECT vorname, nachname FROM mitarbeiter;",
+                explanation: "Verwende SELECT, um die Spalten 'vorname' und 'nachname' auszuwählen. Mit FROM gibst du die Tabelle 'mitarbeiter' an."
+            },
+            {
+                schema: "mitarbeiterDB",
+                description: "Füge einen neuen Mitarbeiter namens 'Max Mustermann' mit der abteilung_id 1 und einem Gehalt von 3500 hinzu. (Die ID wird automatisch vergeben).",
+                expectedRegex: /^insert\s+into\s+mitarbeiter\s*\(\s*vorname\s*,\s*nachname\s*,\s*abteilung_id\s*,\s*gehalt\s*\)\s*values\s*\(\s*'max'\s*,\s*'mustermann'\s*,\s*1\s*,\s*3500\s*\)\s*;?$/i,
+                solution: "INSERT INTO mitarbeiter (vorname, nachname, abteilung_id, gehalt) VALUES ('Max', 'Mustermann', 1, 3500);",
+                explanation: "Verwende INSERT INTO gefolgt vom Tabellennamen und den Spaltennamen in Klammern. VALUES gefolgt von den einzufügenden Werten in der gleichen Reihenfolge."
+            },
+            {
+                schema: "mitarbeiterDB",
+                description: "Erhöhe das Gehalt aller Mitarbeiter in der Abteilung mit der ID 2 auf 4000.",
+                expectedRegex: /^update\s+mitarbeiter\s+set\s+gehalt\s*=\s*4000\s+where\s+abteilung_id\s*=\s*2\s*;?$/i,
+                solution: "UPDATE mitarbeiter SET gehalt = 4000 WHERE abteilung_id = 2;",
+                explanation: "UPDATE ändert Datensätze. SET gibt an, welche Spalte(n) welchen neuen Wert bekommen. Die WHERE-Klausel schränkt ein, welche Datensätze betroffen sind."
+            },
+            {
+                schema: "shopDB",
+                description: "Lösche alle Kunden aus der Tabelle 'kunden', die in der Stadt 'Berlin' wohnen.",
+                expectedRegex: /^delete\s+from\s+kunden\s+where\s+stadt\s*=\s*'berlin'\s*;?$/i,
+                solution: "DELETE FROM kunden WHERE stadt = 'Berlin';",
+                explanation: "DELETE FROM löscht Zeilen aus einer Tabelle. Mit WHERE definierst du die Bedingung (stadt = 'Berlin'), damit nicht alle Kunden gelöscht werden."
+            },
+            {
+                schema: "shopDB",
+                description: "Ermittle den Namen des Kunden und den Betrag seiner Bestellungen. Verbinde dazu die Tabellen 'kunden' und 'bestellungen'.",
+                expectedRegex: /^select\s+k\w*\.name\s*,\s*b\w*\.betrag\s+from\s+kunden\s+(as\s+)?k\w*\s+(inner\s+)?join\s+bestellungen\s+(as\s+)?b\w*\s+on\s+k\w*\.kunden_id\s*=\s*b\w*\.kunden_id\s*;?$/i,
+                // Alternatively a simpler matching rule just checking for keywords and columns since JOIN syntax varies:
+                expectedRegexFallback: /(?=.*select)(?=.*name)(?=.*betrag)(?=.*from)(?=.*kunden)(?=.*join)(?=.*bestellungen)(?=.*on)(?=.*kunden_id)/i,
+                solution: "SELECT kunden.name, bestellungen.betrag FROM kunden JOIN bestellungen ON kunden.kunden_id = bestellungen.kunden_id;",
+                explanation: "Um Daten aus mehreren Tabellen abzufragen, benutzt man JOIN. Hier verbindest du 'kunden' und 'bestellungen' über das gemeinsame Feld 'kunden_id' (ON Bedingung)."
+            }
+        ];
+
+        let currentTaskIndex = -1;
+        let attempts = 0;
+        let correctAnswers = 0;
+        let taskQueue = [];
+
+        const schemaDisplay = document.getElementById('schema-display');
+        const taskDescription = document.getElementById('task-description');
+        const sqlInput = document.getElementById('sql-input');
+        const checkBtn = document.getElementById('check-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackEl = document.getElementById('feedback');
+        const scoreDisplay = document.getElementById('score-display');
+
+        function initQueue() {
+            taskQueue = [...Array(tasks.length).keys()];
+            shuffleArray(taskQueue);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function renderSchema(schemaKey) {
+            const schema = schemas[schemaKey];
+            let html = `<div class="mb-2 text-slate-400">Aktuelles Schema: <span class="text-slate-200">${schema.name}</span></div>`;
+
+            schema.tables.forEach(table => {
+                html += `
+                <div class="bg-slate-900/50 rounded-lg p-3 border border-slate-700/50">
+                    <div class="text-red-400 font-bold mb-1">${table.name}</div>
+                    <ul class="list-disc list-inside text-xs text-slate-400 pl-2">
+                        ${table.columns.map(col => `<li>${col}</li>`).join('')}
+                    </ul>
+                </div>`;
+            });
+
+            schemaDisplay.innerHTML = html;
+        }
+
+        function renderTask() {
+            if (taskQueue.length === 0) {
+                initQueue();
+            }
+
+            currentTaskIndex = taskQueue.pop();
+            const task = tasks[currentTaskIndex];
+
+            renderSchema(task.schema);
+            taskDescription.textContent = task.description;
+            sqlInput.value = '';
+            sqlInput.disabled = false;
+            sqlInput.focus();
+
+            checkBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            feedbackEl.classList.add('hidden');
+            feedbackEl.className = 'mt-2 p-4 rounded-xl hidden font-medium transition-all text-sm border flex flex-col gap-2';
+        }
+
+        function normalizeSql(sql) {
+            // Remove extra whitespace, newlines, and standardize quotes for basic comparison
+            return sql.replace(/\s+/g, ' ').replace(/"/g, "'").trim();
+        }
+
+        function checkAnswer() {
+            const task = tasks[currentTaskIndex];
+            const userAnswerRaw = sqlInput.value;
+            const userAnswer = normalizeSql(userAnswerRaw);
+
+            if (!userAnswer) return;
+
+            attempts++;
+
+            let isCorrect = false;
+
+            if (task.expectedRegex) {
+                 isCorrect = task.expectedRegex.test(userAnswer);
+            }
+            if (!isCorrect && task.expectedRegexFallback) {
+                 isCorrect = task.expectedRegexFallback.test(userAnswer);
+            }
+
+            if (isCorrect) {
+                correctAnswers++;
+                feedbackEl.innerHTML = `
+                    <div class="text-emerald-400 font-bold text-base">Erfolgreich ausgeführt!</div>
+                    <div class="text-slate-300">Deine Query ist korrekt.</div>
+                `;
+                feedbackEl.classList.add('bg-emerald-500/20', 'border-emerald-500/30');
+
+                sqlInput.classList.remove('border-slate-700', 'border-red-500');
+                sqlInput.classList.add('border-emerald-500');
+                sqlInput.disabled = true;
+
+                checkBtn.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+                nextBtn.focus();
+            } else {
+                feedbackEl.innerHTML = `
+                    <div class="text-red-400 font-bold text-base">Fehler in der SQL-Query</div>
+                    <div class="text-slate-300 mt-1">Lösungsvorschlag:</div>
+                    <code class="bg-slate-900 p-2 rounded text-emerald-400 block break-all whitespace-pre-wrap">${task.solution}</code>
+                    <div class="text-slate-400 mt-1"><strong class="text-slate-300">Erklärung:</strong> ${task.explanation}</div>
+                `;
+                feedbackEl.classList.add('bg-red-500/20', 'border-red-500/30');
+
+                sqlInput.classList.remove('border-slate-700');
+                sqlInput.classList.add('border-red-500');
+
+                // Let them move on or edit
+                checkBtn.textContent = "Erneut prüfen";
+            }
+
+            scoreDisplay.textContent = `${correctAnswers} / ${attempts}`;
+            feedbackEl.classList.remove('hidden');
+        }
+
+        function nextTask() {
+            checkBtn.textContent = "Ausführen";
+            sqlInput.classList.remove('border-emerald-500', 'border-red-500');
+            sqlInput.classList.add('border-slate-700');
+            renderTask();
+        }
+
+        // Allow executing via Ctrl+Enter
+        sqlInput.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        // Initialize
+        initQueue();
+        renderTask();
+    </script>
+</body>
+</html>

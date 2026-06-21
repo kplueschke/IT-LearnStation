@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>C++ Syntax Trainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between bg-[#0a0a0a]">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-red-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+   <!-- Header -->
+    <div class="container mx-auto px-4 py-8 relative z-10 flex-grow flex flex-col">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='ap.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-red-600 mb-4 font-mono">
+                C++ Syntax Trainer
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Fülle die Lücken im C++ Code aus, um die Aufgabe zu lösen.
+            </p>
+        </div>
+
+        <div class="max-w-3xl mx-auto w-full relative z-10 flex-grow">
+            <div class="glass-card rounded-2xl p-8 flex flex-col gap-6">
+                <div class="flex justify-between items-center text-sm font-mono text-slate-400 mb-4 border-b border-slate-700/50 pb-4">
+                    <span>Thema: <span id="topic-display" class="text-red-400 font-bold">Laden...</span></span>
+                    <span>Fortschritt: <span id="score-display" class="text-white">0 / 0</span></span>
+                </div>
+
+                <div class="mb-4">
+                    <h2 class="text-xl font-semibold text-white mb-2">Aufgabe:</h2>
+                    <p id="task-description" class="text-slate-300">Laden...</p>
+                </div>
+
+                <div class="bg-slate-900/80 border border-slate-700 rounded-xl p-6 font-mono text-sm md:text-base overflow-x-auto relative shadow-inner">
+                    <div class="absolute top-0 right-0 px-3 py-1 bg-slate-800 rounded-bl-lg border-b border-l border-slate-700 text-xs text-slate-500">main.cpp</div>
+                    <pre id="code-display" class="text-slate-300 leading-relaxed whitespace-pre-wrap break-words"></pre>
+                </div>
+
+                <div class="flex flex-col gap-4 mt-2">
+                    <button id="check-btn" onclick="checkAnswer()" class="w-full py-3 px-4 bg-red-600 hover:bg-red-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-red-600/20">
+                        Code Prüfen
+                    </button>
+
+                    <button id="next-btn" onclick="nextTask()" class="hidden w-full py-3 px-4 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-xl transition-colors">
+                        Nächste Aufgabe
+                    </button>
+                </div>
+
+                <div id="feedback" class="mt-4 p-4 rounded-xl hidden font-medium transition-all text-lg border"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+    <script>
+        const tasks = [
+            {
+                topic: "Variablen",
+                description: "Deklariere eine Integer-Variable namens 'age' und weise ihr den Wert 25 zu.",
+                codeTemplate: "#include <iostream>\n\nint main() {\n    [[INPUT_1]] [[INPUT_2]] = [[INPUT_3]];\n    std::cout << age;\n    return 0;\n}",
+                answers: ["int", "age", "25"]
+            },
+            {
+                topic: "Bedingungen (If-Else)",
+                description: "Vervollständige die If-Bedingung, die prüft, ob die Variable 'x' größer als 10 ist.",
+                codeTemplate: "#include <iostream>\n\nint main() {\n    int x = 15;\n    [[INPUT_1]] (x [[INPUT_2]] 10) {\n        std::cout << \"x ist groesser als 10\";\n    }\n    return 0;\n}",
+                answers: ["if", ">"]
+            },
+            {
+                topic: "Schleifen (For-Schleife)",
+                description: "Vervollständige den Kopf der For-Schleife, sodass sie von 0 bis 9 (insgesamt 10 Mal) läuft.",
+                codeTemplate: "#include <iostream>\n\nint main() {\n    [[INPUT_1]] (int i = 0; i [[INPUT_2]] 10; [[INPUT_3]]) {\n        std::cout << i << \"\\n\";\n    }\n    return 0;\n}",
+                answers: ["for", "<", "i++"]
+            },
+            {
+                topic: "Funktionen",
+                description: "Deklariere den Rückgabetyp der Funktion 'add', die zwei Integer addiert und einen Integer zurückgibt. Verwende außerdem das richtige Keyword für die Rückgabe.",
+                codeTemplate: "#include <iostream>\n\n[[INPUT_1]] add(int a, int b) {\n    [[INPUT_2]] a + b;\n}\n\nint main() {\n    int result = add(5, 3);\n    return 0;\n}",
+                answers: ["int", "return"]
+            },
+            {
+                topic: "Klassen und Objekte",
+                description: "Erstelle eine Instanz (ein Objekt) der Klasse 'Car' namens 'myCar'.",
+                codeTemplate: "#include <iostream>\n\nclass Car {\npublic:\n    void honk() {\n        std::cout << \"Beep!\";\n    }\n};\n\nint main() {\n    [[INPUT_1]] [[INPUT_2]];\n    myCar.honk();\n    return 0;\n}",
+                answers: ["Car", "myCar"]
+            }
+        ];
+
+        let currentTaskIndex = -1;
+        let attempts = 0;
+        let correctAnswers = 0;
+        let taskQueue = [];
+
+        const topicDisplay = document.getElementById('topic-display');
+        const taskDescription = document.getElementById('task-description');
+        const codeDisplay = document.getElementById('code-display');
+        const checkBtn = document.getElementById('check-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackEl = document.getElementById('feedback');
+        const scoreDisplay = document.getElementById('score-display');
+
+        function initQueue() {
+            taskQueue = [...Array(tasks.length).keys()];
+            shuffleArray(taskQueue);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function renderTask() {
+            if (taskQueue.length === 0) {
+                initQueue();
+            }
+
+            currentTaskIndex = taskQueue.pop();
+            const task = tasks[currentTaskIndex];
+
+            topicDisplay.textContent = task.topic;
+            taskDescription.textContent = task.description;
+
+            // Render code template with input fields
+            let htmlCode = task.codeTemplate.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            for (let i = 0; i < task.answers.length; i++) {
+                const placeholder = `\\[\\[INPUT_${i + 1}\\]\\]`;
+                const regex = new RegExp(placeholder, 'g');
+                // Create an input element taking roughly the width of the expected answer + some padding
+                const width = Math.max(task.answers[i].length * 10 + 20, 40);
+                const inputHtml = `<input type="text" id="input-${i}" class="bg-slate-800 text-red-400 border border-slate-600 rounded px-2 py-0.5 mx-1 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 font-mono text-center inline-block" style="width: ${width}px;" autocomplete="off">`;
+                htmlCode = htmlCode.replace(regex, inputHtml);
+            }
+
+            codeDisplay.innerHTML = htmlCode;
+
+            // Reset UI state
+            checkBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            feedbackEl.classList.add('hidden');
+            feedbackEl.className = 'mt-4 p-4 rounded-xl hidden font-medium transition-all text-lg border';
+
+            // Focus first input
+            const firstInput = document.getElementById('input-0');
+            if (firstInput) {
+                firstInput.focus();
+            }
+
+            // Add event listeners to inputs for 'Enter' key
+            for (let i = 0; i < task.answers.length; i++) {
+                const inputEl = document.getElementById(`input-${i}`);
+                if (inputEl) {
+                    inputEl.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            checkAnswer();
+                        }
+                    });
+                }
+            }
+        }
+
+        function checkAnswer() {
+            const task = tasks[currentTaskIndex];
+            let isAllCorrect = true;
+            attempts++;
+
+            for (let i = 0; i < task.answers.length; i++) {
+                const inputEl = document.getElementById(`input-${i}`);
+                const userAnswer = inputEl.value.trim();
+                const correctAnswer = task.answers[i];
+
+                if (userAnswer === correctAnswer) {
+                    inputEl.classList.remove('border-slate-600', 'border-red-500', 'text-red-400');
+                    inputEl.classList.add('border-emerald-500', 'text-emerald-400', 'bg-emerald-900/30');
+                    inputEl.disabled = true;
+                } else {
+                    isAllCorrect = false;
+                    inputEl.classList.remove('border-slate-600');
+                    inputEl.classList.add('border-red-500');
+                }
+            }
+
+            if (isAllCorrect) {
+                correctAnswers++;
+                feedbackEl.textContent = 'Richtig! Gut gemacht.';
+                feedbackEl.classList.add('bg-emerald-500/20', 'text-emerald-400', 'border-emerald-500/30');
+
+                checkBtn.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+                nextBtn.focus();
+            } else {
+                // Generate solution string
+                let solutionString = task.answers.map((ans, idx) => `Lücke ${idx + 1}: <code class="bg-slate-800 px-1 rounded text-red-400">${ans}</code>`).join('<br>');
+
+                feedbackEl.innerHTML = `Leider nicht ganz richtig.<br><span class="text-sm mt-2 block text-slate-300">Lösungshinweis:<br>${solutionString}</span>`;
+                feedbackEl.classList.add('bg-red-500/20', 'text-red-400', 'border-red-500/30');
+
+                // Change check button to next button to allow proceeding even if failed after seeing solution
+                checkBtn.textContent = "Nochmal versuchen";
+                // Optionally reveal answers here or keep them editable
+            }
+
+            scoreDisplay.textContent = `${correctAnswers} / ${attempts}`;
+            feedbackEl.classList.remove('hidden');
+        }
+
+        function nextTask() {
+            checkBtn.textContent = "Code Prüfen";
+            renderTask();
+        }
+
+        // Initialize
+        initQueue();
+        renderTask();
+    </script>
+</body>
+</html>
