@@ -43,6 +43,49 @@ let fontSize = currentStyle === 'classic' ? 16 : 14;
 let columns = canvas.width / fontSize;
 let drops = [];
 let lastKpDrop = [];
+let activeKPs = [];
+let particles = [];
+
+// Create explosion function
+function createExplosion(x, y) {
+    const numParticles = 15;
+    for (let i = 0; i < numParticles; i++) {
+        particles.push({
+            x: x,
+            y: y,
+            vx: (Math.random() - 0.5) * 10,
+            vy: (Math.random() - 0.5) * 10,
+            life: 1.0, // alpha
+            decay: Math.random() * 0.05 + 0.02
+        });
+    }
+}
+
+// Draw particles function
+function drawParticles() {
+    for (let i = particles.length - 1; i >= 0; i--) {
+        let p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= p.decay;
+
+        if (p.life <= 0) {
+            particles.splice(i, 1);
+        } else {
+            // Extract rgb from initialsColor to apply dynamic alpha
+            const rgbMatch = initialsColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+            if (rgbMatch) {
+                ctx.fillStyle = `rgba(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]}, ${p.life})`;
+            } else {
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.life})`;
+            }
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+}
 
 // Initialize drops
 const isInitialized = sessionStorage.getItem('matrixInitialized');
@@ -76,6 +119,7 @@ function draw() {
     } else {
         drawCustom();
     }
+    drawParticles();
 }
 
 function drawClassic() {
@@ -107,6 +151,10 @@ function drawCustom() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Clean up old activeKPs (older than 3 seconds)
+    const now = Date.now();
+    activeKPs = activeKPs.filter(kp => now - kp.timestamp < 3000);
+
     // Indigo/Slate color for the characters, low opacity so it's not distracting
     ctx.fillStyle = 'rgba(99, 102, 241, 0.3)'; // Indigo-500 with 30% opacity
     ctx.font = fontSize + 'px "Fira Code", monospace';
@@ -131,6 +179,14 @@ function drawCustom() {
             ctx.fillText('P', i * fontSize, (drops[i] + 1) * fontSize);
             ctx.fillStyle = 'rgba(99, 102, 241, 0.3)'; // Restore normal color
             lastKpDrop[i] = drops[i]; // Update the last drop position
+
+            // Track active K/P pairs
+            activeKPs.push({
+                col: i,
+                row: drops[i],
+                timestamp: Date.now()
+            });
+
             drops[i]++; // Skip an extra drop so P isn't immediately overwritten
         } else {
             // Draw the normal character
@@ -243,11 +299,39 @@ if (!isPaused) {
     matrixInterval = setInterval(draw, 33);
 }
 
+// Game state
+let isGameEnabled = sessionStorage.getItem('matrixGameEnabled') !== 'false';
+
 document.addEventListener('DOMContentLoaded', () => {
     const styleBtn = document.getElementById('settings-matrix-style-toggle');
     if (styleBtn) {
         styleBtn.textContent = currentStyle === 'custom' ? 'Wechseln zu Classic' : 'Wechseln zu Custom';
         styleBtn.addEventListener('click', toggleMatrixStyle);
+    }
+
+    const gameBtn = document.getElementById('settings-matrix-game-toggle');
+    if (gameBtn) {
+        gameBtn.textContent = isGameEnabled ? 'Deaktivieren' : 'Aktivieren';
+        if (!isGameEnabled) {
+            gameBtn.classList.replace('bg-indigo-500/20', 'bg-slate-800');
+            gameBtn.classList.replace('text-indigo-400', 'text-slate-400');
+            gameBtn.classList.replace('border-indigo-500/30', 'border-slate-700');
+        }
+        gameBtn.addEventListener('click', () => {
+            isGameEnabled = !isGameEnabled;
+            sessionStorage.setItem('matrixGameEnabled', isGameEnabled);
+            gameBtn.textContent = isGameEnabled ? 'Deaktivieren' : 'Aktivieren';
+
+            if (isGameEnabled) {
+                gameBtn.classList.replace('bg-slate-800', 'bg-indigo-500/20');
+                gameBtn.classList.replace('text-slate-400', 'text-indigo-400');
+                gameBtn.classList.replace('border-slate-700', 'border-indigo-500/30');
+            } else {
+                gameBtn.classList.replace('bg-indigo-500/20', 'bg-slate-800');
+                gameBtn.classList.replace('text-indigo-400', 'text-slate-400');
+                gameBtn.classList.replace('border-indigo-500/30', 'border-slate-700');
+            }
+        });
     }
 
     const pauseBtn = document.getElementById('matrix-pause-btn');
