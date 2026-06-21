@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>10 Regeln für gute Präsentationsfolien</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-orange-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
+                <span class="font-mono">ITAG Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                10 Regeln für gute Folien
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Die wichtigsten Grundregeln für die Foliengestaltung in professionellen IT-Präsentationen.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='itag.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section: Rules Grid -->
+        <section class="w-full max-w-4xl mx-auto mb-16">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Rule 1 -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold font-mono text-xl">
+                        1
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Weniger ist mehr (KISS)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            "Keep It Short and Simple". Die Folie soll den Vortrag unterstützen, nicht ersetzen. Vermeide überladene Folien mit zu vielen Informationen.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Rule 2 -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold font-mono text-xl">
+                        2
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Eine Kernbotschaft pro Folie</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Das Publikum kann nicht lesen und gleichzeitig zuhören. Konzentriere dich auf einen zentralen Gedanken pro Slide, um die Aufmerksamkeit zu lenken.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Rule 3 -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold font-mono text-xl">
+                        3
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Die 6x6 Regel</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Maximal 6 Stichpunkte pro Folie und maximal 6 Wörter pro Stichpunkt. Verzichte auf vollständige Sätze – nutze Stichwörter.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Rule 4 -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold font-mono text-xl">
+                        4
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Große, lesbare Schriften</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Mindestens Schriftgröße 24pt bis 30pt für Fließtext, damit auch Zuschauer in der letzten Reihe alles mühelos lesen können.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Rule 5 -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold font-mono text-xl">
+                        5
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Starke Kontraste</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Dunkle Schrift auf hellem Grund oder helle Schrift auf dunklem Grund. Achte auf gute Lesbarkeit auch bei schlechten Beamer-Verhältnissen.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Rule 6 -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold font-mono text-xl">
+                        6
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Bilder statt Text</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Ein Bild sagt mehr als tausend Worte. Visualisiere Konzepte mit Diagrammen, Icons oder aussagekräftigen Fotos anstelle von Textblöcken.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Rule 7 -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold font-mono text-xl">
+                        7
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Einheitliches Design (Corporate Design)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Bleibe bei 1-2 Schriftarten und einem festen Farbschema. Verwende für gleiche Elemente immer die gleichen Farben und Layouts.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Rule 8 -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold font-mono text-xl">
+                        8
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Daten visualisieren</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Zeige keine komplexen Excel-Tabellen. Nutze stattdessen klare Balken-, Torten- oder Liniendiagramme, um Trends sofort sichtbar zu machen.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Rule 9 -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold font-mono text-xl">
+                        9
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Freiraum (White Space) lassen</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Nutze nicht jeden Quadratzentimeter der Folie. "Atmpause" auf der Folie erhöht die Lesbarkeit und lenkt den Fokus auf das Wesentliche.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Rule 10 -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold font-mono text-xl">
+                        10
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Sanfte Animationen, kein Kitsch</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Animationen (wie z.B. Einblenden) nur gezielt nutzen, um Spannung aufzubauen. Keine wild fliegenden Texte, störende Sounds oder wilde Übergänge.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>
