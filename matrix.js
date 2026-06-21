@@ -171,6 +171,7 @@ let matrixInterval = null;
 let isGlobalPaused = sessionStorage.getItem('matrixPaused') === 'true';
 const currentPath = window.location.pathname.toLowerCase();
 const isOverviewPage = ['index.html', 'ap.html', 'bgp.html', 'englisch.html', 'itag.html', 'its.html', 'itt.html', 'pug.html', 'einstellungen.html'].some(p => currentPath.endsWith(p)) || currentPath.endsWith('/');
+// Automatically paused in tools to avoid distraction, resumes on overview based on global state
 let isPaused = isOverviewPage ? isGlobalPaused : true;
 
 // Populate screen immediately if on tool page and not initialized

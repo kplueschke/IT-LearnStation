@@ -14,7 +14,7 @@
     <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
 
    <!-- Header -->
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-8 relative z-10">
         <div class="flex items-center justify-between mb-8">
             <button onclick="window.location.href='englisch.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -32,7 +32,7 @@
             </p>
         </div>
 
-        <div class="max-w-2xl mx-auto">
+        <div class="max-w-2xl mx-auto relative z-10">
             <div class="glass-card rounded-2xl p-8 flex flex-col gap-6 text-center">
                 <div class="flex justify-between items-center text-sm font-mono text-slate-400 mb-4 border-b border-slate-700/50 pb-4">
                     <span>Modus: <span id="mode-display" class="text-yellow-400 font-bold cursor-pointer hover:text-yellow-300" onclick="toggleMode()">Englisch -> Deutsch</span></span>
