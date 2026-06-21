@@ -341,44 +341,95 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Click event listener for minigame interaction
-canvas.addEventListener('click', (event) => {
-    // Only active in custom mode and when game is enabled
-    if (currentStyle !== 'custom' || !isGameEnabled) return;
+// --- Easter Eggs ---
+let neoSequence = '';
+const neoTarget = 'neo';
+let isNeoActive = false;
 
-    const rect = canvas.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const clickY = event.clientY - rect.top;
+document.addEventListener('keydown', (e) => {
+    // Ignore if typing in input or textarea
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-    // We expand the bounding box slightly to make clicking easier
-    const hitPadding = 10;
-
-    for (let i = activeKPs.length - 1; i >= 0; i--) {
-        let kp = activeKPs[i];
-
-        const kpX = kp.col * fontSize;
-        const kpY1 = kp.row * fontSize; // K
-        const kpY2 = (kp.row + 1) * fontSize; // P
-
-        // The overall bounding box for the K/P pair
-        const minX = kpX - hitPadding;
-        const maxX = kpX + fontSize + hitPadding;
-        const minY = kpY1 - fontSize - hitPadding; // text is drawn from bottom-left
-        const maxY = kpY2 + hitPadding;
-
-        if (clickX >= minX && clickX <= maxX && clickY >= minY && clickY <= maxY) {
-            // Hit detected!
-            createExplosion(kpX + fontSize / 2, kpY1);
-
-            // Immediately draw black square over it to visually clear it
-            ctx.fillStyle = 'rgba(0,0,0,1)';
-            ctx.fillRect(kpX, kpY1 - fontSize, fontSize, fontSize * 2.5);
-
-            // Remove from active
-            activeKPs.splice(i, 1);
-
-            // Only hit one per click
-            break;
+    // Check for "neo"
+    if (e.key.length === 1) {
+        neoSequence += e.key.toLowerCase();
+        if (neoSequence.length > neoTarget.length) {
+            neoSequence = neoSequence.slice(-neoTarget.length);
+        }
+        if (neoSequence === neoTarget && !isNeoActive) {
+            triggerNeoEasterEgg();
+            neoSequence = '';
         }
     }
 });
+
+function triggerNeoEasterEgg() {
+    isNeoActive = true;
+    const wasPaused = isGlobalPaused;
+
+    // Pause matrix globally but don't save to session storage yet
+    if (!wasPaused) togglePause();
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.backgroundColor = 'black';
+    overlay.style.zIndex = '999999';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 1s ease-in-out';
+    document.body.appendChild(overlay);
+
+    const textContainer = document.createElement('div');
+    textContainer.style.color = '#0F0';
+    textContainer.style.fontFamily = '"Fira Code", monospace';
+    textContainer.style.fontSize = '2rem';
+    textContainer.style.whiteSpace = 'pre';
+    overlay.appendChild(textContainer);
+
+    // Fade in
+    setTimeout(() => {
+        overlay.style.opacity = '1';
+    }, 50);
+
+    const lines = ["Wake up, Neo...", "The Matrix has you..."];
+    let lineIndex = 0;
+    let charIndex = 0;
+
+    function typeWriter() {
+        if (lineIndex < lines.length) {
+            if (charIndex < lines[lineIndex].length) {
+                textContainer.textContent += lines[lineIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 150 + Math.random() * 100); // Random delay for realistic typing
+            } else {
+                lineIndex++;
+                charIndex = 0;
+                if (lineIndex < lines.length) {
+                    textContainer.textContent += '\n';
+                    setTimeout(typeWriter, 1000); // Pause between lines
+                } else {
+                    // Done typing
+                    setTimeout(() => {
+                        overlay.style.opacity = '0';
+                        setTimeout(() => {
+                            document.body.removeChild(overlay);
+                            if (!wasPaused) togglePause(); // Resume if it was playing
+                            isNeoActive = false;
+                        }, 1000);
+                    }, 3000); // Wait before fade out
+                }
+            }
+        }
+    }
+
+    // Start typing after fade in
+    setTimeout(typeWriter, 1500);
+}
+// -------------------
