@@ -256,3 +256,96 @@ document.addEventListener('DOMContentLoaded', () => {
         pauseBtn.addEventListener('click', togglePause);
     }
 });
+
+// --- Easter Eggs ---
+let neoSequence = '';
+const neoTarget = 'neo';
+let isNeoActive = false;
+
+document.addEventListener('keydown', (e) => {
+    // Ignore if typing in input or textarea
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    // Check for "neo"
+    if (e.key.length === 1) {
+        neoSequence += e.key.toLowerCase();
+        if (neoSequence.length > neoTarget.length) {
+            neoSequence = neoSequence.slice(-neoTarget.length);
+        }
+        if (neoSequence === neoTarget && !isNeoActive) {
+            triggerNeoEasterEgg();
+            neoSequence = '';
+        }
+    }
+});
+
+function triggerNeoEasterEgg() {
+    isNeoActive = true;
+    const wasPaused = isGlobalPaused;
+
+    // Pause matrix globally but don't save to session storage yet
+    if (!wasPaused) togglePause();
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.backgroundColor = 'black';
+    overlay.style.zIndex = '999999';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 1s ease-in-out';
+    document.body.appendChild(overlay);
+
+    const textContainer = document.createElement('div');
+    textContainer.style.color = '#0F0';
+    textContainer.style.fontFamily = '"Fira Code", monospace';
+    textContainer.style.fontSize = '2rem';
+    textContainer.style.whiteSpace = 'pre';
+    overlay.appendChild(textContainer);
+
+    // Fade in
+    setTimeout(() => {
+        overlay.style.opacity = '1';
+    }, 50);
+
+    const lines = ["Wake up, Neo...", "The Matrix has you..."];
+    let lineIndex = 0;
+    let charIndex = 0;
+
+    function typeWriter() {
+        if (lineIndex < lines.length) {
+            if (charIndex < lines[lineIndex].length) {
+                textContainer.textContent += lines[lineIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 150 + Math.random() * 100); // Random delay for realistic typing
+            } else {
+                lineIndex++;
+                charIndex = 0;
+                if (lineIndex < lines.length) {
+                    textContainer.textContent += '\n';
+                    setTimeout(typeWriter, 1000); // Pause between lines
+                } else {
+                    // Done typing
+                    setTimeout(() => {
+                        overlay.style.opacity = '0';
+                        setTimeout(() => {
+                            document.body.removeChild(overlay);
+                            if (!wasPaused) togglePause(); // Resume if it was playing
+                            isNeoActive = false;
+                        }, 1000);
+                    }, 3000); // Wait before fade out
+                }
+            }
+        }
+    }
+
+    // Start typing after fade in
+    setTimeout(typeWriter, 1500);
+}
+// -------------------
