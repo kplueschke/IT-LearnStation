@@ -1,3 +1,6 @@
-127.0.0.1 - - [20/Jun/2026 18:48:32] "GET /index.html HTTP/1.1" 200 -
-127.0.0.1 - - [20/Jun/2026 18:48:33] "GET /matrix.js HTTP/1.1" 200 -
-127.0.0.1 - - [20/Jun/2026 18:48:33] "GET /styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [21/Jun/2026 08:51:09] "GET /itt.html HTTP/1.1" 200 -
+127.0.0.1 - - [21/Jun/2026 08:51:09] "GET /styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [21/Jun/2026 08:51:09] "GET /matrix.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Jun/2026 08:51:11] "GET /VorwaertskalkulationTrainer.html HTTP/1.1" 200 -
+127.0.0.1 - - [21/Jun/2026 08:51:27] "GET /VorwaertskalkulationTrainer.html HTTP/1.1" 200 -
+127.0.0.1 - - [21/Jun/2026 08:51:27] "GET /styles.css HTTP/1.1" 200 -

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Interaktiver Vorwärtskalkulation Trainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='itt.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600 mb-4">
+                Vorwärtskalkulation Trainer
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Übe das Berechnen von Verkaufspreisen in der Handelskalkulation
+            </p>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 w-full">
+
+        <section id="theory" class="glass-card rounded-2xl p-6 mb-8 border border-slate-700/50">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-400 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                Kalkulationsschema
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6 text-slate-300 text-sm leading-relaxed">
+                <div>
+                    <ul class="list-none space-y-1">
+                        <li><span class="font-bold text-slate-200">Listeneinkaufspreis</span></li>
+                        <li><span class="text-blue-400">- Liefererrabatt</span></li>
+                        <li><span class="font-bold text-slate-200">= Zieleinkaufspreis</span></li>
+                        <li><span class="text-blue-400">- Liefererskonto</span></li>
+                        <li><span class="font-bold text-slate-200">= Bareinkaufspreis</span></li>
+                        <li><span class="text-blue-400">+ Bezugskosten</span></li>
+                        <li><span class="font-bold text-slate-200">= Bezugspreis (Einstandspreis)</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="list-none space-y-1">
+                        <li><span class="font-bold text-slate-200">Bezugspreis (Einstandspreis)</span></li>
+                        <li><span class="text-blue-400">+ Handlungskostenzuschlag</span></li>
+                        <li><span class="font-bold text-slate-200">= Selbstkostenpreis</span></li>
+                        <li><span class="text-blue-400">+ Gewinnzuschlag</span></li>
+                        <li><span class="font-bold text-slate-200">= Barverkaufspreis</span></li>
+                        <li><span class="text-blue-400">+ Kundenskonto</span></li>
+                        <li><span class="font-bold text-slate-200">= Zielverkaufspreis</span></li>
+                        <li><span class="text-blue-400">+ Kundenrabatt</span></li>
+                        <li><span class="font-bold text-slate-200">= Listenverkaufspreis (Netto)</span></li>
+                    </ul>
+                    <p class="mt-4 text-xs text-slate-400 italic">Hinweis: Kundenskonto und Kundenrabatt werden oft "im Hundert" gerechnet (z.B. Barverkaufspreis = 98%, Zielverkaufspreis = 100%).</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card relative rounded-2xl p-8 border border-slate-700/50 shadow-2xl mb-8">
+            <div class="flex justify-between items-start mb-6">
+                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                    <span class="text-blue-400">📝</span> Aktuelle Aufgabe
+                </h2>
+                <button onclick="generateProblem()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg border border-slate-700 transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    Neue Aufgabe würfeln
+                </button>
+            </div>
+
+            <div class="bg-slate-900/80 rounded-xl p-6 border border-slate-800 mb-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div><span class="text-slate-500">Listeneinkaufspreis:</span> <br><span id="val-lek" class="font-mono text-blue-400 font-bold text-lg">0</span> <span class="text-slate-400">€</span></div>
+                    <div><span class="text-slate-500">Liefererrabatt:</span> <br><span id="val-lr" class="font-mono text-blue-400 font-bold text-lg">0</span> <span class="text-slate-400">%</span></div>
+                    <div><span class="text-slate-500">Liefererskonto:</span> <br><span id="val-ls" class="font-mono text-blue-400 font-bold text-lg">0</span> <span class="text-slate-400">%</span></div>
+                    <div><span class="text-slate-500">Bezugskosten:</span> <br><span id="val-bk" class="font-mono text-blue-400 font-bold text-lg">0</span> <span class="text-slate-400">€</span></div>
+                    <div><span class="text-slate-500">Handlungskosten:</span> <br><span id="val-hk" class="font-mono text-blue-400 font-bold text-lg">0</span> <span class="text-slate-400">%</span></div>
+                    <div><span class="text-slate-500">Gewinnzuschlag:</span> <br><span id="val-gz" class="font-mono text-blue-400 font-bold text-lg">0</span> <span class="text-slate-400">%</span></div>
+                    <div><span class="text-slate-500">Kundenskonto:</span> <br><span id="val-ks" class="font-mono text-blue-400 font-bold text-lg">0</span> <span class="text-slate-400">%</span></div>
+                    <div><span class="text-slate-500">Kundenrabatt:</span> <br><span id="val-kr" class="font-mono text-blue-400 font-bold text-lg">0</span> <span class="text-slate-400">%</span></div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Zieleinkaufspreis (€)</label>
+                            <input type="number" step="0.01" id="ans-zek" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-slate-600">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Bareinkaufspreis (€)</label>
+                            <input type="number" step="0.01" id="ans-bek" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-slate-600">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Bezugspreis / Einstandspreis (€)</label>
+                            <input type="number" step="0.01" id="ans-bep" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-slate-600">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Selbstkostenpreis (€)</label>
+                            <input type="number" step="0.01" id="ans-skp" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-slate-600">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Barverkaufspreis (€)</label>
+                            <input type="number" step="0.01" id="ans-bvp" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-slate-600">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Zielverkaufspreis (€)</label>
+                            <input type="number" step="0.01" id="ans-zvp" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-slate-600">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Listenverkaufspreis (€)</label>
+                            <input type="number" step="0.01" id="ans-lvp" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-slate-600">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col justify-center space-y-4 pt-4">
+                        <button onclick="checkAnswers()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl shadow-lg transition-colors shadow-blue-500/20 active:scale-95">
+                            Antwort prüfen
+                        </button>
+                        <button onclick="toggleSolution()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-3 rounded-xl border border-slate-700 transition-colors">
+                            Lösung & Erklärung
+                        </button>
+                        <div id="feedback-msg" class="hidden"></div>
+                    </div>
+                </div>
+
+                <div id="solution-area" class="hidden mt-8 pt-8 border-t border-slate-800">
+                    <h3 class="text-xl font-bold mb-4 text-slate-200 flex items-center gap-2">
+                        <span class="text-blue-400">💡</span> Schritt-für-Schritt Lösung:
+                    </h3>
+                    <div class="bg-slate-900/50 rounded-xl p-6 border border-slate-800">
+                        <div id="solution-steps" class="space-y-4 text-slate-300"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        let problem = {};
+        let solution = {};
+
+        function round(value) {
+            return Number(Math.round(value + 'e2') + 'e-2');
+        }
+
+        function generateProblem() {
+            document.getElementById('solution-area').classList.add('hidden');
+            document.getElementById('feedback-msg').classList.add('hidden');
+            ['ans-zek', 'ans-bek', 'ans-bep', 'ans-skp', 'ans-bvp', 'ans-zvp', 'ans-lvp'].forEach(id => {
+                const el = document.getElementById(id);
+                el.value = "";
+                el.classList.remove('correct', 'incorrect');
+            });
+
+            problem = {
+                lek: Math.floor(Math.random() * 900) + 100, // 100 to 1000
+                lr: [5, 10, 15, 20][Math.floor(Math.random() * 4)],
+                ls: [1, 2, 3][Math.floor(Math.random() * 3)],
+                bk: Math.floor(Math.random() * 50) + 10,
+                hk: [15, 20, 25, 30, 40][Math.floor(Math.random() * 5)],
+                gz: [5, 10, 15, 20, 25][Math.floor(Math.random() * 5)],
+                ks: [1, 2, 3][Math.floor(Math.random() * 3)],
+                kr: [5, 10, 15][Math.floor(Math.random() * 3)]
+            };
+
+            document.getElementById('val-lek').innerText = problem.lek.toFixed(2);
+            document.getElementById('val-lr').innerText = problem.lr;
+            document.getElementById('val-ls').innerText = problem.ls;
+            document.getElementById('val-bk').innerText = problem.bk.toFixed(2);
+            document.getElementById('val-hk').innerText = problem.hk;
+            document.getElementById('val-gz').innerText = problem.gz;
+            document.getElementById('val-ks').innerText = problem.ks;
+            document.getElementById('val-kr').innerText = problem.kr;
+
+            calculateSolution();
+        }
+
+        function calculateSolution() {
+            let lek = problem.lek;
+            let lr_val = round(lek * (problem.lr / 100));
+            let zek = round(lek - lr_val);
+            let ls_val = round(zek * (problem.ls / 100));
+            let bek = round(zek - ls_val);
+            let bep = round(bek + problem.bk);
+            let hk_val = round(bep * (problem.hk / 100));
+            let skp = round(bep + hk_val);
+            let gz_val = round(skp * (problem.gz / 100));
+            let bvp = round(skp + gz_val);
+            // Kundenskonto is calculated "im Hundert"
+            // Barverkaufspreis = 100% - Kundenskonto
+            // Zielverkaufspreis = 100%
+            let zvp = round(bvp / (1 - problem.ks / 100));
+            let ks_val = round(zvp - bvp);
+            // Kundenrabatt is calculated "im Hundert"
+            // Zielverkaufspreis = 100% - Kundenrabatt
+            // Listenverkaufspreis = 100%
+            let lvp = round(zvp / (1 - problem.kr / 100));
+            let kr_val = round(lvp - zvp);
+
+            solution = {
+                zek: zek.toFixed(2),
+                bek: bek.toFixed(2),
+                bep: bep.toFixed(2),
+                skp: skp.toFixed(2),
+                bvp: bvp.toFixed(2),
+                zvp: zvp.toFixed(2),
+                lvp: lvp.toFixed(2),
+                lr_val: lr_val.toFixed(2),
+                ls_val: ls_val.toFixed(2),
+                hk_val: hk_val.toFixed(2),
+                gz_val: gz_val.toFixed(2),
+                ks_val: ks_val.toFixed(2),
+                kr_val: kr_val.toFixed(2)
+            };
+        }
+
+        function checkAnswers() {
+            let allCorrect = true;
+            const check = (id, sol) => {
+                const el = document.getElementById(id);
+                // Allow a tiny bit of rounding difference
+                const userVal = parseFloat(el.value.replace(',','.'));
+                if (!isNaN(userVal) && Math.abs(userVal - parseFloat(sol)) < 0.02) {
+                    el.classList.add('correct');
+                    el.classList.remove('incorrect');
+                } else {
+                    el.classList.add('incorrect');
+                    el.classList.remove('correct');
+                    allCorrect = false;
+                }
+            };
+
+            check('ans-zek', solution.zek);
+            check('ans-bek', solution.bek);
+            check('ans-bep', solution.bep);
+            check('ans-skp', solution.skp);
+            check('ans-bvp', solution.bvp);
+            check('ans-zvp', solution.zvp);
+            check('ans-lvp', solution.lvp);
+
+            const fb = document.getElementById('feedback-msg');
+            fb.classList.remove('hidden');
+            if (allCorrect) {
+                fb.innerText = "Hervorragend! Alles richtig berechnet. 🚀";
+                fb.className = "p-4 rounded-xl text-center font-bold bg-emerald-900/30 text-emerald-400 border border-emerald-500/50 mt-4";
+            } else {
+                fb.innerText = "Einige Werte stimmen noch nicht. Überprüfe deine Rechnungen (Rundungsfehler?).";
+                fb.className = "p-4 rounded-xl text-center font-bold bg-amber-900/30 text-amber-400 border border-amber-500/50 mt-4";
+            }
+        }
+
+        function toggleSolution() {
+            const area = document.getElementById('solution-area');
+            if (!area.classList.contains('hidden')) {
+                area.classList.add('hidden');
+                return;
+            }
+
+            area.classList.remove('hidden');
+            const steps = document.getElementById('solution-steps');
+
+            steps.innerHTML = `
+                <div class="bg-slate-800/50 border-l-4 border-blue-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">1. Zieleinkaufspreis:</p>
+                    <p class="text-sm mt-1 text-slate-400">Listeneinkaufspreis (${problem.lek.toFixed(2)} €) - Liefererrabatt (${problem.lr}% = ${solution.lr_val} €) = <span class="mono font-bold text-blue-400">${solution.zek} €</span>.</p>
+                </div>
+                <div class="bg-slate-800/50 border-l-4 border-blue-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">2. Bareinkaufspreis:</p>
+                    <p class="text-sm mt-1 text-slate-400">Zieleinkaufspreis (${solution.zek} €) - Liefererskonto (${problem.ls}% = ${solution.ls_val} €) = <span class="mono font-bold text-blue-400">${solution.bek} €</span>.</p>
+                </div>
+                <div class="bg-slate-800/50 border-l-4 border-blue-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">3. Bezugspreis / Einstandspreis:</p>
+                    <p class="text-sm mt-1 text-slate-400">Bareinkaufspreis (${solution.bek} €) + Bezugskosten (${problem.bk.toFixed(2)} €) = <span class="mono font-bold text-blue-400">${solution.bep} €</span>.</p>
+                </div>
+                <div class="bg-slate-800/50 border-l-4 border-blue-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">4. Selbstkostenpreis:</p>
+                    <p class="text-sm mt-1 text-slate-400">Bezugspreis (${solution.bep} €) + Handlungskosten (${problem.hk}% = ${solution.hk_val} €) = <span class="mono font-bold text-blue-400">${solution.skp} €</span>.</p>
+                </div>
+                <div class="bg-slate-800/50 border-l-4 border-blue-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">5. Barverkaufspreis:</p>
+                    <p class="text-sm mt-1 text-slate-400">Selbstkostenpreis (${solution.skp} €) + Gewinnzuschlag (${problem.gz}% = ${solution.gz_val} €) = <span class="mono font-bold text-blue-400">${solution.bvp} €</span>.</p>
+                </div>
+                <div class="bg-slate-800/50 border-l-4 border-blue-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">6. Zielverkaufspreis (im Hundert!):</p>
+                    <p class="text-sm mt-1 text-slate-400">Barverkaufspreis (${solution.bvp} €) ist ${100 - problem.ks}%.<br>
+                    Rechnung: ${solution.bvp} / ${(1 - problem.ks / 100).toFixed(2)} = <span class="mono font-bold text-blue-400">${solution.zvp} €</span> (Kundenskonto ${problem.ks}% = ${solution.ks_val} €).</p>
+                </div>
+                <div class="bg-slate-800/50 border-l-4 border-blue-500 p-4 rounded-r-xl">
+                    <p class="font-bold text-slate-200">7. Listenverkaufspreis (im Hundert!):</p>
+                    <p class="text-sm mt-1 text-slate-400">Zielverkaufspreis (${solution.zvp} €) ist ${100 - problem.kr}%.<br>
+                    Rechnung: ${solution.zvp} / ${(1 - problem.kr / 100).toFixed(2)} = <span class="mono font-bold text-blue-400">${solution.lvp} €</span> (Kundenrabatt ${problem.kr}% = ${solution.kr_val} €).</p>
+                </div>
+            `;
+            area.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.onload = generateProblem;
+    </script>
+</body>
+</html>
