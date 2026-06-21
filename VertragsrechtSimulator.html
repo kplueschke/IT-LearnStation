@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Vertragsrecht- & Geschäftsfähigkeits-Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+   <!-- Header -->
+    <div class="container mx-auto px-4 py-8 relative z-10 flex-grow flex flex-col">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='pug.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-400 mb-4">
+                Vertragsrecht Simulator
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Bewerte die Gültigkeit von Verträgen basierend auf der Geschäftsfähigkeit der beteiligten Personen.
+            </p>
+        </div>
+
+        <div class="flex-grow flex items-center justify-center max-w-4xl mx-auto w-full">
+            <div class="glass-card rounded-2xl p-8 w-full">
+
+                <!-- Progress Header -->
+                <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+                    <h2 class="text-xl font-bold text-slate-300 font-mono" id="scenario-counter">Szenario 1 / X</h2>
+                    <div class="text-slate-400 font-medium">Score: <span id="score-display" class="text-white">0</span></div>
+                </div>
+
+                <!-- Scenario Description -->
+                <div class="min-h-[150px] flex items-center justify-center mb-8">
+                    <p id="scenario-text" class="text-xl md:text-2xl text-center text-slate-200 leading-relaxed font-medium">
+                        <!-- Text injected via JS -->
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8" id="action-buttons">
+                    <button class="answer-btn py-4 px-6 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl transition-all border border-slate-600 shadow-lg active:scale-95 flex flex-col items-center gap-1" data-answer="nichtig">
+                        <span class="text-lg">Nichtig</span>
+                        <span class="text-xs text-slate-400 font-mono text-center">Kein Vertrag zustande gekommen</span>
+                    </button>
+                    <button class="answer-btn py-4 px-6 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl transition-all border border-slate-600 shadow-lg active:scale-95 flex flex-col items-center gap-1" data-answer="schwebend">
+                        <span class="text-lg">Schwebend unwirksam</span>
+                        <span class="text-xs text-slate-400 font-mono text-center">Zustimmung erforderlich</span>
+                    </button>
+                    <button class="answer-btn py-4 px-6 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl transition-all border border-slate-600 shadow-lg active:scale-95 flex flex-col items-center gap-1" data-answer="gueltig">
+                        <span class="text-lg">Voll gültig</span>
+                        <span class="text-xs text-slate-400 font-mono text-center">Rechtskräftig abgeschlossen</span>
+                    </button>
+                </div>
+
+                <!-- Feedback Area (Hidden initially) -->
+                <div id="feedback-area" class="hidden rounded-xl p-6 mb-6">
+                    <div class="flex items-start gap-4">
+                        <div id="feedback-icon" class="mt-1">
+                            <!-- SVG Injected via JS -->
+                        </div>
+                        <div>
+                            <h3 id="feedback-title" class="text-lg font-bold mb-2"></h3>
+                            <p id="feedback-explanation" class="text-slate-300 leading-relaxed text-sm"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Button -->
+                <div class="flex justify-end hidden" id="next-container">
+                    <button id="btn-next" class="py-3 px-8 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-slate-600/20 flex items-center gap-2">
+                        Nächstes Szenario
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Restart Button (Hidden initially) -->
+                <div class="flex justify-center hidden" id="restart-container">
+                    <button id="btn-restart" class="py-3 px-8 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-slate-600/20">
+                        Neuer Durchlauf
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 mono relative z-10 bg-black/20 backdrop-blur-sm mt-8">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script>
+        const scenarios = [
+            {
+                text: "Der 16-jährige Azubi Max kauft sich von seinem gesparten Taschengeld ein neues Fahrrad für 300 €.",
+                correct: "gueltig",
+                explanation: "Der Vertrag ist voll gültig (Taschengeldparagraph § 110 BGB). Max hat die Mittel zu diesem Zweck zur freien Verfügung überlassen bekommen."
+            },
+            {
+                text: "Die 6-jährige Lisa kauft sich am Kiosk ein Eis für 2 €.",
+                correct: "nichtig",
+                explanation: "Der Vertrag ist nichtig. Kinder unter 7 Jahren sind geschäftsunfähig (§ 104 BGB). Willenserklärungen sind von vornherein nichtig (§ 105 BGB)."
+            },
+            {
+                text: "Der 17-jährige Tom schließt ohne Wissen seiner Eltern einen Handyvertrag mit 24 Monaten Laufzeit ab.",
+                correct: "schwebend",
+                explanation: "Der Vertrag ist schwebend unwirksam. Da es sich um ein Dauerschuldverhältnis handelt, greift der Taschengeldparagraph nicht. Die Eltern müssen zustimmen (§ 108 BGB)."
+            },
+            {
+                text: "Der 15-jährige Paul bekommt von seinem Onkel ein Fahrrad geschenkt. Die Eltern sind dagegen.",
+                correct: "gueltig",
+                explanation: "Der Vertrag ist gültig. Es handelt sich um ein rechtlich lediglich vorteilhaftes Geschäft für Paul (§ 107 BGB). Eine Zustimmung der Eltern ist nicht nötig."
+            },
+            {
+                text: "Eine 25-jährige Person, die wegen einer dauerhaften schweren psychischen Erkrankung unter vollständiger Betreuung steht (gerichtlicher Einwilligungsvorbehalt), kauft ein Auto.",
+                correct: "nichtig",
+                explanation: "Der Vertrag ist nichtig (§ 104 Nr. 2 BGB i.V.m. § 105 BGB). Die Person ist geschäftsunfähig."
+            },
+            {
+                text: "Die 16-jährige Mia kauft sich eine teure Konzertkarte für 150 €, hat aber nur 50 € Taschengeld im Monat. Sie will in Raten zahlen.",
+                correct: "schwebend",
+                explanation: "Der Vertrag ist schwebend unwirksam. Ratenzahlungen fallen nicht unter den Taschengeldparagraph (§ 110 BGB). Die Eltern müssen zustimmen."
+            }
+        ];
+
+        let currentScenarioIndex = 0;
+        let score = 0;
+
+        // DOM Elements
+        const counterEl = document.getElementById('scenario-counter');
+        const scoreEl = document.getElementById('score-display');
+        const textEl = document.getElementById('scenario-text');
+        const actionButtons = document.getElementById('action-buttons');
+        const feedbackArea = document.getElementById('feedback-area');
+        const feedbackIcon = document.getElementById('feedback-icon');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackExplanation = document.getElementById('feedback-explanation');
+        const nextContainer = document.getElementById('next-container');
+        const btnNext = document.getElementById('btn-next');
+        const restartContainer = document.getElementById('restart-container');
+        const btnRestart = document.getElementById('btn-restart');
+        const answerBtns = document.querySelectorAll('.answer-btn');
+
+        const iconSuccess = `<svg class="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        const iconError = `<svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
+
+        function loadScenario() {
+            const scenario = scenarios[currentScenarioIndex];
+            counterEl.textContent = `Szenario ${currentScenarioIndex + 1} / ${scenarios.length}`;
+            textEl.textContent = scenario.text;
+
+            // Reset UI
+            feedbackArea.classList.add('hidden');
+            nextContainer.classList.add('hidden');
+            actionButtons.classList.remove('pointer-events-none', 'opacity-50');
+
+            answerBtns.forEach(btn => {
+                btn.classList.remove('bg-emerald-600/80', 'border-emerald-400', 'bg-red-600/80', 'border-red-400', 'ring-2', 'ring-white');
+                btn.classList.add('bg-slate-800', 'border-slate-600');
+            });
+        }
+
+        function handleAnswer(selectedAnswer, btnElement) {
+            const scenario = scenarios[currentScenarioIndex];
+            const isCorrect = selectedAnswer === scenario.correct;
+
+            // Disable buttons
+            actionButtons.classList.add('pointer-events-none', 'opacity-50');
+
+            // Style selected button
+            btnElement.classList.add('ring-2', 'ring-white');
+
+            // Show Feedback
+            feedbackArea.classList.remove('hidden');
+            if (isCorrect) {
+                score++;
+                scoreEl.textContent = score;
+                feedbackArea.className = 'rounded-xl p-6 mb-6 bg-emerald-500/10 border border-emerald-500/30';
+                feedbackIcon.innerHTML = iconSuccess;
+                feedbackTitle.textContent = "Korrekt!";
+                feedbackTitle.className = "text-lg font-bold mb-2 text-emerald-400";
+                btnElement.classList.replace('bg-slate-800', 'bg-emerald-600/80');
+                btnElement.classList.replace('border-slate-600', 'border-emerald-400');
+            } else {
+                feedbackArea.className = 'rounded-xl p-6 mb-6 bg-red-500/10 border border-red-500/30';
+                feedbackIcon.innerHTML = iconError;
+                feedbackTitle.textContent = "Falsch";
+                feedbackTitle.className = "text-lg font-bold mb-2 text-red-400";
+                btnElement.classList.replace('bg-slate-800', 'bg-red-600/80');
+                btnElement.classList.replace('border-slate-600', 'border-red-400');
+
+                // Highlight correct answer
+                answerBtns.forEach(b => {
+                    if (b.dataset.answer === scenario.correct) {
+                        b.classList.replace('bg-slate-800', 'bg-emerald-600/80');
+                        b.classList.replace('border-slate-600', 'border-emerald-400');
+                    }
+                });
+            }
+
+            feedbackExplanation.textContent = scenario.explanation;
+
+            // Show Next/Restart Button
+            if (currentScenarioIndex < scenarios.length - 1) {
+                nextContainer.classList.remove('hidden');
+            } else {
+                restartContainer.classList.remove('hidden');
+                textEl.textContent = `Du hast ${score} von ${scenarios.length} Szenarien richtig bewertet!`;
+            }
+        }
+
+        answerBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                handleAnswer(btn.dataset.answer, btn);
+            });
+        });
+
+        btnNext.addEventListener('click', () => {
+            currentScenarioIndex++;
+            loadScenario();
+        });
+
+        btnRestart.addEventListener('click', () => {
+            currentScenarioIndex = 0;
+            score = 0;
+            scoreEl.textContent = score;
+            restartContainer.classList.add('hidden');
+            loadScenario();
+        });
+
+        // Init
+        loadScenario();
+    </script>
+    <script src="matrix.js"></script>
+</body>
+</html>

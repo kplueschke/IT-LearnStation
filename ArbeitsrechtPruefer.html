@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Arbeitsrecht-Prüfer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+   <!-- Header -->
+    <div class="container mx-auto px-4 py-8 relative z-10 flex-grow">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='pug.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-400 mb-4">
+                Arbeitsrecht-Prüfer
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Überprüfe den Arbeitsplan auf Verstöße gegen das Arbeitszeitgesetz (ArbZG) und Jugendarbeitsschutzgesetz (JArbSchG).
+            </p>
+        </div>
+
+        <div class="max-w-5xl mx-auto flex flex-col gap-8">
+
+            <!-- Employee Profile / Scenario Info -->
+            <div class="glass-card rounded-2xl p-6 border-l-4 border-slate-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xl font-bold text-white mb-1" id="scenario-title">Szenario: Anna, 17 Jahre alt (Auszubildende)</h2>
+                        <p class="text-slate-400 text-sm" id="scenario-desc">Finde die Fehler im Wochenplan. Klicke auf die fehlerhaften Zeilen!</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xs text-slate-500 uppercase tracking-wider font-mono mb-1">Gefundene Fehler</div>
+                        <div class="text-2xl font-bold text-white"><span id="errors-found">0</span> / <span id="errors-total">3</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schedule Table -->
+            <div class="glass-card rounded-2xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-800/50 text-slate-300 text-sm font-mono border-b border-slate-700">
+                                <th class="py-4 px-6 font-semibold">Tag</th>
+                                <th class="py-4 px-6 font-semibold">Arbeitszeit</th>
+                                <th class="py-4 px-6 font-semibold">Pause</th>
+                                <th class="py-4 px-6 font-semibold">Netto-AZ</th>
+                                <th class="py-4 px-6 font-semibold text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-body" class="text-slate-300 divide-y divide-slate-800/50">
+                            <!-- Rows injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Controls & Feedback -->
+            <div class="flex flex-col md:flex-row gap-6 items-start">
+                <div class="w-full md:w-1/3 flex flex-col gap-4">
+                    <button id="btn-check" class="w-full py-3 px-4 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-slate-600/20">
+                        Überprüfen
+                    </button>
+                    <button id="btn-next" class="hidden w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                        Nächstes Szenario
+                    </button>
+                </div>
+
+                <div class="w-full md:w-2/3 hidden" id="feedback-area">
+                    <div class="glass-card rounded-xl p-5 border border-slate-600">
+                        <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"></path></svg>
+                            Auswertung & Erklärung
+                        </h3>
+                        <ul id="feedback-list" class="space-y-3 text-sm text-slate-300 leading-relaxed">
+                            <!-- Feedback injected via JS -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 mono relative z-10 bg-black/20 backdrop-blur-sm mt-8">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script>
+        const scenarios = [
+            {
+                title: "Anna, 17 Jahre alt (Auszubildende)",
+                desc: "Finde die Verstöße gegen das Jugendarbeitsschutzgesetz (JArbSchG). Klicke auf die fehlerhaften Zeilen!",
+                schedule: [
+                    { day: "Montag", time: "08:00 - 17:00", pause: "60 Min", netto: "8h 00m", isError: false, explanation: "Zulässig. Max 8h Arbeitszeit (§ 8 JArbSchG), 60 Min Pause bei >6h (§ 11)." },
+                    { day: "Dienstag", time: "07:00 - 16:30", pause: "30 Min", netto: "9h 00m", isError: true, explanation: "Verstoß gegen § 8 JArbSchG: Die tägliche Arbeitszeit darf 8 Stunden nicht überschreiten (Ausnahme bis 8,5h zum Ausgleich an anderen Tagen, hier aber 9h). Verstoß gegen § 11: Bei mehr als 6h müssen es 60 Min Pause sein." },
+                    { day: "Mittwoch", time: "09:00 - 14:00", pause: "0 Min", netto: "5h 00m", isError: false, explanation: "Zulässig. Bei unter 4,5h bis 6h ist keine Pause zwingend vorgeschrieben, erst ab 4,5h sind 30 Min fällig." },
+                    { day: "Donnerstag", time: "06:00 - 14:30", pause: "60 Min", netto: "7h 30m", isError: false, explanation: "Zulässig. Arbeitsbeginn ab 06:00 Uhr ist erlaubt (§ 14 JArbSchG)." },
+                    { day: "Freitag", time: "14:00 - 21:00", pause: "30 Min", netto: "6h 30m", isError: true, explanation: "Verstoß gegen § 14 JArbSchG: Jugendliche dürfen nur in der Zeit von 06:00 bis 20:00 Uhr beschäftigt werden (Ausnahmen in Gastro etc. hier nicht gegeben)." }
+                ]
+            },
+            {
+                title: "Thomas, 35 Jahre alt (Angestellter)",
+                desc: "Finde die Verstöße gegen das Arbeitszeitgesetz (ArbZG). Klicke auf die fehlerhaften Zeilen!",
+                schedule: [
+                    { day: "Montag", time: "08:00 - 17:00", pause: "60 Min", netto: "8h 00m", isError: false, explanation: "Zulässig. Regulärer 8-Stunden-Tag." },
+                    { day: "Dienstag", time: "08:00 - 19:00", pause: "45 Min", netto: "10h 15m", isError: true, explanation: "Verstoß gegen § 3 ArbZG: Die werktägliche Arbeitszeit darf 10 Stunden nicht überschreiten." },
+                    { day: "Mittwoch", time: "08:00 - 14:00", pause: "30 Min", netto: "5h 30m", isError: false, explanation: "Zulässig." },
+                    { day: "Donnerstag", time: "18:00 - 03:00", pause: "30 Min", netto: "8h 30m", isError: false, explanation: "Zulässig (Nachtarbeit). Pause von 30 Min reicht bei >6h bis 9h (§ 4 ArbZG)." },
+                    { day: "Freitag", time: "09:00 - 17:30", pause: "30 Min", netto: "8h 00m", isError: true, explanation: "Verstoß gegen § 5 ArbZG (Ruhezeit). Zwischen Arbeitsende am Do (03:00) und Beginn am Fr (09:00) liegen nur 6h. Vorgeschrieben sind ununterbrochen 11 Stunden." }
+                ]
+            }
+        ];
+
+        let currentScenario = 0;
+        let selectedRows = [];
+        let isChecked = false;
+
+        const tbody = document.getElementById('schedule-body');
+        const titleEl = document.getElementById('scenario-title');
+        const descEl = document.getElementById('scenario-desc');
+        const errorsFoundEl = document.getElementById('errors-found');
+        const errorsTotalEl = document.getElementById('errors-total');
+        const checkBtn = document.getElementById('btn-check');
+        const nextBtn = document.getElementById('btn-next');
+        const feedbackArea = document.getElementById('feedback-area');
+        const feedbackList = document.getElementById('feedback-list');
+
+        function loadScenario() {
+            const scenario = scenarios[currentScenario];
+            titleEl.textContent = scenario.title;
+            descEl.textContent = scenario.desc;
+
+            selectedRows = [];
+            isChecked = false;
+            feedbackArea.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            checkBtn.classList.remove('hidden');
+            checkBtn.disabled = false;
+
+            const totalErrors = scenario.schedule.filter(s => s.isError).length;
+            errorsTotalEl.textContent = totalErrors;
+            updateCounter();
+
+            tbody.innerHTML = '';
+            scenario.schedule.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-700/30 cursor-pointer transition-colors group';
+                tr.dataset.index = index;
+
+                tr.innerHTML = `
+                    <td class="py-4 px-6 border-l-4 border-transparent group-hover:border-slate-500 transition-colors" id="border-${index}">${row.day}</td>
+                    <td class="py-4 px-6">${row.time}</td>
+                    <td class="py-4 px-6">${row.pause}</td>
+                    <td class="py-4 px-6">${row.netto}</td>
+                    <td class="py-4 px-6 text-center">
+                        <div class="w-6 h-6 rounded border-2 border-slate-600 mx-auto flex items-center justify-center transition-colors" id="check-${index}"></div>
+                    </td>
+                `;
+
+                tr.addEventListener('click', () => toggleRow(index, tr));
+                tbody.appendChild(tr);
+            });
+        }
+
+        function toggleRow(index, trElement) {
+            if (isChecked) return; // Locked after check
+
+            const isSelected = selectedRows.includes(index);
+            const checkBox = document.getElementById(`check-${index}`);
+            const leftBorder = document.getElementById(`border-${index}`);
+
+            if (isSelected) {
+                selectedRows = selectedRows.filter(i => i !== index);
+                trElement.classList.remove('bg-slate-700/50');
+                leftBorder.classList.remove('border-slate-400');
+                leftBorder.classList.add('border-transparent');
+                checkBox.classList.remove('bg-slate-500', 'border-slate-400');
+                checkBox.innerHTML = '';
+            } else {
+                selectedRows.push(index);
+                trElement.classList.add('bg-slate-700/50');
+                leftBorder.classList.remove('border-transparent');
+                leftBorder.classList.add('border-slate-400');
+                checkBox.classList.add('bg-slate-500', 'border-slate-400');
+                checkBox.innerHTML = `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>`;
+            }
+            updateCounter();
+        }
+
+        function updateCounter() {
+            errorsFoundEl.textContent = selectedRows.length;
+        }
+
+        checkBtn.addEventListener('click', () => {
+            isChecked = true;
+            checkBtn.disabled = true;
+            const scenario = scenarios[currentScenario];
+
+            feedbackList.innerHTML = '';
+            feedbackArea.classList.remove('hidden');
+
+            // Evaluate each row visually
+            scenario.schedule.forEach((row, index) => {
+                const tr = tbody.querySelector(`tr[data-index="${index}"]`);
+                const leftBorder = document.getElementById(`border-${index}`);
+                const checkBox = document.getElementById(`check-${index}`);
+                const isSelected = selectedRows.includes(index);
+
+                let statusIcon = '';
+
+                if (row.isError) {
+                    // True Positive (Found a real error)
+                    if (isSelected) {
+                        tr.classList.replace('bg-slate-700/50', 'bg-emerald-900/30');
+                        leftBorder.classList.replace('border-slate-400', 'border-emerald-500');
+                        checkBox.classList.replace('bg-slate-500', 'bg-emerald-500');
+                        checkBox.classList.replace('border-slate-400', 'border-emerald-500');
+                        statusIcon = `<span class="text-emerald-400 font-bold">[Richtig markiert]</span>`;
+                    }
+                    // False Negative (Missed a real error)
+                    else {
+                        tr.classList.add('bg-orange-900/20');
+                        leftBorder.classList.replace('border-transparent', 'border-orange-500');
+                        checkBox.classList.replace('border-slate-600', 'border-orange-500');
+                        statusIcon = `<span class="text-orange-400 font-bold">[Fehler übersehen]</span>`;
+                    }
+
+                    // Add explanation to feedback
+                    feedbackList.innerHTML += `
+                        <li class="pb-2 border-b border-slate-700/50 last:border-0">
+                            <span class="font-bold text-white">${row.day}:</span> ${statusIcon} ${row.explanation}
+                        </li>
+                    `;
+                } else {
+                    // False Positive (Marked a correct row as error)
+                    if (isSelected) {
+                        tr.classList.replace('bg-slate-700/50', 'bg-red-900/30');
+                        leftBorder.classList.replace('border-slate-400', 'border-red-500');
+                        checkBox.classList.replace('bg-slate-500', 'bg-red-500');
+                        checkBox.classList.replace('border-slate-400', 'border-red-500');
+                        checkBox.innerHTML = `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+
+                        feedbackList.innerHTML += `
+                            <li class="pb-2 border-b border-slate-700/50 last:border-0">
+                                <span class="font-bold text-white">${row.day}:</span> <span class="text-red-400 font-bold">[Falsch markiert]</span> ${row.explanation}
+                            </li>
+                        `;
+                    }
+                }
+            });
+
+            // If no errors were marked falsely, add a generic success message
+            if(feedbackList.innerHTML === '') {
+                feedbackList.innerHTML = `<li class="text-emerald-400">Alles richtig! Du hast die korrekten Zeilen markiert (oder korrekt keine markiert, falls kein Fehler vorlag).</li>`;
+            }
+
+            checkBtn.classList.add('hidden');
+
+            if (currentScenario < scenarios.length - 1) {
+                nextBtn.classList.remove('hidden');
+            } else {
+                nextBtn.textContent = "Neu starten";
+                nextBtn.classList.remove('hidden');
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentScenario < scenarios.length - 1) {
+                currentScenario++;
+            } else {
+                currentScenario = 0;
+            }
+            loadScenario();
+        });
+
+        // Init
+        loadScenario();
+    </script>
+    <script src="matrix.js"></script>
+</body>
+</html>

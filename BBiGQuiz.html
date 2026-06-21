@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Rechte und Pflichten im Ausbildungsvertrag (BBiG-Quiz)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+   <!-- Header -->
+    <div class="container mx-auto px-4 py-8 relative z-10 flex-grow flex flex-col">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='pug.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-400 mb-4">
+                BBiG-Quiz
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Teste dein Wissen zu Rechten und Pflichten in der Ausbildung (Probezeit, Kündigung, etc.).
+            </p>
+        </div>
+
+        <div class="flex-grow flex items-center justify-center max-w-3xl mx-auto w-full">
+            <div class="glass-card rounded-2xl p-8 w-full relative overflow-hidden">
+
+                <!-- Progress Bar -->
+                <div class="absolute top-0 left-0 w-full h-1 bg-slate-800">
+                    <div id="progress-bar" class="h-full bg-slate-400 transition-all duration-300" style="width: 0%"></div>
+                </div>
+
+                <!-- Progress Header -->
+                <div class="flex justify-between items-center mb-6 pt-2 border-b border-slate-700 pb-4">
+                    <h2 class="text-lg font-bold text-slate-300 font-mono" id="question-counter">Frage 1 von X</h2>
+                    <div class="text-slate-400 font-medium text-sm">Punkte: <span id="score-display" class="text-white">0</span></div>
+                </div>
+
+                <!-- Question Text -->
+                <div class="min-h-[120px] flex items-center mb-8">
+                    <h3 id="question-text" class="text-xl md:text-2xl text-slate-200 leading-relaxed font-medium">
+                        <!-- Text injected via JS -->
+                    </h3>
+                </div>
+
+                <!-- Answer Options -->
+                <div class="flex flex-col gap-3 mb-8" id="answer-options">
+                    <!-- Options injected via JS -->
+                </div>
+
+                <!-- Feedback Area (Hidden initially) -->
+                <div id="feedback-area" class="hidden rounded-xl p-5 mb-6">
+                    <p id="feedback-explanation" class="text-slate-300 leading-relaxed text-sm"></p>
+                </div>
+
+                <!-- Next Button -->
+                <div class="flex justify-end hidden" id="next-container">
+                    <button id="btn-next" class="py-3 px-8 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-slate-600/20 flex items-center gap-2">
+                        Nächste Frage
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Restart Button (Hidden initially) -->
+                <div class="flex justify-center hidden" id="restart-container">
+                    <div class="text-center w-full">
+                        <div class="text-4xl mb-4" id="final-emoji"></div>
+                        <h3 class="text-2xl font-bold text-white mb-2" id="final-title">Quiz beendet!</h3>
+                        <p class="text-slate-400 mb-8" id="final-score-text"></p>
+                        <button id="btn-restart" class="py-3 px-8 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-slate-600/20 inline-flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"></path></svg>
+                            Quiz wiederholen
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 mono relative z-10 bg-black/20 backdrop-blur-sm mt-8">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script>
+        const quizData = [
+            {
+                question: "Wie lang darf die Probezeit in einem Berufsausbildungsverhältnis maximal sein?",
+                options: [
+                    "Maximal 2 Monate",
+                    "Maximal 3 Monate",
+                    "Maximal 4 Monate",
+                    "Maximal 6 Monate"
+                ],
+                correct: 2, // Index 2 -> "Maximal 4 Monate"
+                explanation: "Nach § 20 BBiG muss die Probezeit mindestens einen Monat und darf höchstens vier Monate betragen."
+            },
+            {
+                question: "Mit welcher Frist kann während der Probezeit gekündigt werden?",
+                options: [
+                    "Jederzeit ohne Einhalten einer Frist",
+                    "Mit einer Frist von 2 Wochen",
+                    "Mit einer Frist von 4 Wochen zum 15. oder Ende des Monats",
+                    "Nur aus wichtigem Grund fristlos"
+                ],
+                correct: 0,
+                explanation: "Während der Probezeit kann das Berufsausbildungsverhältnis jederzeit ohne Einhalten einer Kündigungsfrist gekündigt werden (§ 22 BBiG)."
+            },
+            {
+                question: "Darf der Ausbildungsbetrieb den Azubi zur Berufsschule freistellen?",
+                options: [
+                    "Ja, aber nur für den ersten Schultag der Woche.",
+                    "Ja, der Ausbildende muss den Auszubildenden für die Teilnahme am Berufsschulunterricht freistellen.",
+                    "Nein, die Berufsschule muss in der Freizeit besucht werden.",
+                    "Das liegt im Ermessen des Ausbildungsbetriebs."
+                ],
+                correct: 1,
+                explanation: "Ausbildende haben Auszubildende für die Teilnahme am Berufsschulunterricht freizustellen (§ 15 BBiG)."
+            },
+            {
+                question: "Wann endet ein Berufsausbildungsverhältnis regulär?",
+                options: [
+                    "Am im Vertrag angegebenen Datum, unabhängig von der Prüfung.",
+                    "Immer am 31. August des Abschlussjahres.",
+                    "Mit Bekanntgabe des Ergebnisses durch den Prüfungsausschuss (bei Bestehen).",
+                    "Zwei Wochen nach der Zeugnisübergabe in der Schule."
+                ],
+                correct: 2,
+                explanation: "Bestehen Auszubildende vor Ablauf der Ausbildungszeit die Abschlussprüfung, so endet das Berufsausbildungsverhältnis mit Bekanntgabe des Ergebnisses durch den Prüfungsausschuss (§ 21 BBiG)."
+            },
+            {
+                question: "Wer trägt die Kosten für die Werkzeuge/Arbeitsmittel, die für die Ausbildung zwingend notwendig sind?",
+                options: [
+                    "Der Auszubildende selbst",
+                    "Die Eltern des Auszubildenden",
+                    "Die Berufsschule",
+                    "Der Ausbildungsbetrieb"
+                ],
+                correct: 3,
+                explanation: "Der Ausbildende (Betrieb) hat dem Auszubildenden kostenlos die Ausbildungsmittel zur Verfügung zu stellen, die zur Berufsausbildung und zum Ablegen von Zwischen- und Abschlussprüfungen erforderlich sind (§ 14 BBiG)."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isAnswered = false;
+
+        // DOM Elements
+        const counterEl = document.getElementById('question-counter');
+        const scoreEl = document.getElementById('score-display');
+        const questionTextEl = document.getElementById('question-text');
+        const answerOptionsEl = document.getElementById('answer-options');
+        const feedbackArea = document.getElementById('feedback-area');
+        const feedbackExplanation = document.getElementById('feedback-explanation');
+        const nextContainer = document.getElementById('next-container');
+        const btnNext = document.getElementById('btn-next');
+        const restartContainer = document.getElementById('restart-container');
+        const btnRestart = document.getElementById('btn-restart');
+        const progressBar = document.getElementById('progress-bar');
+
+        function loadQuestion() {
+            isAnswered = false;
+            const q = quizData[currentQuestionIndex];
+
+            // Update Headers
+            counterEl.textContent = `Frage ${currentQuestionIndex + 1} von ${quizData.length}`;
+            questionTextEl.textContent = q.question;
+            progressBar.style.width = `${((currentQuestionIndex) / quizData.length) * 100}%`;
+
+            // Reset UI
+            feedbackArea.classList.add('hidden');
+            nextContainer.classList.add('hidden');
+            answerOptionsEl.innerHTML = '';
+            answerOptionsEl.classList.remove('pointer-events-none');
+
+            // Generate Options
+            q.options.forEach((optionText, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left py-4 px-6 bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium rounded-xl transition-all border border-slate-600 shadow-sm flex items-center justify-between group';
+                btn.innerHTML = `
+                    <span>${optionText}</span>
+                    <div class="w-6 h-6 rounded-full border-2 border-slate-500 group-hover:border-slate-400 flex items-center justify-center shrink-0 ml-4 icon-container"></div>
+                `;
+                btn.addEventListener('click', () => handleAnswer(index, btn));
+                answerOptionsEl.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(selectedIndex, btnElement) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const q = quizData[currentQuestionIndex];
+            const isCorrect = selectedIndex === q.correct;
+
+            // Disable clicks
+            answerOptionsEl.classList.add('pointer-events-none');
+
+            // Style buttons
+            const allBtns = answerOptionsEl.querySelectorAll('button');
+            const iconCheck = `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>`;
+            const iconCross = `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+
+            allBtns.forEach((b, index) => {
+                const iconCont = b.querySelector('.icon-container');
+                if (index === q.correct) {
+                    b.classList.replace('bg-slate-800', 'bg-emerald-600/20');
+                    b.classList.replace('border-slate-600', 'border-emerald-500');
+                    b.classList.add('text-emerald-400');
+                    iconCont.classList.replace('border-slate-500', 'border-transparent');
+                    iconCont.classList.add('bg-emerald-500');
+                    iconCont.innerHTML = iconCheck;
+                } else if (index === selectedIndex && !isCorrect) {
+                    b.classList.replace('bg-slate-800', 'bg-red-600/20');
+                    b.classList.replace('border-slate-600', 'border-red-500');
+                    b.classList.add('text-red-400');
+                    iconCont.classList.replace('border-slate-500', 'border-transparent');
+                    iconCont.classList.add('bg-red-500');
+                    iconCont.innerHTML = iconCross;
+                } else {
+                    b.classList.add('opacity-50');
+                }
+            });
+
+            // Handle Score & Feedback
+            feedbackArea.classList.remove('hidden');
+            if (isCorrect) {
+                score++;
+                scoreEl.textContent = score;
+                feedbackArea.className = 'rounded-xl p-5 mb-6 bg-emerald-500/10 border border-emerald-500/30';
+            } else {
+                feedbackArea.className = 'rounded-xl p-5 mb-6 bg-slate-800/50 border border-slate-600';
+            }
+            feedbackExplanation.innerHTML = `<strong>Erklärung:</strong> ${q.explanation}`;
+
+            // Show Next or Finish
+            if (currentQuestionIndex < quizData.length - 1) {
+                nextContainer.classList.remove('hidden');
+            } else {
+                progressBar.style.width = '100%';
+                setTimeout(showResults, 1500);
+            }
+        }
+
+        function showResults() {
+            // Hide quiz elements
+            document.getElementById('question-counter').parentElement.classList.add('hidden');
+            questionTextEl.parentElement.classList.add('hidden');
+            answerOptionsEl.classList.add('hidden');
+            feedbackArea.classList.add('hidden');
+            nextContainer.classList.add('hidden');
+
+            // Show restart container
+            restartContainer.classList.remove('hidden');
+
+            const finalEmoji = document.getElementById('final-emoji');
+            const finalTitle = document.getElementById('final-title');
+            const finalScoreText = document.getElementById('final-score-text');
+
+            const percentage = (score / quizData.length) * 100;
+
+            finalScoreText.textContent = `Du hast ${score} von ${quizData.length} Fragen richtig beantwortet (${percentage}%).`;
+
+            if (percentage === 100) {
+                finalEmoji.textContent = "🏆";
+                finalTitle.textContent = "Perfekt!";
+                finalTitle.className = "text-2xl font-bold text-emerald-400 mb-2";
+            } else if (percentage >= 60) {
+                finalEmoji.textContent = "👍";
+                finalTitle.textContent = "Gut gemacht!";
+            } else {
+                finalEmoji.textContent = "📚";
+                finalTitle.textContent = "Da geht noch was!";
+                finalTitle.className = "text-2xl font-bold text-orange-400 mb-2";
+            }
+        }
+
+        btnNext.addEventListener('click', () => {
+            currentQuestionIndex++;
+            loadQuestion();
+        });
+
+        btnRestart.addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreEl.textContent = score;
+
+            // Restore visibility
+            document.getElementById('question-counter').parentElement.classList.remove('hidden');
+            questionTextEl.parentElement.classList.remove('hidden');
+            answerOptionsEl.classList.remove('hidden');
+            restartContainer.classList.add('hidden');
+
+            loadQuestion();
+        });
+
+        // Init
+        loadQuestion();
+    </script>
+    <script src="matrix.js"></script>
+</body>
+</html>
