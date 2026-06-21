@@ -341,17 +341,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// --- Minigame ---
+window.addEventListener('click', (e) => {
+    if (!isGameEnabled || isGlobalPaused || currentStyle !== 'custom') return;
+
+    const x = e.clientX;
+    const y = e.clientY;
+
+    // Check if clicked near any active K/P
+    const clickRadius = fontSize * 2; // Tolerance
+
+    for (let i = activeKPs.length - 1; i >= 0; i--) {
+        const kp = activeKPs[i];
+        const kpX = kp.col * fontSize;
+        const kpY = kp.row * fontSize;
+
+        // Check distance to K or P (P is one row down)
+        const distK = Math.hypot(x - kpX, y - kpY);
+        const distP = Math.hypot(x - kpX, y - (kpY + fontSize));
+
+        if (distK < clickRadius || distP < clickRadius) {
+            // Create explosion at click
+            createExplosion(kpX, kpY + (fontSize/2));
+            // Remove the hit block to prevent double-clicking
+            activeKPs.splice(i, 1);
+            break;
+        }
+    }
+});
+
 // --- Easter Eggs ---
 let neoSequence = '';
 const neoTarget = 'neo';
 let isNeoActive = false;
 
-document.addEventListener('keydown', (e) => {
+window.addEventListener('keydown', (e) => {
     // Ignore if typing in input or textarea
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
 
     // Check for "neo"
-    if (e.key.length === 1) {
+    if (e.key && e.key.length === 1) {
         neoSequence += e.key.toLowerCase();
         if (neoSequence.length > neoTarget.length) {
             neoSequence = neoSequence.slice(-neoTarget.length);
