@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>RAID-Kapazitäts Trainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-8 relative z-10">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='itt.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600 mb-4">
+                RAID-Kapazitäts Trainer
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Übe das Berechnen der Netto-Kapazität verschiedener RAID-Systeme
+            </p>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 w-full relative z-10 mb-12 flex-grow">
+
+        <section id="theory" class="glass-card rounded-2xl p-6 mb-8 border border-slate-700/50">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-400 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                Formeln
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6 text-slate-300 text-sm leading-relaxed">
+                <div>
+                    <ul class="list-none space-y-2">
+                        <li><span class="font-bold text-slate-200">RAID 0 (Striping):</span><br> Nutzkapazität = n * Kapazität (Keine Redundanz, mind. 2 HDDs)</li>
+                        <li><span class="font-bold text-slate-200">RAID 1 (Mirroring):</span><br> Nutzkapazität = Kapazität der kleinsten HDD (mind. 2 HDDs)</li>
+                        <li><span class="font-bold text-slate-200">RAID 5 (Parity):</span><br> Nutzkapazität = (n - 1) * Kapazität (mind. 3 HDDs)</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="list-none space-y-2">
+                        <li><span class="font-bold text-slate-200">RAID 6 (Dual Parity):</span><br> Nutzkapazität = (n - 2) * Kapazität (mind. 4 HDDs)</li>
+                        <li><span class="font-bold text-slate-200">RAID 10 (Striping + Mirroring):</span><br> Nutzkapazität = (n / 2) * Kapazität (mind. 4 HDDs, n muss gerade sein)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="trainer" class="glass-card rounded-2xl p-6 lg:p-8 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-400"></div>
+
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-white">Aktuelle Aufgabe</h2>
+                <button onclick="generateTask()" class="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors" title="Neue Aufgabe generieren">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/50 mb-8">
+                <p class="text-lg text-slate-200" id="task-description">
+                    Lade Aufgabe...
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-1 gap-6 mb-8">
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-2">Netto-Kapazität (Nutzdaten) in TB</label>
+                    <div class="relative">
+                        <input type="number" id="input-capacity-tb" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition-colors" placeholder="z.B. 12">
+                        <span class="absolute right-4 top-3 text-slate-500 font-mono">TB</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="checkAnswer()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-blue-600/20 mb-8 flex items-center justify-center gap-2">
+                Antwort prüfen
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+
+            <!-- Feedback Section -->
+            <div id="feedback" class="hidden rounded-xl p-6 mb-8 border"></div>
+
+            <!-- Solution Path -->
+            <div id="solution-path" class="hidden">
+                <h3 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lösungsweg</h3>
+                <div class="space-y-4 font-mono text-sm text-slate-300 bg-slate-900/50 p-5 rounded-xl border border-slate-700/50" id="solution-content">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+    <script>
+        let currentTask = {};
+
+        const raidLevels = [0, 1, 5, 6, 10];
+        const hddSizes = [1, 2, 4, 8, 12, 16]; // in TB
+
+        function generateTask() {
+            document.getElementById('input-capacity-tb').value = '';
+            document.getElementById('input-capacity-tb').classList.remove('border-green-500', 'border-red-500', 'bg-green-500/10', 'bg-red-500/10');
+
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('solution-path').classList.add('hidden');
+
+            const raidLevel = raidLevels[Math.floor(Math.random() * raidLevels.length)];
+            const hddSize = hddSizes[Math.floor(Math.random() * hddSizes.length)];
+
+            let minDisks = 2;
+            let possibleDiskCounts = [];
+
+            if (raidLevel === 0 || raidLevel === 1) {
+                // RAID 1 usually uses 2 disks, but let's allow up to 4 for the task. RAID 0 uses 2+
+                possibleDiskCounts = [2, 3, 4, 5, 6];
+                if (raidLevel === 1) possibleDiskCounts = [2, 4]; // Keep RAID 1 simple with 2 or 4 disks
+            } else if (raidLevel === 5) {
+                possibleDiskCounts = [3, 4, 5, 6, 8];
+            } else if (raidLevel === 6) {
+                possibleDiskCounts = [4, 5, 6, 8, 10];
+            } else if (raidLevel === 10) {
+                possibleDiskCounts = [4, 6, 8, 10]; // Must be even
+            }
+
+            const n = possibleDiskCounts[Math.floor(Math.random() * possibleDiskCounts.length)];
+
+            // Calculation
+            let nettoCapacity = 0;
+            let formulaStr = "";
+
+            if (raidLevel === 0) {
+                nettoCapacity = n * hddSize;
+                formulaStr = `Nutzkapazität = ${n} × ${hddSize} TB = ${nettoCapacity} TB`;
+            } else if (raidLevel === 1) {
+                // In a true RAID 1 with more than 2 disks, they are all mirrored, capacity = size of 1 disk
+                nettoCapacity = hddSize;
+                formulaStr = `Nutzkapazität = Kapazität einer Festplatte = ${nettoCapacity} TB`;
+            } else if (raidLevel === 5) {
+                nettoCapacity = (n - 1) * hddSize;
+                formulaStr = `Nutzkapazität = (${n} - 1) × ${hddSize} TB = ${n-1} × ${hddSize} TB = ${nettoCapacity} TB`;
+            } else if (raidLevel === 6) {
+                nettoCapacity = (n - 2) * hddSize;
+                formulaStr = `Nutzkapazität = (${n} - 2) × ${hddSize} TB = ${n-2} × ${hddSize} TB = ${nettoCapacity} TB`;
+            } else if (raidLevel === 10) {
+                nettoCapacity = (n / 2) * hddSize;
+                formulaStr = `Nutzkapazität = (${n} / 2) × ${hddSize} TB = ${n/2} × ${hddSize} TB = ${nettoCapacity} TB`;
+            }
+
+            currentTask = {
+                raidLevel: raidLevel,
+                n: n,
+                hddSize: hddSize,
+                nettoCapacity: nettoCapacity,
+                formulaStr: formulaStr
+            };
+
+            document.getElementById('task-description').innerHTML =
+                `Ein Server wird mit <strong>${currentTask.n} Festplatten</strong> bestückt, die jeweils eine Kapazität von <strong>${currentTask.hddSize} TB</strong> haben.<br><br>Diese Festplatten werden in einem <strong>RAID ${currentTask.raidLevel}</strong> konfiguriert.<br><br>Berechne die verfügbare Netto-Kapazität (Nutzdaten) des RAID-Verbunds in TB.`;
+        }
+
+        function checkAnswer() {
+            const userTb = parseInt(document.getElementById('input-capacity-tb').value);
+
+            let allCorrect = true;
+
+            const tbInput = document.getElementById('input-capacity-tb');
+
+            if (userTb === currentTask.nettoCapacity) {
+                tbInput.classList.add('border-green-500', 'bg-green-500/10');
+            } else {
+                tbInput.classList.add('border-red-500', 'bg-red-500/10');
+                allCorrect = false;
+            }
+
+            showFeedback(allCorrect);
+            showSolution();
+        }
+
+        function showFeedback(isCorrect) {
+            const fb = document.getElementById('feedback');
+            fb.classList.remove('hidden', 'bg-green-900/30', 'border-green-500/50', 'text-green-400', 'bg-red-900/30', 'border-red-500/50', 'text-red-400');
+
+            if (isCorrect) {
+                fb.classList.add('bg-green-900/30', 'border-green-500/50', 'text-green-400');
+                fb.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="font-medium text-lg">Korrekt!</span>
+                    </div>`;
+            } else {
+                fb.classList.add('bg-red-900/30', 'border-red-500/50', 'text-red-400');
+                fb.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="font-medium text-lg">Leider falsch. Schau dir den Lösungsweg an.</span>
+                    </div>`;
+            }
+        }
+
+        function showSolution() {
+            document.getElementById('solution-path').classList.remove('hidden');
+            const sol = document.getElementById('solution-content');
+
+            let ruleDesc = "";
+            if (currentTask.raidLevel === 0) ruleDesc = "Bei RAID 0 wird die Kapazität aller Festplatten addiert (Striping). Es gibt keine Ausfallsicherheit.";
+            else if (currentTask.raidLevel === 1) ruleDesc = "Bei RAID 1 werden die Daten vollständig gespiegelt. Die Kapazität entspricht der einer einzelnen Festplatte (bzw. der kleinsten).";
+            else if (currentTask.raidLevel === 5) ruleDesc = "Bei RAID 5 wird die Kapazität einer Festplatte für Paritätsdaten genutzt (verteilt auf alle).";
+            else if (currentTask.raidLevel === 6) ruleDesc = "Bei RAID 6 wird die Kapazität von zwei Festplatten für Paritätsdaten genutzt.";
+            else if (currentTask.raidLevel === 10) ruleDesc = "Bei RAID 10 (Striping + Mirroring) steht genau die Hälfte der Gesamtkapazität zur Verfügung.";
+
+            sol.innerHTML = `
+                <div class="mb-4">
+                    <strong class="text-blue-400">Regel für RAID ${currentTask.raidLevel}:</strong><br>
+                    ${ruleDesc}
+                </div>
+                <div>
+                    <strong class="text-blue-400">Berechnung:</strong><br>
+                    ${currentTask.formulaStr}
+                </div>
+            `;
+        }
+
+        window.onload = () => {
+            generateTask();
+            if(window.MatrixController) {
+                window.MatrixController.setPlayState(false);
+            }
+        };
+    </script>
+</body>
+</html>

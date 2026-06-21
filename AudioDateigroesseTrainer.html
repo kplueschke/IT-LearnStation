@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Audio-Dateigrößen Trainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-8 relative z-10">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='itt.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600 mb-4">
+                Audio-Dateigrößen Trainer
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Übe das Berechnen der Dateigröße von unkomprimierten Audiodaten
+            </p>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 w-full relative z-10 mb-12 flex-grow">
+
+        <section id="theory" class="glass-card rounded-2xl p-6 mb-8 border border-slate-700/50">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-400 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                Formeln
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6 text-slate-300 text-sm leading-relaxed">
+                <div>
+                    <ul class="list-none space-y-2">
+                        <li><span class="font-bold text-slate-200">Abtastrate (Sampling-Rate):</span><br> z.B. 44,1 kHz = 44.100 Hz = 44.100 Samples pro Sekunde</li>
+                        <li><span class="font-bold text-slate-200">Auflösung:</span><br> Bit pro Sample (z.B. 16 Bit)</li>
+                        <li><span class="font-bold text-slate-200">Kanäle:</span><br> Mono = 1 Kanal, Stereo = 2 Kanäle</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="list-none space-y-2">
+                        <li><span class="font-bold text-slate-200">Dauer in Sekunden:</span><br> Minuten * 60 + Sekunden</li>
+                        <li><span class="font-bold text-slate-200">Dateigröße (Bit) =</span><br> Abtastrate * Auflösung * Kanäle * Dauer (s)</li>
+                        <li><span class="font-bold text-slate-200">Umrechnung in MiB:</span><br> Bit / 8 / 1024 / 1024</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="trainer" class="glass-card rounded-2xl p-6 lg:p-8 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-400"></div>
+
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-white">Aktuelle Aufgabe</h2>
+                <button onclick="generateTask()" class="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors" title="Neue Aufgabe generieren">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/50 mb-8">
+                <p class="text-lg text-slate-200" id="task-description">
+                    Lade Aufgabe...
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-1 gap-6 mb-8">
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-2">Unkomprimierte Dateigröße in MiB (auf 2 Nachkommastellen runden)</label>
+                    <div class="relative">
+                        <input type="number" step="0.01" id="input-filesize-mib" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition-colors" placeholder="z.B. 35.25">
+                        <span class="absolute right-4 top-3 text-slate-500 font-mono">MiB</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="checkAnswer()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-blue-600/20 mb-8 flex items-center justify-center gap-2">
+                Antwort prüfen
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+
+            <!-- Feedback Section -->
+            <div id="feedback" class="hidden rounded-xl p-6 mb-8 border"></div>
+
+            <!-- Solution Path -->
+            <div id="solution-path" class="hidden">
+                <h3 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lösungsweg</h3>
+                <div class="space-y-4 font-mono text-sm text-slate-300 bg-slate-900/50 p-5 rounded-xl border border-slate-700/50" id="solution-content">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+    <script>
+        let currentTask = {};
+
+        const sampleRates = [
+            { hz: 44100, name: "44,1 kHz (CD-Qualität)" },
+            { hz: 48000, name: "48 kHz (DVD/Video)" },
+            { hz: 96000, name: "96 kHz (High-Res Audio)" }
+        ];
+
+        const bitDepths = [8, 16, 24, 32];
+        const channels = [
+            { num: 1, name: "Mono" },
+            { num: 2, name: "Stereo" },
+            { num: 6, name: "5.1 Surround" }
+        ];
+
+        function generateTask() {
+            document.getElementById('input-filesize-mib').value = '';
+            document.getElementById('input-filesize-mib').classList.remove('border-green-500', 'border-red-500', 'bg-green-500/10', 'bg-red-500/10');
+
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('solution-path').classList.add('hidden');
+
+            const sr = sampleRates[Math.floor(Math.random() * sampleRates.length)];
+            const bd = bitDepths[Math.floor(Math.random() * bitDepths.length)];
+            const ch = channels[Math.floor(Math.random() * channels.length)];
+
+            // Random duration between 1m30s and 10m00s
+            const minutes = Math.floor(Math.random() * 9) + 1;
+            const seconds = Math.floor(Math.random() * 60);
+            const totalSeconds = (minutes * 60) + seconds;
+
+            // Calculations
+            const bits = sr.hz * bd * ch.num * totalSeconds;
+            const bytes = bits / 8;
+            const kib = bytes / 1024;
+            const mib = kib / 1024;
+
+            currentTask = {
+                sampleRate: sr,
+                bitDepth: bd,
+                channels: ch,
+                minutes: minutes,
+                seconds: seconds,
+                totalSeconds: totalSeconds,
+                bits: bits,
+                mib: mib
+            };
+
+            const secStr = seconds < 10 ? '0' + seconds : seconds;
+
+            document.getElementById('task-description').innerHTML =
+                `Eine unkomprimierte Audiodatei hat eine Abtastrate von <strong>${currentTask.sampleRate.name}</strong>, eine Auflösung von <strong>${currentTask.bitDepth} Bit</strong> und verwendet <strong>${currentTask.channels.name} (${currentTask.channels.num} Kanäle)</strong>.<br><br>Die Länge der Audioaufnahme beträgt <strong>${currentTask.minutes}:${secStr} Minuten</strong>.<br><br>Berechne die Speichergröße der Datei in MiB (auf zwei Nachkommastellen runden).`;
+        }
+
+        function checkAnswer() {
+            const userMib = parseFloat(document.getElementById('input-filesize-mib').value);
+
+            let allCorrect = true;
+
+            const mibInput = document.getElementById('input-filesize-mib');
+            const targetMib = parseFloat(currentTask.mib.toFixed(2));
+
+            if (!isNaN(userMib) && Math.abs(userMib - targetMib) <= 0.02) {
+                mibInput.classList.add('border-green-500', 'bg-green-500/10');
+            } else {
+                mibInput.classList.add('border-red-500', 'bg-red-500/10');
+                allCorrect = false;
+            }
+
+            showFeedback(allCorrect);
+            showSolution();
+        }
+
+        function showFeedback(isCorrect) {
+            const fb = document.getElementById('feedback');
+            fb.classList.remove('hidden', 'bg-green-900/30', 'border-green-500/50', 'text-green-400', 'bg-red-900/30', 'border-red-500/50', 'text-red-400');
+
+            if (isCorrect) {
+                fb.classList.add('bg-green-900/30', 'border-green-500/50', 'text-green-400');
+                fb.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="font-medium text-lg">Korrekt!</span>
+                    </div>`;
+            } else {
+                fb.classList.add('bg-red-900/30', 'border-red-500/50', 'text-red-400');
+                fb.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="font-medium text-lg">Leider falsch. Schau dir den Lösungsweg an.</span>
+                    </div>`;
+            }
+        }
+
+        function showSolution() {
+            document.getElementById('solution-path').classList.remove('hidden');
+            const sol = document.getElementById('solution-content');
+
+            sol.innerHTML = `
+                <div class="mb-4">
+                    <strong class="text-blue-400">1. Dauer in Sekunden umrechnen:</strong><br>
+                    (${currentTask.minutes} Minuten × 60) + ${currentTask.seconds} Sekunden = ${currentTask.totalSeconds} Sekunden
+                </div>
+                <div class="mb-4">
+                    <strong class="text-blue-400">2. Dateigröße in Bit berechnen:</strong><br>
+                    Abtastrate × Auflösung × Kanäle × Dauer (in s)<br>
+                    ${currentTask.sampleRate.hz.toLocaleString('de-DE')} Hz × ${currentTask.bitDepth} Bit × ${currentTask.channels.num} Kanäle × ${currentTask.totalSeconds} s = ${currentTask.bits.toLocaleString('de-DE')} Bit
+                </div>
+                <div>
+                    <strong class="text-blue-400">3. Umrechnung in MiB:</strong><br>
+                    Byte: ${currentTask.bits.toLocaleString('de-DE')} Bit / 8 = ${(currentTask.bits/8).toLocaleString('de-DE')} Byte<br>
+                    KiB: ${(currentTask.bits/8).toLocaleString('de-DE')} Byte / 1024 = ${(currentTask.bits/8/1024).toLocaleString('de-DE')} KiB<br>
+                    MiB: ${(currentTask.bits/8/1024).toLocaleString('de-DE')} KiB / 1024 = ${currentTask.mib.toFixed(4)} MiB -> gerundet: <span class="text-white bg-slate-800 px-1 rounded">${currentTask.mib.toFixed(2)} MiB</span>
+                </div>
+            `;
+        }
+
+        window.onload = () => {
+            generateTask();
+            if(window.MatrixController) {
+                window.MatrixController.setPlayState(false);
+            }
+        };
+    </script>
+</body>
+</html>
