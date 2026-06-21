@@ -168,7 +168,19 @@ if (isInitialized) {
 }
 
 let matrixInterval = null;
-let isPaused = sessionStorage.getItem('matrixPaused') === 'true';
+let isGlobalPaused = sessionStorage.getItem('matrixPaused') === 'true';
+const currentPath = window.location.pathname.toLowerCase();
+const isOverviewPage = ['index.html', 'ap.html', 'bgp.html', 'englisch.html', 'itag.html', 'its.html', 'itt.html', 'pug.html', 'einstellungen.html'].some(p => currentPath.endsWith(p)) || currentPath.endsWith('/');
+let isPaused = isOverviewPage ? isGlobalPaused : true;
+
+// Populate screen immediately if on tool page and not initialized
+if (!isOverviewPage && !isInitialized) {
+    ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < 50; i++) {
+        draw();
+    }
+}
 
 function toggleMatrixStyle() {
     currentStyle = currentStyle === 'custom' ? 'classic' : 'custom';
@@ -208,8 +220,10 @@ function updatePauseButtonIcon() {
 }
 
 function togglePause() {
-    isPaused = !isPaused;
-    sessionStorage.setItem('matrixPaused', isPaused);
+    if (!isOverviewPage) return;
+    isGlobalPaused = !isGlobalPaused;
+    isPaused = isGlobalPaused;
+    sessionStorage.setItem('matrixPaused', isGlobalPaused);
     updatePauseButtonIcon();
 
     if (isPaused) {
