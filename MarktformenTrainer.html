@@ -44,28 +44,107 @@
         <!-- Tool Container -->
         <div class="glass-card rounded-2xl p-6 md:p-8 flex flex-col items-center">
 
-            <div class="w-full text-center mb-8">
-                <h2 class="text-xl font-medium text-slate-300 mb-2 font-mono">Ordne die folgende Situation zu:</h2>
-                <div id="question-box" class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6 text-2xl font-bold text-white min-h-[120px] flex items-center justify-center text-center shadow-inner">
-                    <!-- Question will be inserted here -->
-                </div>
-            </div>
-
-            <div id="answer-box" class="w-full text-center mb-8 hidden">
-                <h3 class="text-lg font-medium text-purple-400 mb-2 font-mono">Lösung:</h3>
-                <div id="solution-text" class="text-3xl font-extrabold text-white">
-                    <!-- Solution will be inserted here -->
-                </div>
-                <div id="explanation-text" class="mt-4 text-slate-400">
-                    <!-- Explanation will be inserted here -->
-                </div>
-            </div>
-
-            <div class="w-full flex justify-center">
-                <button id="action-btn" class="w-full sm:w-auto px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-purple-900/50 hover:shadow-purple-900/80 active:scale-95 flex items-center justify-center gap-2">
-                    <span>Lösung anzeigen</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            <!-- Tabs Navigation -->
+            <div class="flex flex-wrap justify-center gap-2 mb-8 bg-slate-900/50 p-1 rounded-xl border border-slate-700/50">
+                <button id="tab-random" class="px-6 py-2 rounded-lg font-medium transition-colors bg-purple-600 text-white shadow-md">
+                    Zufalls-Aufgaben
                 </button>
+                <button id="tab-matrix" class="px-6 py-2 rounded-lg font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors">
+                    Matrix (Drag & Drop)
+                </button>
+            </div>
+
+            <!-- Tab Content: Random Tasks -->
+            <div id="content-random" class="w-full flex flex-col items-center">
+                <div class="w-full text-center mb-8">
+                    <h2 class="text-xl font-medium text-slate-300 mb-2 font-mono">Ordne die folgende Situation zu:</h2>
+                    <div id="question-box" class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6 text-2xl font-bold text-white min-h-[120px] flex items-center justify-center text-center shadow-inner">
+                        <!-- Question will be inserted here -->
+                    </div>
+                </div>
+
+                <div id="answer-box" class="w-full text-center mb-8 hidden">
+                    <h3 class="text-lg font-medium text-purple-400 mb-2 font-mono">Lösung:</h3>
+                    <div id="solution-text" class="text-3xl font-extrabold text-white">
+                        <!-- Solution will be inserted here -->
+                    </div>
+                    <div id="explanation-text" class="mt-4 text-slate-400">
+                        <!-- Explanation will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="w-full flex justify-center">
+                    <button id="action-btn" class="w-full sm:w-auto px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-purple-900/50 hover:shadow-purple-900/80 active:scale-95 flex items-center justify-center gap-2">
+                        <span>Lösung anzeigen</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Content: Matrix Drag & Drop -->
+            <div id="content-matrix" class="w-full hidden flex-col items-center">
+
+                <!-- The Matrix Table -->
+                <div class="w-full overflow-x-auto mb-8">
+                    <table class="w-full max-w-2xl mx-auto border-collapse">
+                        <thead>
+                            <tr>
+                                <th class="p-2 border border-slate-700/50 bg-slate-800/50"></th>
+                                <th colspan="3" class="p-3 border border-slate-700/50 bg-purple-900/30 text-purple-300 font-mono text-center">Nachfrager</th>
+                            </tr>
+                            <tr>
+                                <th rowspan="4" class="p-3 border border-slate-700/50 bg-purple-900/30 text-purple-300 font-mono align-middle" style="writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg);">Anbieter</th>
+                                <th class="p-3 border border-slate-700/50 bg-slate-800/50 text-slate-300 font-mono text-center w-1/3">Viele</th>
+                                <th class="p-3 border border-slate-700/50 bg-slate-800/50 text-slate-300 font-mono text-center w-1/3">Wenige</th>
+                                <th class="p-3 border border-slate-700/50 bg-slate-800/50 text-slate-300 font-mono text-center w-1/3">Einer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="p-3 border border-slate-700/50 bg-slate-800/50 text-slate-300 font-mono text-right">Viele</th>
+                                <td class="p-2 border border-slate-700/50 h-24 align-middle bg-slate-900/50 drop-zone relative" data-expected="polypol"></td>
+                                <td class="p-2 border border-slate-700/50 h-24 align-middle bg-slate-900/50 drop-zone relative" data-expected="nachfrageoligopol"></td>
+                                <td class="p-2 border border-slate-700/50 h-24 align-middle bg-slate-900/50 drop-zone relative" data-expected="nachfragemonopol"></td>
+                            </tr>
+                            <tr>
+                                <th class="p-3 border border-slate-700/50 bg-slate-800/50 text-slate-300 font-mono text-right">Wenige</th>
+                                <td class="p-2 border border-slate-700/50 h-24 align-middle bg-slate-900/50 drop-zone relative" data-expected="angebotsoligopol"></td>
+                                <td class="p-2 border border-slate-700/50 h-24 align-middle bg-slate-900/50 drop-zone relative" data-expected="zweiseitiges_oligopol"></td>
+                                <td class="p-2 border border-slate-700/50 h-24 align-middle bg-slate-900/50 drop-zone relative" data-expected="beschraenktes_nachfragemonopol"></td>
+                            </tr>
+                            <tr>
+                                <th class="p-3 border border-slate-700/50 bg-slate-800/50 text-slate-300 font-mono text-right">Einer</th>
+                                <td class="p-2 border border-slate-700/50 h-24 align-middle bg-slate-900/50 drop-zone relative" data-expected="angebotsmonopol"></td>
+                                <td class="p-2 border border-slate-700/50 h-24 align-middle bg-slate-900/50 drop-zone relative" data-expected="beschraenktes_angebotsmonopol"></td>
+                                <td class="p-2 border border-slate-700/50 h-24 align-middle bg-slate-900/50 drop-zone relative" data-expected="zweiseitiges_monopol"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Label Pool -->
+                <div class="w-full max-w-2xl text-center mb-8">
+                    <h3 class="text-lg font-medium text-slate-300 mb-4 font-mono">Ziehe die Begriffe in die Matrix:</h3>
+                    <div id="label-pool" class="flex flex-wrap justify-center gap-3 p-4 bg-slate-800/30 rounded-xl border border-slate-700/30 min-h-[100px] drop-zone" data-expected="pool">
+                        <div class="draggable-item bg-purple-600/20 border border-purple-500/50 text-purple-300 px-3 py-2 rounded shadow-sm hover:bg-purple-600/40 transition-colors text-sm font-medium z-10" draggable="true" data-id="polypol">Polypol</div>
+                        <div class="draggable-item bg-purple-600/20 border border-purple-500/50 text-purple-300 px-3 py-2 rounded shadow-sm hover:bg-purple-600/40 transition-colors text-sm font-medium z-10" draggable="true" data-id="angebotsoligopol">Angebotsoligopol</div>
+                        <div class="draggable-item bg-purple-600/20 border border-purple-500/50 text-purple-300 px-3 py-2 rounded shadow-sm hover:bg-purple-600/40 transition-colors text-sm font-medium z-10" draggable="true" data-id="angebotsmonopol">Angebotsmonopol</div>
+                        <div class="draggable-item bg-purple-600/20 border border-purple-500/50 text-purple-300 px-3 py-2 rounded shadow-sm hover:bg-purple-600/40 transition-colors text-sm font-medium z-10" draggable="true" data-id="nachfrageoligopol">Nachfrageoligopol</div>
+                        <div class="draggable-item bg-purple-600/20 border border-purple-500/50 text-purple-300 px-3 py-2 rounded shadow-sm hover:bg-purple-600/40 transition-colors text-sm font-medium z-10" draggable="true" data-id="zweiseitiges_oligopol">Zweiseitiges Oligopol</div>
+                        <div class="draggable-item bg-purple-600/20 border border-purple-500/50 text-purple-300 px-3 py-2 rounded shadow-sm hover:bg-purple-600/40 transition-colors text-sm font-medium z-10" draggable="true" data-id="beschraenktes_angebotsmonopol">Beschränktes Angebotsmonopol</div>
+                        <div class="draggable-item bg-purple-600/20 border border-purple-500/50 text-purple-300 px-3 py-2 rounded shadow-sm hover:bg-purple-600/40 transition-colors text-sm font-medium z-10" draggable="true" data-id="nachfragemonopol">Nachfragemonopol</div>
+                        <div class="draggable-item bg-purple-600/20 border border-purple-500/50 text-purple-300 px-3 py-2 rounded shadow-sm hover:bg-purple-600/40 transition-colors text-sm font-medium z-10" draggable="true" data-id="beschraenktes_nachfragemonopol">Beschränktes Nachfragemonopol</div>
+                        <div class="draggable-item bg-purple-600/20 border border-purple-500/50 text-purple-300 px-3 py-2 rounded shadow-sm hover:bg-purple-600/40 transition-colors text-sm font-medium z-10" draggable="true" data-id="zweiseitiges_monopol">Zweiseitiges Monopol</div>
+                    </div>
+                </div>
+
+                <div class="w-full flex justify-center">
+                    <button id="check-matrix-btn" class="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-900/50 hover:shadow-emerald-900/80 active:scale-95 flex items-center justify-center gap-2">
+                        <span>Matrix prüfen</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </button>
+                </div>
+
             </div>
 
         </div>
@@ -77,6 +156,34 @@
     </footer>
 
     <script>
+        // --- Tabs Logic ---
+        const tabRandom = document.getElementById('tab-random');
+        const tabMatrix = document.getElementById('tab-matrix');
+        const contentRandom = document.getElementById('content-random');
+        const contentMatrix = document.getElementById('content-matrix');
+
+        function switchTab(mode) {
+            if (mode === 'random') {
+                tabRandom.className = 'px-6 py-2 rounded-lg font-medium transition-colors bg-purple-600 text-white shadow-md';
+                tabMatrix.className = 'px-6 py-2 rounded-lg font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors';
+                contentRandom.classList.remove('hidden');
+                contentRandom.classList.add('flex');
+                contentMatrix.classList.add('hidden');
+                contentMatrix.classList.remove('flex');
+            } else {
+                tabMatrix.className = 'px-6 py-2 rounded-lg font-medium transition-colors bg-purple-600 text-white shadow-md';
+                tabRandom.className = 'px-6 py-2 rounded-lg font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors';
+                contentMatrix.classList.remove('hidden');
+                contentMatrix.classList.add('flex');
+                contentRandom.classList.add('hidden');
+                contentRandom.classList.remove('flex');
+            }
+        }
+
+        tabRandom.addEventListener('click', () => switchTab('random'));
+        tabMatrix.addEventListener('click', () => switchTab('matrix'));
+
+        // --- Random Tasks Logic ---
         const tasks = [
             // Combinations of suppliers and demanders
             { question: "Viele Anbieter, viele Nachfrager", solution: "Polypol", explanation: "Das zweiseitige Polypol (vollkommene Konkurrenz) zeichnet sich durch viele Marktteilnehmer auf beiden Seiten aus." },
@@ -162,6 +269,101 @@
 
         // Initialize the first task
         displayNextTask();
+
+        // --- Drag & Drop Logic ---
+        const draggables = document.querySelectorAll('.draggable-item');
+        const dropZones = document.querySelectorAll('.drop-zone');
+        const checkMatrixBtn = document.getElementById('check-matrix-btn');
+
+        let draggedItem = null;
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', (e) => {
+                draggedItem = draggable;
+                setTimeout(() => {
+                    draggable.classList.add('opacity-50');
+                }, 0);
+            });
+
+            draggable.addEventListener('dragend', () => {
+                setTimeout(() => {
+                    draggedItem.classList.remove('opacity-50');
+                    draggedItem = null;
+                }, 0);
+            });
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                // If it's a table cell, only allow one item
+                if (zone.id !== 'label-pool' && zone.children.length > 0) {
+                    return;
+                }
+                zone.classList.add('bg-purple-900/40');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('bg-purple-900/40');
+            });
+
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('bg-purple-900/40');
+
+                if (zone.id !== 'label-pool' && zone.children.length > 0) {
+                    return; // Cell already has an item
+                }
+
+                if (draggedItem) {
+                    // Remove validation classes if re-dropped
+                    zone.classList.remove('border-emerald-500', 'border-red-500', 'bg-emerald-900/30', 'bg-red-900/30');
+                    zone.appendChild(draggedItem);
+                }
+            });
+        });
+
+        // Validation Logic
+        checkMatrixBtn.addEventListener('click', () => {
+            let allCorrect = true;
+
+            dropZones.forEach(zone => {
+                if (zone.id === 'label-pool') return; // Skip pool
+
+                // Reset styles
+                zone.classList.remove('border-emerald-500', 'border-red-500', 'bg-emerald-900/30', 'bg-red-900/30', 'border-slate-700/50');
+
+                if (zone.children.length > 0) {
+                    const item = zone.children[0];
+                    const expectedId = zone.getAttribute('data-expected');
+                    const actualId = item.getAttribute('data-id');
+
+                    if (expectedId === actualId) {
+                        zone.classList.add('border-emerald-500', 'bg-emerald-900/30');
+                        item.classList.remove('border-purple-500/50', 'bg-purple-600/20');
+                        item.classList.add('border-emerald-500/50', 'bg-emerald-600/20');
+                    } else {
+                        allCorrect = false;
+                        zone.classList.add('border-red-500', 'bg-red-900/30');
+                        item.classList.remove('border-emerald-500/50', 'bg-emerald-600/20');
+                        item.classList.add('border-purple-500/50', 'bg-purple-600/20'); // reset inner item slightly
+                    }
+                } else {
+                    allCorrect = false;
+                    zone.classList.add('border-slate-700/50'); // Default
+                }
+            });
+
+            if (allCorrect) {
+                checkMatrixBtn.classList.replace('bg-emerald-600', 'bg-teal-600');
+                checkMatrixBtn.querySelector('span').textContent = "Alles Richtig!";
+                checkMatrixBtn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>';
+            } else {
+                checkMatrixBtn.classList.replace('bg-teal-600', 'bg-emerald-600');
+                checkMatrixBtn.querySelector('span').textContent = "Matrix prüfen";
+                checkMatrixBtn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+            }
+        });
     </script>
 </body>
 </html>
