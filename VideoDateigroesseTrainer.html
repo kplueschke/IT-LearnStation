@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Video-Dateigrößen Trainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-8 relative z-10">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='itt.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600 mb-4">
+                Video-Dateigrößen Trainer
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Übe das Berechnen der Dateigröße von unkomprimierten Videodaten
+            </p>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 w-full relative z-10 mb-12 flex-grow">
+
+        <section id="theory" class="glass-card rounded-2xl p-6 mb-8 border border-slate-700/50">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-400 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                Formeln
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6 text-slate-300 text-sm leading-relaxed">
+                <div>
+                    <ul class="list-none space-y-2">
+                        <li><span class="font-bold text-slate-200">Pixel pro Frame:</span><br> Breite * Höhe</li>
+                        <li><span class="font-bold text-slate-200">Dateigröße pro Frame (Bit):</span><br> Pixel pro Frame * Farbtiefe</li>
+                        <li><span class="font-bold text-slate-200">FPS (Frames Per Second):</span><br> Bilder pro Sekunde</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="list-none space-y-2">
+                        <li><span class="font-bold text-slate-200">Dauer in Sekunden:</span><br> Minuten * 60 + Sekunden</li>
+                        <li><span class="font-bold text-slate-200">Dateigröße gesamt (Bit) =</span><br> Dateigröße/Frame * FPS * Dauer (s)</li>
+                        <li><span class="font-bold text-slate-200">Umrechnung in GiB:</span><br> Bit / 8 / 1024 / 1024 / 1024</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="trainer" class="glass-card rounded-2xl p-6 lg:p-8 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-400"></div>
+
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-white">Aktuelle Aufgabe</h2>
+                <button onclick="generateTask()" class="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors" title="Neue Aufgabe generieren">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/50 mb-8">
+                <p class="text-lg text-slate-200" id="task-description">
+                    Lade Aufgabe...
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-1 gap-6 mb-8">
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-2">Unkomprimierte Dateigröße in GiB (auf 2 Nachkommastellen runden)</label>
+                    <div class="relative">
+                        <input type="number" step="0.01" id="input-filesize-gib" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition-colors" placeholder="z.B. 150.50">
+                        <span class="absolute right-4 top-3 text-slate-500 font-mono">GiB</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="checkAnswer()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-blue-600/20 mb-8 flex items-center justify-center gap-2">
+                Antwort prüfen
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+
+            <!-- Feedback Section -->
+            <div id="feedback" class="hidden rounded-xl p-6 mb-8 border"></div>
+
+            <!-- Solution Path -->
+            <div id="solution-path" class="hidden">
+                <h3 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lösungsweg</h3>
+                <div class="space-y-4 font-mono text-sm text-slate-300 bg-slate-900/50 p-5 rounded-xl border border-slate-700/50" id="solution-content">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+    <script>
+        let currentTask = {};
+
+        const resolutions = [
+            { w: 1280, h: 720, name: "HD (720p)" },
+            { w: 1920, h: 1080, name: "Full HD (1080p)" },
+            { w: 3840, h: 2160, name: "4K UHD" }
+        ];
+
+        const bitDepths = [
+            { bit: 8, name: "8 Bit Graustufen" },
+            { bit: 24, name: "24 Bit (True Color)" },
+            { bit: 32, name: "32 Bit (True Color + Alpha)" }
+        ];
+
+        const fpsList = [24, 30, 60];
+
+        function generateTask() {
+            document.getElementById('input-filesize-gib').value = '';
+            document.getElementById('input-filesize-gib').classList.remove('border-green-500', 'border-red-500', 'bg-green-500/10', 'bg-red-500/10');
+
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('solution-path').classList.add('hidden');
+
+            const res = resolutions[Math.floor(Math.random() * resolutions.length)];
+            const bd = bitDepths[Math.floor(Math.random() * bitDepths.length)];
+            const fps = fpsList[Math.floor(Math.random() * fpsList.length)];
+
+            // Random duration between 1 and 15 minutes
+            const minutes = Math.floor(Math.random() * 14) + 1;
+            const seconds = Math.floor(Math.random() * 60);
+            const totalSeconds = (minutes * 60) + seconds;
+
+            // Calculations
+            const pxPerFrame = res.w * res.h;
+            const bitsPerFrame = pxPerFrame * bd.bit;
+            const bitsTotal = bitsPerFrame * fps * totalSeconds;
+
+            const bytes = bitsTotal / 8;
+            const kib = bytes / 1024;
+            const mib = kib / 1024;
+            const gib = mib / 1024;
+
+            currentTask = {
+                res: res,
+                bitDepth: bd,
+                fps: fps,
+                minutes: minutes,
+                seconds: seconds,
+                totalSeconds: totalSeconds,
+                pxPerFrame: pxPerFrame,
+                bitsPerFrame: bitsPerFrame,
+                bitsTotal: bitsTotal,
+                gib: gib
+            };
+
+            const secStr = seconds < 10 ? '0' + seconds : seconds;
+
+            document.getElementById('task-description').innerHTML =
+                `Ein unkomprimiertes Video liegt in der Auflösung <strong>${currentTask.res.name} (${currentTask.res.w} × ${currentTask.res.h} Pixel)</strong> vor.<br><br>Die Farbtiefe beträgt <strong>${currentTask.bitDepth.name}</strong>, und es wird mit <strong>${currentTask.fps} FPS (Frames pro Sekunde)</strong> aufgenommen.<br><br>Das Video hat eine Länge von <strong>${currentTask.minutes}:${secStr} Minuten</strong>.<br><br>Berechne die Speichergröße der Datei in GiB (auf zwei Nachkommastellen runden).`;
+        }
+
+        function checkAnswer() {
+            const userGib = parseFloat(document.getElementById('input-filesize-gib').value);
+
+            let allCorrect = true;
+
+            const gibInput = document.getElementById('input-filesize-gib');
+            const targetGib = parseFloat(currentTask.gib.toFixed(2));
+
+            if (!isNaN(userGib) && Math.abs(userGib - targetGib) <= 0.02) {
+                gibInput.classList.add('border-green-500', 'bg-green-500/10');
+            } else {
+                gibInput.classList.add('border-red-500', 'bg-red-500/10');
+                allCorrect = false;
+            }
+
+            showFeedback(allCorrect);
+            showSolution();
+        }
+
+        function showFeedback(isCorrect) {
+            const fb = document.getElementById('feedback');
+            fb.classList.remove('hidden', 'bg-green-900/30', 'border-green-500/50', 'text-green-400', 'bg-red-900/30', 'border-red-500/50', 'text-red-400');
+
+            if (isCorrect) {
+                fb.classList.add('bg-green-900/30', 'border-green-500/50', 'text-green-400');
+                fb.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="font-medium text-lg">Korrekt!</span>
+                    </div>`;
+            } else {
+                fb.classList.add('bg-red-900/30', 'border-red-500/50', 'text-red-400');
+                fb.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="font-medium text-lg">Leider falsch. Schau dir den Lösungsweg an.</span>
+                    </div>`;
+            }
+        }
+
+        function showSolution() {
+            document.getElementById('solution-path').classList.remove('hidden');
+            const sol = document.getElementById('solution-content');
+
+            sol.innerHTML = `
+                <div class="mb-4">
+                    <strong class="text-blue-400">1. Dauer in Sekunden umrechnen:</strong><br>
+                    (${currentTask.minutes} Minuten × 60) + ${currentTask.seconds} Sekunden = ${currentTask.totalSeconds} Sekunden
+                </div>
+                <div class="mb-4">
+                    <strong class="text-blue-400">2. Dateigröße pro Bild (Frame) in Bit:</strong><br>
+                    Breite × Höhe × Farbtiefe<br>
+                    ${currentTask.res.w} px × ${currentTask.res.h} px × ${currentTask.bitDepth.bit} Bit = ${currentTask.bitsPerFrame.toLocaleString('de-DE')} Bit/Frame
+                </div>
+                <div class="mb-4">
+                    <strong class="text-blue-400">3. Gesamtdatenmenge in Bit:</strong><br>
+                    Bit/Frame × FPS × Dauer (s)<br>
+                    ${currentTask.bitsPerFrame.toLocaleString('de-DE')} Bit × ${currentTask.fps} FPS × ${currentTask.totalSeconds} s = ${currentTask.bitsTotal.toLocaleString('de-DE')} Bit
+                </div>
+                <div>
+                    <strong class="text-blue-400">4. Umrechnung in GiB:</strong><br>
+                    Byte: ${currentTask.bitsTotal.toLocaleString('de-DE')} Bit / 8 = ${(currentTask.bitsTotal/8).toLocaleString('de-DE')} Byte<br>
+                    KiB: ${(currentTask.bitsTotal/8).toLocaleString('de-DE')} Byte / 1024 = ${(currentTask.bitsTotal/8/1024).toLocaleString('de-DE')} KiB<br>
+                    MiB: ${(currentTask.bitsTotal/8/1024).toLocaleString('de-DE')} KiB / 1024 = ${(currentTask.bitsTotal/8/1024/1024).toLocaleString('de-DE')} MiB<br>
+                    GiB: ${(currentTask.bitsTotal/8/1024/1024).toLocaleString('de-DE')} MiB / 1024 = ${currentTask.gib.toFixed(4)} GiB -> gerundet: <span class="text-white bg-slate-800 px-1 rounded">${currentTask.gib.toFixed(2)} GiB</span>
+                </div>
+            `;
+        }
+
+        window.onload = () => {
+            generateTask();
+            if(window.MatrixController) {
+                window.MatrixController.setPlayState(false);
+            }
+        };
+    </script>
+</body>
+</html>

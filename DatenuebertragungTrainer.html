@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Datenübertragung Trainer (Bandbreite)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-8 relative z-10">
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="window.location.href='itt.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600 mb-4">
+                Datenübertragung Trainer
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                Übe das Berechnen von Übertragungszeiten in Netzwerken
+            </p>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 w-full relative z-10 mb-12 flex-grow">
+
+        <section id="theory" class="glass-card rounded-2xl p-6 mb-8 border border-slate-700/50">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-400 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                Formeln
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6 text-slate-300 text-sm leading-relaxed">
+                <div>
+                    <ul class="list-none space-y-2">
+                        <li><span class="font-bold text-slate-200">Dateigröße in Bit:</span><br> Umrechnen mit Faktor 1024 (GiB -> MiB -> KiB -> Byte) und dann * 8 (Bit)</li>
+                        <li><span class="font-bold text-slate-200">Protokoll-Overhead:</span><br> Dateigröße * (1 + Overhead in %)</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="list-none space-y-2">
+                        <li><span class="font-bold text-slate-200">Bandbreite (Mbit/s):</span><br> Umrechnen in Bit/s (z.B. * 1.000.000, <i>Achtung: Netzwerk-Bandbreiten verwenden Dezimalpräfixe (Faktor 1000)!</i>)</li>
+                        <li><span class="font-bold text-slate-200">Zeit (Sekunden) =</span> <br> (Dateigröße in Bit inkl. Overhead) / (Bandbreite in Bit/s)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="trainer" class="glass-card rounded-2xl p-6 lg:p-8 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-400"></div>
+
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-white">Aktuelle Aufgabe</h2>
+                <button onclick="generateTask()" class="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors" title="Neue Aufgabe generieren">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/50 mb-8">
+                <p class="text-lg text-slate-200" id="task-description">
+                    Lade Aufgabe...
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-2">Minuten</label>
+                    <div class="relative">
+                        <input type="number" id="input-minutes" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition-colors" placeholder="0">
+                        <span class="absolute right-4 top-3 text-slate-500 font-mono">min</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-2">Sekunden (kaufm. gerundet)</label>
+                    <div class="relative">
+                        <input type="number" id="input-seconds" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition-colors" placeholder="z.B. 45">
+                        <span class="absolute right-4 top-3 text-slate-500 font-mono">sek</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="checkAnswer()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-blue-600/20 mb-8 flex items-center justify-center gap-2">
+                Antwort prüfen
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+
+            <!-- Feedback Section -->
+            <div id="feedback" class="hidden rounded-xl p-6 mb-8 border"></div>
+
+            <!-- Solution Path -->
+            <div id="solution-path" class="hidden">
+                <h3 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lösungsweg</h3>
+                <div class="space-y-4 font-mono text-sm text-slate-300 bg-slate-900/50 p-5 rounded-xl border border-slate-700/50" id="solution-content">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+    <script>
+        let currentTask = {};
+
+        const dataSizes = [
+            { val: 50, unit: 'MiB', factor: 1024*1024 },
+            { val: 250, unit: 'MiB', factor: 1024*1024 },
+            { val: 500, unit: 'MiB', factor: 1024*1024 },
+            { val: 1, unit: 'GiB', factor: 1024*1024*1024 },
+            { val: 2.5, unit: 'GiB', factor: 1024*1024*1024 },
+            { val: 5, unit: 'GiB', factor: 1024*1024*1024 },
+            { val: 10, unit: 'GiB', factor: 1024*1024*1024 }
+        ];
+
+        const bandwidths = [
+            { val: 16, unit: 'Mbit/s', bps: 16000000 },
+            { val: 50, unit: 'Mbit/s', bps: 50000000 },
+            { val: 100, unit: 'Mbit/s', bps: 100000000 },
+            { val: 250, unit: 'Mbit/s', bps: 250000000 },
+            { val: 1, unit: 'Gbit/s', bps: 1000000000 },
+            { val: 2.5, unit: 'Gbit/s', bps: 2500000000 }
+        ];
+
+        const overheads = [5, 10, 15, 20];
+
+        function generateTask() {
+            // Reset UI
+            document.getElementById('input-minutes').value = '';
+            document.getElementById('input-minutes').classList.remove('border-green-500', 'border-red-500', 'bg-green-500/10', 'bg-red-500/10');
+            document.getElementById('input-seconds').value = '';
+            document.getElementById('input-seconds').classList.remove('border-green-500', 'border-red-500', 'bg-green-500/10', 'bg-red-500/10');
+
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('solution-path').classList.add('hidden');
+
+            const ds = dataSizes[Math.floor(Math.random() * dataSizes.length)];
+            const bw = bandwidths[Math.floor(Math.random() * bandwidths.length)];
+            const oh = overheads[Math.floor(Math.random() * overheads.length)];
+
+            // Calculations
+            const bytes = ds.val * ds.factor;
+            const bits = bytes * 8;
+            const bitsWithOverhead = bits * (1 + (oh / 100));
+
+            const timeSecondsTotal = bitsWithOverhead / bw.bps;
+            const timeMinutes = Math.floor(timeSecondsTotal / 60);
+            const timeSeconds = Math.round(timeSecondsTotal % 60);
+
+            // Handle round-up case
+            let finalMin = timeMinutes;
+            let finalSec = timeSeconds;
+            if(finalSec === 60) {
+                finalMin += 1;
+                finalSec = 0;
+            }
+
+            currentTask = {
+                dataSize: ds,
+                bandwidth: bw,
+                overhead: oh,
+                bits: bits,
+                bitsWithOverhead: bitsWithOverhead,
+                timeSecondsTotal: timeSecondsTotal,
+                timeMinutes: finalMin,
+                timeSeconds: finalSec
+            };
+
+            document.getElementById('task-description').innerHTML =
+                `Eine Datei mit der Größe von <strong>${currentTask.dataSize.val} ${currentTask.dataSize.unit}</strong> soll über eine Netzwerkverbindung mit einer Bandbreite von <strong>${currentTask.bandwidth.val} ${currentTask.bandwidth.unit}</strong> übertragen werden.<br><br>Es wird mit einem Protokoll-Overhead von <strong>${currentTask.overhead} %</strong> gerechnet.<br><br>Berechne die Übertragungsdauer in Minuten und Sekunden. (Sekunden kaufmännisch runden).`;
+        }
+
+        function checkAnswer() {
+            let userMin = document.getElementById('input-minutes').value;
+            userMin = userMin === '' ? 0 : parseInt(userMin);
+            const userSec = parseInt(document.getElementById('input-seconds').value);
+
+            let allCorrect = true;
+
+            const minInput = document.getElementById('input-minutes');
+            if (userMin === currentTask.timeMinutes) {
+                minInput.classList.add('border-green-500', 'bg-green-500/10');
+            } else {
+                minInput.classList.add('border-red-500', 'bg-red-500/10');
+                allCorrect = false;
+            }
+
+            const secInput = document.getElementById('input-seconds');
+            // Allow +/- 1 second tolerance for rounding differences in intermediate steps
+            if (!isNaN(userSec) && Math.abs(userSec - currentTask.timeSeconds) <= 1) {
+                secInput.classList.add('border-green-500', 'bg-green-500/10');
+            } else {
+                secInput.classList.add('border-red-500', 'bg-red-500/10');
+                allCorrect = false;
+            }
+
+            showFeedback(allCorrect);
+            showSolution();
+        }
+
+        function showFeedback(isCorrect) {
+            const fb = document.getElementById('feedback');
+            fb.classList.remove('hidden', 'bg-green-900/30', 'border-green-500/50', 'text-green-400', 'bg-red-900/30', 'border-red-500/50', 'text-red-400');
+
+            if (isCorrect) {
+                fb.classList.add('bg-green-900/30', 'border-green-500/50', 'text-green-400');
+                fb.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="font-medium text-lg">Korrekt! Die Übertragungsdauer wurde richtig berechnet.</span>
+                    </div>`;
+            } else {
+                fb.classList.add('bg-red-900/30', 'border-red-500/50', 'text-red-400');
+                fb.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="font-medium text-lg">Da hat sich ein Fehler eingeschlichen. Überprüfe den Lösungsweg.</span>
+                    </div>`;
+            }
+        }
+
+        function showSolution() {
+            document.getElementById('solution-path').classList.remove('hidden');
+            const sol = document.getElementById('solution-content');
+
+            const sizeStr = currentTask.dataSize.unit === 'GiB'
+                ? `${currentTask.dataSize.val} × 1024 × 1024 × 1024`
+                : `${currentTask.dataSize.val} × 1024 × 1024`;
+
+            sol.innerHTML = `
+                <div class="mb-4">
+                    <strong class="text-blue-400">1. Umrechnung der Dateigröße in Bit:</strong><br>
+                    Byte: ${sizeStr} = ${(currentTask.bits/8).toLocaleString('de-DE')} Byte<br>
+                    Bit: ${(currentTask.bits/8).toLocaleString('de-DE')} Byte × 8 = ${currentTask.bits.toLocaleString('de-DE')} Bit
+                </div>
+                <div class="mb-4">
+                    <strong class="text-blue-400">2. Hinzurechnen des Overheads (${currentTask.overhead}%):</strong><br>
+                    ${currentTask.bits.toLocaleString('de-DE')} Bit × 1,${currentTask.overhead < 10 ? '0'+currentTask.overhead : currentTask.overhead} = ${currentTask.bitsWithOverhead.toLocaleString('de-DE')} Bit zu übertragen
+                </div>
+                <div class="mb-4">
+                    <strong class="text-blue-400">3. Bandbreite in Bit/s ermitteln:</strong><br>
+                    ${currentTask.bandwidth.val} ${currentTask.bandwidth.unit} = ${currentTask.bandwidth.bps.toLocaleString('de-DE')} Bit/s (Faktor 1000 bei Netzwerken!)
+                </div>
+                <div class="mb-4">
+                    <strong class="text-blue-400">4. Dauer in Sekunden berechnen:</strong><br>
+                    ${currentTask.bitsWithOverhead.toLocaleString('de-DE')} Bit / ${currentTask.bandwidth.bps.toLocaleString('de-DE')} Bit/s = ${currentTask.timeSecondsTotal.toFixed(2)} Sekunden
+                </div>
+                <div>
+                    <strong class="text-blue-400">5. Umrechnung in Minuten und Sekunden:</strong><br>
+                    Minuten: ${currentTask.timeSecondsTotal.toFixed(2)} / 60 = ${Math.floor(currentTask.timeSecondsTotal/60)} Min<br>
+                    Restsekunden: ${currentTask.timeSecondsTotal.toFixed(2)} - (${Math.floor(currentTask.timeSecondsTotal/60)} × 60) = ${(currentTask.timeSecondsTotal % 60).toFixed(2)} Sek -> gerundet: ${Math.round(currentTask.timeSecondsTotal % 60)} Sek<br><br>
+                    <span class="text-white bg-slate-800 px-2 py-1 rounded font-bold">${currentTask.timeMinutes} min ${currentTask.timeSeconds} sek</span>
+                </div>
+            `;
+        }
+
+        window.onload = () => {
+            generateTask();
+            if(window.MatrixController) {
+                window.MatrixController.setPlayState(false);
+            }
+        };
+    </script>
+</body>
+</html>
