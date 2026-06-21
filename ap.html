@@ -46,15 +46,44 @@
             <h2 class="text-3xl font-bold text-white mb-8 border-b border-slate-700 pb-3 font-mono">AP (Anwendungsentwicklung und Programmierung)</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
 
-            <!-- Empty State Card -->
-            <div class="glass-card rounded-2xl p-6 flex flex-col justify-center items-center text-center group h-full min-h-[250px]">
-                <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 text-xl font-bold mb-4 opacity-50">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <!-- C++ Syntax Trainer Card -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col group relative overflow-hidden h-full">
+                <!-- Neon Hover Effect -->
+                <div class="absolute inset-0 bg-gradient-to-br from-red-500/0 to-red-600/0 group-hover:from-red-500/5 group-hover:to-red-600/10 transition-all duration-500 z-0 pointer-events-none"></div>
+
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 text-xl font-bold mb-4 shadow-[0_0_15px_rgba(239,68,68,0.2)] group-hover:shadow-[0_0_25px_rgba(239,68,68,0.4)] transition-all duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-mono tracking-tight group-hover:text-red-400 transition-colors">C++ Syntax Trainer</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                        Fülle Lücken in kleinen C++ Code Snippets aus. Trainiert das Verständnis für Schleifen, Bedingungen, Datentypen und Klassen.
+                    </p>
+                    <a href="CppSyntaxTrainer.html" class="inline-flex items-center justify-between w-full px-4 py-3 bg-slate-800/50 hover:bg-red-500/10 border border-slate-700 hover:border-red-500/30 rounded-xl text-slate-300 hover:text-red-400 transition-all duration-300 group/btn mt-auto">
+                        <span class="font-medium text-sm">Trainer starten</span>
+                        <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                    </a>
                 </div>
-                <h3 class="text-lg font-semibold text-slate-300 mb-2">In Planung</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">
-                    Noch keine Lernwerkzeuge in diesem Fach verfügbar.
-                </p>
+            </div>
+
+            <!-- SQL Query Trainer Card -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col group relative overflow-hidden h-full">
+                <!-- Neon Hover Effect -->
+                <div class="absolute inset-0 bg-gradient-to-br from-red-500/0 to-red-600/0 group-hover:from-red-500/5 group-hover:to-red-600/10 transition-all duration-500 z-0 pointer-events-none"></div>
+
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 text-xl font-bold mb-4 shadow-[0_0_15px_rgba(239,68,68,0.2)] group-hover:shadow-[0_0_25px_rgba(239,68,68,0.4)] transition-all duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-mono tracking-tight group-hover:text-red-400 transition-colors">SQL Query Trainer</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                        Schreibe SQL Statements für verschiedene Aufgaben anhand vorgegebener Datenbankschemata. Übe SELECT, INSERT, UPDATE, DELETE und JOIN.
+                    </p>
+                    <a href="SqlTrainer.html" class="inline-flex items-center justify-between w-full px-4 py-3 bg-slate-800/50 hover:bg-red-500/10 border border-slate-700 hover:border-red-500/30 rounded-xl text-slate-300 hover:text-red-400 transition-all duration-300 group/btn mt-auto">
+                        <span class="font-medium text-sm">Trainer starten</span>
+                        <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                    </a>
+                </div>
             </div>
 
             </div>
