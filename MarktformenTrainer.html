@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Marktformen Trainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <div class="fixed inset-0 z-0 pointer-events-none"></div>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-purple-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-16 max-w-3xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+                <span class="font-mono">BGP Training</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Marktformen Trainer
+            </h1>
+            <p class="mt-4 text-base md:text-lg text-slate-400">
+                Trainiere dein Wissen zu Monopol, Oligopol und Polypol anhand von Merkmalen und Beispielen.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8">
+            <button onclick="window.location.href='bgp.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Tool Container -->
+        <div class="glass-card rounded-2xl p-6 md:p-8 flex flex-col items-center">
+
+            <div class="w-full text-center mb-8">
+                <h2 class="text-xl font-medium text-slate-300 mb-2 font-mono">Ordne die folgende Situation zu:</h2>
+                <div id="question-box" class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6 text-2xl font-bold text-white min-h-[120px] flex items-center justify-center text-center shadow-inner">
+                    <!-- Question will be inserted here -->
+                </div>
+            </div>
+
+            <div id="answer-box" class="w-full text-center mb-8 hidden">
+                <h3 class="text-lg font-medium text-purple-400 mb-2 font-mono">Lösung:</h3>
+                <div id="solution-text" class="text-3xl font-extrabold text-white">
+                    <!-- Solution will be inserted here -->
+                </div>
+                <div id="explanation-text" class="mt-4 text-slate-400">
+                    <!-- Explanation will be inserted here -->
+                </div>
+            </div>
+
+            <div class="w-full flex justify-center">
+                <button id="action-btn" class="w-full sm:w-auto px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-purple-900/50 hover:shadow-purple-900/80 active:scale-95 flex items-center justify-center gap-2">
+                    <span>Lösung anzeigen</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script>
+        const tasks = [
+            // Combinations of suppliers and demanders
+            { question: "Viele Anbieter, viele Nachfrager", solution: "Polypol", explanation: "Das zweiseitige Polypol (vollkommene Konkurrenz) zeichnet sich durch viele Marktteilnehmer auf beiden Seiten aus." },
+            { question: "Wenige Anbieter, viele Nachfrager", solution: "Angebotsoligopol", explanation: "Beim Angebotsoligopol stehen wenigen Anbietern viele Nachfrager gegenüber." },
+            { question: "Ein Anbieter, viele Nachfrager", solution: "Angebotsmonopol", explanation: "Ein Angebotsmonopol liegt vor, wenn es nur einen Anbieter für ein Produkt, aber viele Nachfrager gibt." },
+            { question: "Viele Anbieter, wenige Nachfrager", solution: "Nachfrageoligopol (Oligopson)", explanation: "Hier gibt es viele Anbieter, die sich um wenige Nachfrager bemühen." },
+            { question: "Wenige Anbieter, wenige Nachfrager", solution: "Zweiseitiges Oligopol", explanation: "Wenige Anbieter treffen auf wenige Nachfrager." },
+            { question: "Ein Anbieter, wenige Nachfrager", solution: "Beschränktes Angebotsmonopol", explanation: "Es gibt nur einen Anbieter, aber auch nur wenige Nachfrager." },
+            { question: "Viele Anbieter, ein Nachfrager", solution: "Nachfragemonopol (Monopson)", explanation: "Viele Anbieter stehen nur einem einzigen Nachfrager gegenüber." },
+            { question: "Wenige Anbieter, ein Nachfrager", solution: "Beschränktes Nachfragemonopol", explanation: "Wenige Anbieter bemühen sich um einen einzigen Nachfrager." },
+            { question: "Ein Anbieter, ein Nachfrager", solution: "Zweiseitiges Monopol", explanation: "Es gibt genau einen Anbieter und genau einen Nachfrager für ein Produkt." },
+
+            // Real-world examples
+            { question: "Beispiel: Der Staat als einziger Käufer von militärischen Spezialfahrzeugen, die von mehreren Herstellern angeboten werden.", solution: "Nachfragemonopol (Monopson)", explanation: "Der Staat ist der einzige Nachfrager (ein Käufer), dem viele Anbieter (Hersteller) gegenüberstehen." },
+            { question: "Beispiel: Ein kleines Dorf hat nur einen einzigen Arzt, den alle Einwohner besuchen.", solution: "Angebotsmonopol", explanation: "Ein Anbieter (der Arzt) steht vielen Nachfragern (den Dorfbewohnern) gegenüber." },
+            { question: "Beispiel: Der Markt für Benzin an Tankstellen in einer Stadt, betrieben von wenigen großen Mineralölkonzernen.", solution: "Angebotsoligopol", explanation: "Wenige Anbieter (Tankstellenketten) bedienen viele Nachfrager (Autofahrer)." },
+            { question: "Beispiel: Der Aktienmarkt, an dem täglich tausende Käufer und Verkäufer mit Aktien handeln.", solution: "Polypol", explanation: "Viele Anbieter und viele Nachfrager treffen aufeinander." },
+            { question: "Beispiel: Tarifverhandlungen zwischen einer großen Gewerkschaft und einem großen Arbeitgeberverband.", solution: "Zweiseitiges Monopol", explanation: "Oft als zweiseitiges Monopol betrachtet, da ein Anbieter (Gewerkschaft für Arbeit) auf einen Nachfrager (Arbeitgeberverband) trifft." },
+            { question: "Beispiel: Die Herstellung von Flugzeugen durch Boeing und Airbus für einige wenige große Fluggesellschaften weltweit.", solution: "Zweiseitiges Oligopol", explanation: "Wenige Anbieter (Flugzeughersteller) stehen wenigen Nachfragern (große Airlines) gegenüber." },
+            { question: "Beispiel: Ein staatliches Eisenbahnunternehmen als einziger Nachfrager von Speziallokomotiven, die von 3-4 spezialisierten Herstellern gebaut werden.", solution: "Beschränktes Nachfragemonopol", explanation: "Ein Nachfrager (Staatliche Bahn) trifft auf wenige Anbieter (Lokomotivhersteller)." },
+            { question: "Beispiel: Ein Patent auf ein neues Medikament, das nur für eine sehr seltene Krankheit (wenige Patienten) eingesetzt wird.", solution: "Beschränktes Angebotsmonopol", explanation: "Ein Anbieter (Pharmaunternehmen mit Patent) steht wenigen Nachfragern (Patienten mit seltener Krankheit) gegenüber." },
+            { question: "Beispiel: Der Markt für Brötchen beim Bäcker um die Ecke in einer Großstadt.", solution: "Polypol", explanation: "Es gibt viele Bäckereien (Anbieter) und viele Kunden (Nachfrager)." }
+        ];
+
+        const questionBox = document.getElementById('question-box');
+        const answerBox = document.getElementById('answer-box');
+        const solutionText = document.getElementById('solution-text');
+        const explanationText = document.getElementById('explanation-text');
+        const actionBtn = document.getElementById('action-btn');
+        const btnText = actionBtn.querySelector('span');
+
+        let currentTask = null;
+        let isShowingAnswer = false;
+
+        function getRandomTask() {
+            const randomIndex = Math.floor(Math.random() * tasks.length);
+            return tasks[randomIndex];
+        }
+
+        function displayNextTask() {
+            currentTask = getRandomTask();
+            questionBox.textContent = currentTask.question;
+
+            // Hide answer box
+            answerBox.classList.add('hidden');
+
+            // Update button
+            btnText.textContent = "Lösung anzeigen";
+            actionBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500', 'shadow-emerald-900/50', 'hover:shadow-emerald-900/80');
+            actionBtn.classList.add('bg-purple-600', 'hover:bg-purple-500', 'shadow-purple-900/50', 'hover:shadow-purple-900/80');
+
+            // Update SVG to "eye"
+            actionBtn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>';
+
+            isShowingAnswer = false;
+        }
+
+        function showAnswer() {
+            solutionText.textContent = currentTask.solution;
+            explanationText.textContent = currentTask.explanation;
+
+            // Show answer box
+            answerBox.classList.remove('hidden');
+
+            // Update button
+            btnText.textContent = "Nächste Aufgabe";
+            actionBtn.classList.remove('bg-purple-600', 'hover:bg-purple-500', 'shadow-purple-900/50', 'hover:shadow-purple-900/80');
+            actionBtn.classList.add('bg-emerald-600', 'hover:bg-emerald-500', 'shadow-emerald-900/50', 'hover:shadow-emerald-900/80');
+
+            // Update SVG to "arrow right"
+            actionBtn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>';
+
+            isShowingAnswer = true;
+        }
+
+        actionBtn.addEventListener('click', () => {
+            if (isShowingAnswer) {
+                displayNextTask();
+            } else {
+                showAnswer();
+            }
+        });
+
+        // Initialize the first task
+        displayNextTask();
+    </script>
+</body>
+</html>
