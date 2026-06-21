@@ -299,11 +299,39 @@ if (!isPaused) {
     matrixInterval = setInterval(draw, 33);
 }
 
+// Game state
+let isGameEnabled = sessionStorage.getItem('matrixGameEnabled') !== 'false';
+
 document.addEventListener('DOMContentLoaded', () => {
     const styleBtn = document.getElementById('settings-matrix-style-toggle');
     if (styleBtn) {
         styleBtn.textContent = currentStyle === 'custom' ? 'Wechseln zu Classic' : 'Wechseln zu Custom';
         styleBtn.addEventListener('click', toggleMatrixStyle);
+    }
+
+    const gameBtn = document.getElementById('settings-matrix-game-toggle');
+    if (gameBtn) {
+        gameBtn.textContent = isGameEnabled ? 'Deaktivieren' : 'Aktivieren';
+        if (!isGameEnabled) {
+            gameBtn.classList.replace('bg-indigo-500/20', 'bg-slate-800');
+            gameBtn.classList.replace('text-indigo-400', 'text-slate-400');
+            gameBtn.classList.replace('border-indigo-500/30', 'border-slate-700');
+        }
+        gameBtn.addEventListener('click', () => {
+            isGameEnabled = !isGameEnabled;
+            sessionStorage.setItem('matrixGameEnabled', isGameEnabled);
+            gameBtn.textContent = isGameEnabled ? 'Deaktivieren' : 'Aktivieren';
+
+            if (isGameEnabled) {
+                gameBtn.classList.replace('bg-slate-800', 'bg-indigo-500/20');
+                gameBtn.classList.replace('text-slate-400', 'text-indigo-400');
+                gameBtn.classList.replace('border-slate-700', 'border-indigo-500/30');
+            } else {
+                gameBtn.classList.replace('bg-indigo-500/20', 'bg-slate-800');
+                gameBtn.classList.replace('text-indigo-400', 'text-slate-400');
+                gameBtn.classList.replace('border-indigo-500/30', 'border-slate-700');
+            }
+        });
     }
 
     const pauseBtn = document.getElementById('matrix-pause-btn');
@@ -315,8 +343,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Click event listener for minigame interaction
 canvas.addEventListener('click', (event) => {
-    // Only active in custom mode
-    if (currentStyle !== 'custom') return;
+    // Only active in custom mode and when game is enabled
+    if (currentStyle !== 'custom' || !isGameEnabled) return;
 
     const rect = canvas.getBoundingClientRect();
     const clickX = event.clientX - rect.left;
