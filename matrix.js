@@ -447,6 +447,12 @@ function triggerNeoEasterEgg() {
                     // Done typing
                     setTimeout(() => {
                         overlay.style.opacity = '0';
+                        // Activate classic matrix rain during fade back if not already active
+                        if (currentStyle !== 'classic') {
+                            if (typeof toggleMatrixStyle === 'function') {
+                                toggleMatrixStyle();
+                            }
+                        }
                         setTimeout(() => {
                             document.body.removeChild(overlay);
                             if (!wasPaused) togglePause(); // Resume if it was playing
