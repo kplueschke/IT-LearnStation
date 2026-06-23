@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>IT-Ausbildung Lernwerkzeuge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-red-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.99l1.005.828c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+                <span class="font-mono">AP Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                UML Aktivitätsdiagramm Elemente
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Eine Übersicht über die wichtigsten grafischen Elemente, aus denen ein UML-Aktivitätsdiagramm aufgebaut ist.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='ap.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section: Grid -->
+        <section class="w-full max-w-4xl mx-auto mb-16">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Startpunkt -->
+                <div class="glass-card glass-card-hover-red rounded-xl p-6 flex items-start gap-4 group">
+                    <div class="flex-shrink-0 w-16 h-16 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-10 h-10 text-red-400" viewBox="0 0 24 24" fill="currentColor">
+                            <circle cx="12" cy="12" r="8"></circle>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Startknoten (Initial Node)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                            Kennzeichnet den Beginn eines Aktivitätsdiagramms. Es ist der Einstiegspunkt in den Ablauf.
+                        </p>
+                        <p class="text-slate-300 text-sm italic border-l-2 border-red-500/50 pl-3">
+                            Wird als vollständig ausgefüllter, schwarzer (bzw. einfarbiger) Kreis dargestellt.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Endpunkt -->
+                <div class="glass-card glass-card-hover-red rounded-xl p-6 flex items-start gap-4 group">
+                    <div class="flex-shrink-0 w-16 h-16 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-10 h-10 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="8" fill="none"></circle>
+                            <circle cx="12" cy="12" r="4" fill="currentColor"></circle>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Endknoten (Final Node)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                            Kennzeichnet das Ende des gesamten Ablaufs. Wenn dieser Knoten erreicht wird, stoppt die gesamte Aktivität.
+                        </p>
+                        <p class="text-slate-300 text-sm italic border-l-2 border-red-500/50 pl-3">
+                            Wird als ausgefüllter Kreis mit einer zusätzlichen, äußeren Umrandung ("Bullseye") dargestellt.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Aktion -->
+                <div class="glass-card glass-card-hover-red rounded-xl p-6 flex items-start gap-4 group">
+                    <div class="flex-shrink-0 w-16 h-16 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-10 h-10 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="6" width="18" height="12" rx="4" fill="none"></rect>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Aktion (Action)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                            Stellt einen elementaren Schritt oder eine atomare Aufgabe innerhalb des Ablaufs dar, die ausgeführt wird.
+                        </p>
+                        <p class="text-slate-300 text-sm italic border-l-2 border-red-500/50 pl-3">
+                            Wird als abgerundetes Rechteck gezeichnet, in dem die Beschreibung der Aktion steht.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Entscheidungsknoten -->
+                <div class="glass-card glass-card-hover-red rounded-xl p-6 flex items-start gap-4 group">
+                    <div class="flex-shrink-0 w-16 h-16 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-10 h-10 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12,3 21,12 12,21 3,12"></polygon>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Entscheidung / Verzweigung (Decision Node)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                            Spaltet den Kontrollfluss basierend auf einer Bedingung (Guard) auf. Nur ein Pfad kann weiterverfolgt werden.
+                        </p>
+                        <p class="text-slate-300 text-sm italic border-l-2 border-red-500/50 pl-3">
+                            Wird als Raute gezeichnet. Die abgehenden Pfade haben meist Bedingungen in eckigen Klammern [ ].
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Synchronisationsknoten -->
+                <div class="glass-card glass-card-hover-red rounded-xl p-6 flex items-start gap-4 group">
+                    <div class="flex-shrink-0 w-16 h-16 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-10 h-10 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="4" y1="12" x2="20" y2="12" stroke-width="4"></line>
+                            <line x1="8" y1="4" x2="8" y2="12"></line>
+                            <line x1="16" y1="4" x2="16" y2="12"></line>
+                            <line x1="12" y1="12" x2="12" y2="20"></line>
+                            <polygon points="12,20 10,16 14,16" fill="currentColor"></polygon>
+                            <polygon points="8,12 6,8 10,8" fill="currentColor"></polygon>
+                            <polygon points="16,12 14,8 18,8" fill="currentColor"></polygon>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Gabelung / Vereinigung (Fork / Join)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                            Erlaubt parallele Abläufe. Eine Gabelung (Fork) spaltet den Fluss in mehrere parallele Fäden auf, eine Vereinigung (Join) wartet, bis alle parallelen Fäden ankommen.
+                        </p>
+                        <p class="text-slate-300 text-sm italic border-l-2 border-red-500/50 pl-3">
+                            Wird als dicker, ausgefüllter schwarzer Balken (horizontal oder vertikal) gezeichnet.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Kanten -->
+                <div class="glass-card glass-card-hover-red rounded-xl p-6 flex items-start gap-4 group">
+                    <div class="flex-shrink-0 w-16 h-16 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-10 h-10 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="4" y1="12" x2="18" y2="12"></line>
+                            <polygon points="20,12 14,8 14,16" fill="currentColor" stroke="none"></polygon>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Kontrollfluss (Control Flow)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                            Zeigt die zeitliche und logische Reihenfolge an, in der Aktionen ausgeführt werden.
+                        </p>
+                        <p class="text-slate-300 text-sm italic border-l-2 border-red-500/50 pl-3">
+                            Wird als durchgehender Pfeil mit offener Spitze gezeichnet.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>
