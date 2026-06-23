@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Datenstrukturen Grundlagen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-red-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.99l1.005.828c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-16 max-w-4xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+                <span class="font-mono">AP - Grundlagen</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400 mb-4">
+                Datenstrukturen
+            </h1>
+            <p class="text-slate-400 text-lg">
+                Eine Übersicht der wichtigsten grundlegenden Datenstrukturen: Arrays, Verkettete Listen, Stacks und Queues.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8">
+            <button onclick="window.location.href='ap.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="space-y-8">
+
+            <!-- Array -->
+            <section class="glass-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                        </svg>
+                    </div>
+                    Arrays (Felder)
+                </h2>
+                <div class="text-slate-300 leading-relaxed space-y-4">
+                    <p>
+                        Ein <strong>Array</strong> ist die einfachste und am häufigsten verwendete Datenstruktur. Es speichert eine feste Anzahl von Elementen des <em>gleichen Datentyps</em> in einem zusammenhängenden Speicherblock.
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 ml-4 text-slate-400">
+                        <li><strong>Zugriff:</strong> Sehr schnell (<code class="font-mono text-red-300 text-sm">O(1)</code>), da auf jedes Element direkt über seinen Index zugegriffen werden kann (beginnend bei 0).</li>
+                        <li><strong>Größe:</strong> Bei statischen Arrays ist die Größe zur Kompilierzeit festgelegt und kann später nicht geändert werden. Dynamische Arrays (wie <code class="font-mono text-slate-300 text-sm">std::vector</code> in C++ oder <code class="font-mono text-slate-300 text-sm">List</code> in C#) können wachsen, erfordern aber beim Vergrößern das Kopieren aller Elemente.</li>
+                        <li><strong>Vorteile:</strong> Kompakt im Speicher, schneller wahlfreier Zugriff.</li>
+                        <li><strong>Nachteile:</strong> Einfügen/Löschen in der Mitte ist langsam, da nachfolgende Elemente verschoben werden müssen.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Linked List -->
+            <section class="glass-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                    </div>
+                    Verkettete Listen
+                </h2>
+                <div class="text-slate-300 leading-relaxed space-y-4">
+                    <p>
+                        Eine <strong>verkettete Liste</strong> besteht aus einzelnen Knoten (Nodes), die über den Speicher verteilt sein können. Jeder Knoten enthält die eigentlichen Daten sowie einen <em>Zeiger (Referenz)</em> auf den nächsten Knoten. Bei einer <em>doppelt verketteten Liste</em> gibt es auch einen Zeiger auf den vorherigen Knoten.
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 ml-4 text-slate-400">
+                        <li><strong>Zugriff:</strong> Langsam (<code class="font-mono text-red-300 text-sm">O(n)</code>), um auf das n-te Element zuzugreifen, muss man vom ersten Knoten (Head) an alle Elemente durchlaufen.</li>
+                        <li><strong>Größe:</strong> Dynamisch. Es können beliebig viele Knoten hinzugefügt werden, solange Speicherplatz verfügbar ist.</li>
+                        <li><strong>Vorteile:</strong> Sehr schnelles Einfügen und Löschen von Elementen (wenn die Position bekannt ist), da nur Zeiger umgebogen werden müssen. Es müssen keine Elemente verschoben werden.</li>
+                        <li><strong>Nachteile:</strong> Kein direkter Zugriff (Index), zusätzlicher Speicherbedarf für die Zeiger, Elemente liegen nicht hintereinander im Cache (schlechtere Cache-Lokalität als Arrays).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Stack -->
+            <section class="glass-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    Stack (Stapel / Kellerspeicher)
+                </h2>
+                <div class="text-slate-300 leading-relaxed space-y-4">
+                    <p>
+                        Ein <strong>Stack</strong> ist eine abstrakte Datenstruktur, die nach dem <strong>LIFO-Prinzip (Last-In, First-Out)</strong> arbeitet. Man kann sich das wie einen Tellerstapel vorstellen: Das Element, das zuletzt daraufgelegt wurde, wird als Erstes wieder heruntergenommen.
+                    </p>
+                    <div class="bg-slate-900/50 p-4 rounded-lg border border-slate-700/50 mt-4">
+                        <h3 class="text-white font-medium mb-2">Hauptoperationen:</h3>
+                        <ul class="list-disc list-inside space-y-1 text-slate-400">
+                            <li><code class="font-mono text-red-300 text-sm">push(element)</code>: Legt ein Element oben auf den Stack.</li>
+                            <li><code class="font-mono text-red-300 text-sm">pop()</code>: Entfernt das oberste Element und gibt es zurück.</li>
+                            <li><code class="font-mono text-red-300 text-sm">peek() / top()</code>: Gibt das oberste Element zurück, ohne es zu entfernen.</li>
+                        </ul>
+                    </div>
+                    <p class="text-slate-400">
+                        <strong>Anwendungsbeispiele:</strong> Rückgängig-Funktion (Undo) in Texteditoren, Auswerten von mathematischen Ausdrücken (UPN), Call-Stack bei Funktionsaufrufen im Programm (Speichern von Rücksprungadressen und lokalen Variablen).
+                    </p>
+                </div>
+            </section>
+
+            <!-- Queue -->
+            <section class="glass-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                        </svg>
+                    </div>
+                    Queue (Warteschlange)
+                </h2>
+                <div class="text-slate-300 leading-relaxed space-y-4">
+                    <p>
+                        Eine <strong>Queue</strong> ist eine abstrakte Datenstruktur, die nach dem <strong>FIFO-Prinzip (First-In, First-Out)</strong> arbeitet. Es funktioniert wie eine Warteschlange an der Supermarktkasse: Wer sich zuerst anstellt, wird auch als Erstes bedient.
+                    </p>
+                    <div class="bg-slate-900/50 p-4 rounded-lg border border-slate-700/50 mt-4">
+                        <h3 class="text-white font-medium mb-2">Hauptoperationen:</h3>
+                        <ul class="list-disc list-inside space-y-1 text-slate-400">
+                            <li><code class="font-mono text-red-300 text-sm">enqueue(element) / push()</code>: Fügt ein Element am Ende (Tail) der Schlange ein.</li>
+                            <li><code class="font-mono text-red-300 text-sm">dequeue() / pop()</code>: Entfernt das vorderste Element (Head) der Schlange und gibt es zurück.</li>
+                            <li><code class="font-mono text-red-300 text-sm">front() / peek()</code>: Gibt das vorderste Element zurück, ohne es zu entfernen.</li>
+                        </ul>
+                    </div>
+                    <p class="text-slate-400">
+                        <strong>Anwendungsbeispiele:</strong> Druckaufträge (Druckerwarteschlange), Task-Scheduling im Betriebssystem, asynchrone Nachrichtenverarbeitung (Message Queues).
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+</body>
+</html>

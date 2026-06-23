@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Datentypen und Parameterübergabe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-red-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.99l1.005.828c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-16 max-w-4xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+                <span class="font-mono">AP - Grundlagen</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400 mb-4">
+                Datentypen & Parameter
+            </h1>
+            <p class="text-slate-400 text-lg">
+                Werttypen vs. Referenztypen und das Prinzip der Parameterübergabe (Call-by-Value vs. Call-by-Reference).
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8">
+            <button onclick="window.location.href='ap.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="space-y-8">
+
+            <!-- Werttypen vs Referenztypen -->
+            <section class="glass-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                        </svg>
+                    </div>
+                    Werttypen vs. Referenztypen
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <!-- Werttypen -->
+                    <div class="bg-slate-900/50 p-5 rounded-xl border border-slate-700/50">
+                        <h3 class="text-xl font-bold text-red-400 mb-3 font-mono">Werttypen</h3>
+                        <p class="text-slate-300 text-sm mb-4 leading-relaxed">
+                            Bei Werttypen wird der eigentliche <strong>Wert direkt im Speicher</strong> abgelegt (meistens auf dem Stack). Wenn eine Variable einem Werttyp zugewiesen wird, erhält sie eine eigene Kopie der Daten.
+                        </p>
+                        <ul class="list-disc list-inside space-y-1 text-slate-400 text-sm mb-4">
+                            <li>Beispiele: <code class="font-mono text-red-300">int</code>, <code class="font-mono text-red-300">float</code>, <code class="font-mono text-red-300">bool</code>, <code class="font-mono text-red-300">char</code></li>
+                            <li>Zuweisung <code class="font-mono text-red-300">a = b</code> kopiert den Wert. Änderungen an <code class="font-mono text-red-300">a</code> betreffen <code class="font-mono text-red-300">b</code> nicht.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Referenztypen -->
+                    <div class="bg-slate-900/50 p-5 rounded-xl border border-slate-700/50">
+                        <h3 class="text-xl font-bold text-red-400 mb-3 font-mono">Referenztypen</h3>
+                        <p class="text-slate-300 text-sm mb-4 leading-relaxed">
+                            Bei Referenztypen speichert die Variable nicht die Daten selbst, sondern nur einen <strong>Verweis (eine Speicheradresse / Zeiger)</strong> auf den Ort, an dem die Daten liegen (meistens auf dem Heap).
+                        </p>
+                        <ul class="list-disc list-inside space-y-1 text-slate-400 text-sm mb-4">
+                            <li>Beispiele: Klassen, Arrays, Strings (oftmals), Objekte</li>
+                            <li>Zuweisung <code class="font-mono text-red-300">a = b</code> kopiert nur die Referenz. Beide Variablen zeigen auf dasselbe Objekt im Speicher!</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call by Value -->
+            <section class="glass-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                        </svg>
+                    </div>
+                    Call-by-Value (Werteübergabe)
+                </h2>
+                <div class="text-slate-300 leading-relaxed space-y-4">
+                    <p>
+                        Wird eine Variable "by Value" an eine Funktion übergeben, so erhält die Funktion eine <strong>Kopie</strong> des Wertes. Änderungen an der Variable innerhalb der Funktion haben <strong>keine</strong> Auswirkungen auf die ursprüngliche Variable außerhalb der Funktion.
+                    </p>
+
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-sm overflow-x-auto relative group">
+                        <div class="absolute top-2 right-2 text-xs text-slate-500 font-sans uppercase tracking-widest bg-slate-900 px-2 py-1 rounded">C++</div>
+                        <pre><code class="text-slate-300"><span class="text-purple-400">void</span> <span class="text-blue-400">verdopple</span>(<span class="text-purple-400">int</span> x) {
+    x = x * <span class="text-orange-400">2</span>;  <span class="text-slate-500">// Ändert nur die lokale Kopie</span>
+}
+
+<span class="text-purple-400">int</span> <span class="text-blue-400">main</span>() {
+    <span class="text-purple-400">int</span> zahl = <span class="text-orange-400">5</span>;
+    verdopple(zahl);
+    <span class="text-slate-500">// zahl ist hier immer noch 5!</span>
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call by Reference -->
+            <section class="glass-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                    </div>
+                    Call-by-Reference (Referenzübergabe)
+                </h2>
+                <div class="text-slate-300 leading-relaxed space-y-4">
+                    <p>
+                        Wird eine Variable "by Reference" übergeben, erhält die Funktion die <strong>Speicheradresse</strong> der originalen Variable. Dadurch arbeitet die Funktion direkt mit dem Original. Änderungen, die innerhalb der Funktion gemacht werden, sind <strong>auch außerhalb sichtbar</strong>.
+                    </p>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <!-- C++ Example -->
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-sm overflow-x-auto relative group">
+                            <div class="absolute top-2 right-2 text-xs text-slate-500 font-sans uppercase tracking-widest bg-slate-900 px-2 py-1 rounded">C++</div>
+                            <pre><code class="text-slate-300"><span class="text-purple-400">void</span> <span class="text-blue-400">verdopple</span>(<span class="text-purple-400">int</span>& x) {
+    <span class="text-slate-500">// x ist eine Referenz (&)</span>
+    x = x * <span class="text-orange-400">2</span>;
+}
+
+<span class="text-purple-400">int</span> <span class="text-blue-400">main</span>() {
+    <span class="text-purple-400">int</span> zahl = <span class="text-orange-400">5</span>;
+    verdopple(zahl);
+    <span class="text-slate-500">// zahl ist hier jetzt 10!</span>
+}</code></pre>
+                        </div>
+
+                        <!-- C# Example -->
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-sm overflow-x-auto relative group">
+                            <div class="absolute top-2 right-2 text-xs text-slate-500 font-sans uppercase tracking-widest bg-slate-900 px-2 py-1 rounded">C#</div>
+                            <pre><code class="text-slate-300"><span class="text-purple-400">void</span> <span class="text-blue-400">Verdopple</span>(<span class="text-purple-400">ref</span> <span class="text-purple-400">int</span> x) {
+    <span class="text-slate-500">// Schlüsselwort 'ref'</span>
+    x = x * <span class="text-orange-400">2</span>;
+}
+
+<span class="text-purple-400">void</span> <span class="text-blue-400">Main</span>() {
+    <span class="text-purple-400">int</span> zahl = <span class="text-orange-400">5</span>;
+    Verdopple(<span class="text-purple-400">ref</span> zahl);
+    <span class="text-slate-500">// zahl ist hier jetzt 10!</span>
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+</body>
+</html>
