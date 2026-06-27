@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Grundgesetz (Art. 1-20)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-slate-400/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.99l1.005.828c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-400/10 border border-slate-400/20 text-slate-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-slate-400 animate-pulse"></span>
+                <span class="font-mono">PUG Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Grundgesetz: Artikel 1-20
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Die Grundrechte (Art. 1-19) sowie wichtige Staatsstrukturprinzipien (Art. 20) der Bundesrepublik Deutschland im Überblick.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='pug.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section: Grid -->
+        <section class="w-full max-w-6xl mx-auto mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Art 1 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">1</div>
+                        <h3 class="text-lg font-semibold text-white">Menschenwürde</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Die Würde des Menschen ist unantastbar. Sie zu achten und zu schützen ist Verpflichtung aller staatlichen Gewalt.
+                    </p>
+                </div>
+
+                <!-- Art 2 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">2</div>
+                        <h3 class="text-lg font-semibold text-white">Persönliche Freiheitsrechte</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Jeder hat das Recht auf die freie Entfaltung seiner Persönlichkeit, auf Leben und körperliche Unversehrtheit. Die Freiheit der Person ist unverletzlich.
+                    </p>
+                </div>
+
+                <!-- Art 3 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">3</div>
+                        <h3 class="text-lg font-semibold text-white">Gleichheit vor dem Gesetz</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Alle Menschen sind vor dem Gesetz gleich. Männer und Frauen sind gleichberechtigt. Niemand darf wegen seines Geschlechtes, seiner Abstammung, Herkunft, Glaubens etc. benachteiligt werden.
+                    </p>
+                </div>
+
+                <!-- Art 4 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">4</div>
+                        <h3 class="text-lg font-semibold text-white">Glaubens- & Gewissensfreiheit</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Die Freiheit des Glaubens, des Gewissens und die Freiheit des religiösen und weltanschaulichen Bekenntnisses sind unverletzlich. Das Recht der Kriegsdienstverweigerung wird anerkannt.
+                    </p>
+                </div>
+
+                <!-- Art 5 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">5</div>
+                        <h3 class="text-lg font-semibold text-white">Meinungs- & Pressefreiheit</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Jeder hat das Recht, seine Meinung in Wort, Schrift und Bild frei zu äußern. Die Pressefreiheit und die Freiheit der Berichterstattung werden gewährleistet. Eine Zensur findet nicht statt.
+                    </p>
+                </div>
+
+                <!-- Art 6 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">6</div>
+                        <h3 class="text-lg font-semibold text-white">Ehe, Familie, Kinder</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Ehe und Familie stehen unter dem besonderen Schutze der staatlichen Ordnung. Pflege und Erziehung der Kinder sind das natürliche Recht der Eltern und die zuvörderst ihnen obliegende Pflicht.
+                    </p>
+                </div>
+
+                <!-- Art 7 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">7</div>
+                        <h3 class="text-lg font-semibold text-white">Schulwesen</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Das gesamte Schulwesen steht unter der Aufsicht des Staates. Religionsunterricht ist ordentliches Lehrfach.
+                    </p>
+                </div>
+
+                <!-- Art 8 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">8</div>
+                        <h3 class="text-lg font-semibold text-white">Versammlungsfreiheit</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Alle Deutschen haben das Recht, sich ohne Anmeldung oder Erlaubnis friedlich und ohne Waffen zu versammeln.
+                    </p>
+                </div>
+
+                <!-- Art 9 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">9</div>
+                        <h3 class="text-lg font-semibold text-white">Vereinigungsfreiheit</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Alle Deutschen haben das Recht, Vereine und Gesellschaften zu bilden. Koalitionen zur Wahrung und Förderung der Arbeits- und Wirtschaftsbedingungen (Gewerkschaften) sind geschützt.
+                    </p>
+                </div>
+
+                <!-- Art 10 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">10</div>
+                        <h3 class="text-lg font-semibold text-white">Brief-, Post- & Fernmeldegeheimnis</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Das Briefgeheimnis sowie das Post- und Fernmeldegeheimnis sind unverletzlich. Beschränkungen dürfen nur auf Grund eines Gesetzes angeordnet werden.
+                    </p>
+                </div>
+
+                <!-- Art 11 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">11</div>
+                        <h3 class="text-lg font-semibold text-white">Freizügigkeit</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Alle Deutschen genießen Freizügigkeit im ganzen Bundesgebiet. Sie dürfen sich an jedem Ort innerhalb der Bundesrepublik Deutschland aufhalten und wohnen.
+                    </p>
+                </div>
+
+                <!-- Art 12 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">12</div>
+                        <h3 class="text-lg font-semibold text-white">Berufsfreiheit</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Alle Deutschen haben das Recht, Beruf, Arbeitsplatz und Ausbildungsstätte frei zu wählen. Niemand darf zu einer bestimmten Arbeit gezwungen werden.
+                    </p>
+                </div>
+
+                <!-- Art 13 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">13</div>
+                        <h3 class="text-lg font-semibold text-white">Unverletzlichkeit der Wohnung</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Die Wohnung ist unverletzlich. Durchsuchungen dürfen grundsätzlich nur durch den Richter angeordnet werden.
+                    </p>
+                </div>
+
+                <!-- Art 14 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">14</div>
+                        <h3 class="text-lg font-semibold text-white">Eigentum & Erbrecht</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Das Eigentum und das Erbrecht werden gewährleistet. Eigentum verpflichtet. Sein Gebrauch soll zugleich dem Wohle der Allgemeinheit dienen. Enteignung nur zum Wohle der Allgemeinheit gegen Entschädigung.
+                    </p>
+                </div>
+
+                <!-- Art 15 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">15</div>
+                        <h3 class="text-lg font-semibold text-white">Sozialisierung</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Grund und Boden, Naturschätze und Produktionsmittel können zum Zwecke der Vergesellschaftung durch ein Gesetz in Gemeineigentum überführt werden.
+                    </p>
+                </div>
+
+                <!-- Art 16 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">16</div>
+                        <h3 class="text-lg font-semibold text-white">Staatsangehörigkeit</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Die deutsche Staatsangehörigkeit darf nicht entzogen werden. Kein Deutscher darf an das Ausland ausgeliefert werden.
+                    </p>
+                </div>
+
+                <!-- Art 16a -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono text-sm">16a</div>
+                        <h3 class="text-lg font-semibold text-white">Asylrecht</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Politisch Verfolgte genießen Asylrecht.
+                    </p>
+                </div>
+
+                <!-- Art 17 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">17</div>
+                        <h3 class="text-lg font-semibold text-white">Petitionsrecht</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Jedermann hat das Recht, sich einzeln oder in Gemeinschaft mit anderen schriftlich mit Bitten oder Beschwerden an die zuständigen Stellen und an die Volksvertretung zu wenden.
+                    </p>
+                </div>
+
+                <!-- Art 18 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">18</div>
+                        <h3 class="text-lg font-semibold text-white">Verwirkung von Grundrechten</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Wer die Grundrechte (z.B. Meinungsfreiheit) zum Kampfe gegen die freiheitliche demokratische Grundordnung missbraucht, verwirkt diese Grundrechte. Die Verwirkung wird vom BVerfG ausgesprochen.
+                    </p>
+                </div>
+
+                <!-- Art 19 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">19</div>
+                        <h3 class="text-lg font-semibold text-white">Einschränkung von Grundrechten</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Einschränkungen von Grundrechten sind nur durch Gesetz möglich. Der Wesensgehalt eines Grundrechts darf nicht angetastet werden. Rechtsweggarantie gegen die öffentliche Gewalt.
+                    </p>
+                </div>
+
+                <!-- Art 20 -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-400/20 border border-slate-400/30 flex items-center justify-center text-slate-300 font-bold font-mono">20</div>
+                        <h3 class="text-lg font-semibold text-white">Staatsstrukturprinzipien</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-2">
+                        Die Bundesrepublik Deutschland ist ein demokratischer und sozialer Bundesstaat. Alle Staatsgewalt geht vom Volke aus. Gesetzgebung ist an die verfassungsmäßige Ordnung gebunden. Widerstandsrecht.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>
