@@ -327,25 +327,41 @@
             type: 'line',
             data: {
                 labels: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun'],
-                datasets: [{
-                    label: 'Volumen',
-                    data: [15, 22, 18, 30, 25, 35],
-                    borderColor: orangeColor,
-                    backgroundColor: 'rgba(249, 115, 22, 0.4)', // orange-500/40
-                    borderWidth: 2,
-                    pointBackgroundColor: orangeColor,
-                    fill: true,
-                    tension: 0.4
-                }]
+                datasets: [
+                    {
+                        label: 'Produkt A',
+                        data: [10, 15, 12, 20, 18, 25],
+                        borderColor: 'rgba(249, 115, 22, 1)', // orange-500
+                        backgroundColor: 'rgba(249, 115, 22, 0.6)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(249, 115, 22, 1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Produkt B',
+                        data: [5, 10, 15, 12, 22, 18],
+                        borderColor: 'rgba(251, 146, 60, 1)', // orange-400
+                        backgroundColor: 'rgba(251, 146, 60, 0.4)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(251, 146, 60, 1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { display: false }
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    }
                 },
                 scales: {
                     y: {
+                        stacked: true,
                         beginAtZero: true,
                         grid: { color: gridColor }
                     },
