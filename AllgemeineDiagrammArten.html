@@ -128,6 +128,75 @@
                     </div>
                 </div>
 
+                <!-- Flächendiagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex flex-col">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.5l6-6 4 4 8-8m0 0v5m0-5h-5"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Flächendiagramm (Area Chart)</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Ähnlich wie ein Liniendiagramm, jedoch wird die Fläche unter der Linie farbig ausgefüllt, was das Volumen von Werten über die Zeit betont.
+                    </p>
+                    <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg mb-6">
+                        <p class="text-slate-300 text-sm font-semibold mb-1">Wann benutzen?</p>
+                        <p class="text-slate-300 text-sm">Um die Entwicklung von kumulativen oder überlagerten Datenmengen über die Zeit zu zeigen (z.B. Gesamtumsatz, Speicherplatznutzung).</p>
+                    </div>
+                    <div class="mt-auto bg-slate-800/50 rounded-lg p-2 border border-slate-700/50 h-48 relative">
+                        <canvas id="areaChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Streudiagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex flex-col">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <circle cx="8" cy="8" r="2"></circle>
+                                <circle cx="16" cy="12" r="2"></circle>
+                                <circle cx="10" cy="18" r="2"></circle>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 3v18"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Streudiagramm (Punktdiagramm)</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Zeigt Datenpunkte basierend auf zwei Variablen an (X- und Y-Achse), um Zusammenhänge oder Korrelationen zwischen diesen zu erkennen.
+                    </p>
+                    <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg mb-6">
+                        <p class="text-slate-300 text-sm font-semibold mb-1">Wann benutzen?</p>
+                        <p class="text-slate-300 text-sm">Zur Identifikation von Mustern, Clustern, Ausreißern oder Korrelationen (z.B. Zusammenhang zwischen Alter und Gehalt).</p>
+                    </div>
+                    <div class="mt-auto bg-slate-800/50 rounded-lg p-2 border border-slate-700/50 h-48 relative">
+                        <canvas id="scatterChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Netzdiagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex flex-col md:col-span-2 max-w-2xl mx-auto w-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m9-9H3m15.364-6.364l-12.728 12.728m0-12.728l12.728 12.728"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Netzdiagramm (Radar- / Spinnendiagramm)</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Ein zweidimensionales Diagramm zur Visualisierung von mindestens drei quantitativen Variablen auf separaten Achsen, die von einem zentralen Punkt ausgehen.
+                    </p>
+                    <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg mb-6">
+                        <p class="text-slate-300 text-sm font-semibold mb-1">Wann benutzen?</p>
+                        <p class="text-slate-300 text-sm">Zum Vergleich von Objekten oder Profilen anhand mehrerer Kriterien (z.B. Bewertung von Software-Features, Skill-Profile von Mitarbeitern).</p>
+                    </div>
+                    <div class="mt-auto bg-slate-800/50 rounded-lg p-2 border border-slate-700/50 h-64 relative flex justify-center">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -249,6 +318,119 @@
                     }
                 },
                 cutout: '50%'
+            }
+        });
+
+        // 4. Area Chart (Flächendiagramm)
+        const ctxArea = document.getElementById('areaChart').getContext('2d');
+        new Chart(ctxArea, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun'],
+                datasets: [{
+                    label: 'Volumen',
+                    data: [15, 22, 18, 30, 25, 35],
+                    borderColor: orangeColor,
+                    backgroundColor: 'rgba(249, 115, 22, 0.4)', // orange-500/40
+                    borderWidth: 2,
+                    pointBackgroundColor: orangeColor,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: gridColor }
+                    },
+                    x: {
+                        grid: { color: gridColor }
+                    }
+                }
+            }
+        });
+
+        // 5. Scatter Chart (Streudiagramm)
+        const ctxScatter = document.getElementById('scatterChart').getContext('2d');
+        new Chart(ctxScatter, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Datenpunkte',
+                    data: [
+                        {x: 10, y: 20}, {x: 15, y: 25}, {x: 20, y: 22},
+                        {x: 25, y: 35}, {x: 30, y: 30}, {x: 35, y: 40},
+                        {x: 40, y: 38}, {x: 45, y: 45}, {x: 50, y: 55}
+                    ],
+                    backgroundColor: orangeColor,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: gridColor }
+                    },
+                    x: {
+                        beginAtZero: true,
+                        grid: { color: gridColor }
+                    }
+                }
+            }
+        });
+
+        // 6. Radar Chart (Netzdiagramm)
+        const ctxRadar = document.getElementById('radarChart').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: ['Performance', 'Sicherheit', 'Usability', 'Kosten', 'Skalierbarkeit', 'Wartung'],
+                datasets: [{
+                    label: 'System A',
+                    data: [80, 90, 70, 60, 85, 75],
+                    backgroundColor: orangeColorLight,
+                    borderColor: orangeColor,
+                    pointBackgroundColor: orangeColorHover,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: orangeColorHover,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: gridColor },
+                        grid: { color: gridColor },
+                        pointLabels: {
+                            color: '#94a3b8', // slate-400
+                            font: { size: 12 }
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            backdropColor: 'transparent',
+                            beginAtZero: true
+                        }
+                    }
+                }
             }
         });
     </script>
