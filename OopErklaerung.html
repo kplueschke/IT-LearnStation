@@ -71,20 +71,20 @@
                     <p class="text-slate-400 text-sm leading-relaxed mb-4">
                         Eine <strong>Klasse</strong> ist der Bauplan oder die Schablone, die Eigenschaften (Attribute) und Verhalten (Methoden) definiert. Ein <strong>Objekt</strong> (Instanz) ist die konkrete Umsetzung dieses Bauplans im Speicher.
                     </p>
-                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code>// Die Klasse (Bauplan)
-class Auto
+                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code><span class="text-slate-500">// Die Klasse (Bauplan)</span>
+<span class="text-purple-400">class</span> <span class="text-blue-400">Auto</span>
 {
-    public string Marke; // Attribut
-    public void Hupen()  // Methode
+    <span class="text-purple-400">public</span> <span class="text-purple-400">string</span> Marke; <span class="text-slate-500">// Attribut</span>
+    <span class="text-purple-400">public</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Hupen</span>()  <span class="text-slate-500">// Methode</span>
     {
-        Console.WriteLine("Tuut!");
+        Console.<span class="text-blue-400">WriteLine</span>(<span class="text-green-400">"Tuut!"</span>);
     }
 }
 
-// Die Nutzung (Objekte/Instanzen)
-Auto meinAuto = new Auto();
-meinAuto.Marke = "VW";
-meinAuto.Hupen();</code></pre>
+<span class="text-slate-500">// Die Nutzung (Objekte/Instanzen)</span>
+<span class="text-blue-400">Auto</span> meinAuto = <span class="text-purple-400">new</span> <span class="text-blue-400">Auto</span>();
+meinAuto.Marke = <span class="text-green-400">"VW"</span>;
+meinAuto.<span class="text-blue-400">Hupen</span>();</code></pre>
                 </div>
             </div>
 
@@ -101,21 +101,21 @@ meinAuto.Hupen();</code></pre>
                         Daten (Attribute) werden vor unberechtigtem Zugriff geschützt. Der Zugriff erfolgt nur über definierte Schnittstellen (Methoden oder in C# Properties/Getter und Setter). Dies schützt den internen Zustand des Objekts.
                         <strong>Sichtbarkeiten (Access Modifier):</strong> <code>public</code> (jeder), <code>private</code> (nur die Klasse selbst), <code>protected</code> (Klasse und abgeleitete Klassen).
                     </p>
-                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code>class Bankkonto
+                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code><span class="text-purple-400">class</span> <span class="text-blue-400">Bankkonto</span>
 {
-    // private: Von außen nicht direkt änderbar
-    private decimal kontostand;
+    <span class="text-slate-500">// private: Von außen nicht direkt änderbar</span>
+    <span class="text-purple-400">private</span> <span class="text-purple-400">decimal</span> kontostand;
 
-    // public Property: Kontrollierter Zugriff
-    public decimal Kontostand
+    <span class="text-slate-500">// public Property: Kontrollierter Zugriff</span>
+    <span class="text-purple-400">public</span> <span class="text-purple-400">decimal</span> Kontostand
     {
-        get { return kontostand; }
-        private set { kontostand = value; } // Setzen nur intern
+        <span class="text-purple-400">get</span> { <span class="text-purple-400">return</span> kontostand; }
+        <span class="text-purple-400">private</span> <span class="text-purple-400">set</span> { kontostand = value; } <span class="text-slate-500">// Setzen nur intern</span>
     }
 
-    public void Einzahlen(decimal betrag)
+    <span class="text-purple-400">public</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Einzahlen</span>(<span class="text-purple-400">decimal</span> betrag)
     {
-        if(betrag > 0) kontostand += betrag;
+        <span class="text-purple-400">if</span>(betrag > <span class="text-amber-400">0</span>) kontostand += betrag;
     }
 }</code></pre>
                 </div>
@@ -133,20 +133,20 @@ meinAuto.Hupen();</code></pre>
                     <p class="text-slate-400 text-sm leading-relaxed mb-4">
                         Eine neue Klasse (Kindklasse) übernimmt Attribute und Methoden einer existierenden Klasse (Elternklasse/Basisklasse). Das fördert die Wiederverwendbarkeit von Code ("Is-A" Beziehung).
                     </p>
-                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code>class Tier // Basisklasse
+                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code><span class="text-purple-400">class</span> <span class="text-blue-400">Tier</span> <span class="text-slate-500">// Basisklasse</span>
 {
-    public void Atmen() { Console.WriteLine("Atmet..."); }
+    <span class="text-purple-400">public</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Atmen</span>() { Console.<span class="text-blue-400">WriteLine</span>(<span class="text-green-400">"Atmet..."</span>); }
 }
 
-// Hund erbt von Tier (nutzt den Doppelpunkt :)
-class Hund : Tier
+<span class="text-slate-500">// Hund erbt von Tier (nutzt den Doppelpunkt :)</span>
+<span class="text-purple-400">class</span> <span class="text-blue-400">Hund</span> : <span class="text-blue-400">Tier</span>
 {
-    public void Bellen() { Console.WriteLine("Wuff!"); }
+    <span class="text-purple-400">public</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Bellen</span>() { Console.<span class="text-blue-400">WriteLine</span>(<span class="text-green-400">"Wuff!"</span>); }
 }
 
-Hund meinHund = new Hund();
-meinHund.Atmen(); // Geerbt von Tier
-meinHund.Bellen(); // Eigene Methode</code></pre>
+<span class="text-blue-400">Hund</span> meinHund = <span class="text-purple-400">new</span> <span class="text-blue-400">Hund</span>();
+meinHund.<span class="text-blue-400">Atmen</span>(); <span class="text-slate-500">// Geerbt von Tier</span>
+meinHund.<span class="text-blue-400">Bellen</span>(); <span class="text-slate-500">// Eigene Methode</span></code></pre>
                 </div>
             </div>
 
@@ -162,20 +162,20 @@ meinHund.Bellen(); // Eigene Methode</code></pre>
                     <p class="text-slate-400 text-sm leading-relaxed mb-4">
                         Objekte verschiedener Klassen können über eine gemeinsame Basisklasse oder ein Interface auf die gleiche Weise angesprochen werden. Eine geerbte Methode kann von der Kindklasse <strong>überschrieben</strong> werden, um ein eigenes Verhalten zu definieren (Overriding).
                     </p>
-                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code>class Figur
+                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code><span class="text-purple-400">class</span> <span class="text-blue-400">Figur</span>
 {
-    // 'virtual' erlaubt das Überschreiben
-    public virtual void Zeichnen() { Console.WriteLine("Zeichne Figur"); }
+    <span class="text-slate-500">// 'virtual' erlaubt das Überschreiben</span>
+    <span class="text-purple-400">public</span> <span class="text-purple-400">virtual</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Zeichnen</span>() { Console.<span class="text-blue-400">WriteLine</span>(<span class="text-green-400">"Zeichne Figur"</span>); }
 }
 
-class Kreis : Figur
+<span class="text-purple-400">class</span> <span class="text-blue-400">Kreis</span> : <span class="text-blue-400">Figur</span>
 {
-    // 'override' ersetzt das Verhalten
-    public override void Zeichnen() { Console.WriteLine("Zeichne Kreis"); }
+    <span class="text-slate-500">// 'override' ersetzt das Verhalten</span>
+    <span class="text-purple-400">public</span> <span class="text-purple-400">override</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Zeichnen</span>() { Console.<span class="text-blue-400">WriteLine</span>(<span class="text-green-400">"Zeichne Kreis"</span>); }
 }
 
-Figur f = new Kreis();
-f.Zeichnen(); // Ruft "Zeichne Kreis" auf!</code></pre>
+<span class="text-blue-400">Figur</span> f = <span class="text-purple-400">new</span> <span class="text-blue-400">Kreis</span>();
+f.<span class="text-blue-400">Zeichnen</span>(); <span class="text-slate-500">// Ruft "Zeichne Kreis" auf!</span></code></pre>
                 </div>
             </div>
 
@@ -191,24 +191,24 @@ f.Zeichnen(); // Ruft "Zeichne Kreis" auf!</code></pre>
                     <p class="text-slate-400 text-sm leading-relaxed mb-4">
                         Ein <strong>struct</strong> (Werttyp) wird im Stack gespeichert. Bei Zuweisung wird eine Kopie erstellt. Eine <strong>class</strong> (Referenztyp) wird im Heap gespeichert. Bei Zuweisung wird nur der Verweis (Pointer) kopiert. Structs eignen sich für kleine Datenstrukturen (z.B. Koordinaten, Vektoren), Klassen für komplexe Objekte.
                     </p>
-                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code>struct Punkt
+                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code><span class="text-purple-400">struct</span> <span class="text-blue-400">Punkt</span>
 {
-    public int X;
-    public int Y;
+    <span class="text-purple-400">public</span> <span class="text-purple-400">int</span> X;
+    <span class="text-purple-400">public</span> <span class="text-purple-400">int</span> Y;
 }
 
-Punkt p1 = new Punkt { X = 10, Y = 20 };
-Punkt p2 = p1; // p2 ist eine Kopie
-p2.X = 50;     // p1.X bleibt 10 (Werttyp!)
+<span class="text-blue-400">Punkt</span> p1 = <span class="text-purple-400">new</span> <span class="text-blue-400">Punkt</span> { X = <span class="text-amber-400">10</span>, Y = <span class="text-amber-400">20</span> };
+<span class="text-blue-400">Punkt</span> p2 = p1; <span class="text-slate-500">// p2 ist eine Kopie</span>
+p2.X = <span class="text-amber-400">50</span>;     <span class="text-slate-500">// p1.X bleibt 10 (Werttyp!)</span>
 
-class Person
+<span class="text-purple-400">class</span> <span class="text-blue-400">Person</span>
 {
-    public string Name;
+    <span class="text-purple-400">public</span> <span class="text-purple-400">string</span> Name;
 }
 
-Person pers1 = new Person { Name = "Alice" };
-Person pers2 = pers1; // pers2 zeigt auf dasselbe Objekt
-pers2.Name = "Bob";   // pers1.Name ist jetzt auch "Bob" (Referenztyp!)</code></pre>
+<span class="text-blue-400">Person</span> pers1 = <span class="text-purple-400">new</span> <span class="text-blue-400">Person</span> { Name = <span class="text-green-400">"Alice"</span> };
+<span class="text-blue-400">Person</span> pers2 = pers1; <span class="text-slate-500">// pers2 zeigt auf dasselbe Objekt</span>
+pers2.Name = <span class="text-green-400">"Bob"</span>;   <span class="text-slate-500">// pers1.Name ist jetzt auch "Bob" (Referenztyp!)</span></code></pre>
                 </div>
             </div>
 
