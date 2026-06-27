@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Allgemeine Diagrammarten</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-orange-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.99l1.005.828c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
+                <span class="font-mono">ITAG Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Allgemeine Diagrammarten
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Die gängigsten Diagrammarten für allgemeine Datenvisualisierung und Präsentationen – kurz erklärt.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='itag.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section: Grid -->
+        <section class="w-full max-w-5xl mx-auto mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Liniendiagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex flex-col">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.5l6-6 4 4 8-8m0 0v5m0-5h-5"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Liniendiagramm (Kurvendiagramm)</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Zeigt Datenpunkte, die durch gerade Linien verbunden sind. Es eignet sich hervorragend, um Trends und Entwicklungen über einen fortlaufenden Zeitraum darzustellen.
+                    </p>
+                    <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg mb-6">
+                        <p class="text-slate-300 text-sm font-semibold mb-1">Wann benutzen?</p>
+                        <p class="text-slate-300 text-sm">Um Entwicklungen über die Zeit (z.B. Umsatz pro Monat, Temperaturverlauf) oder Trends aufzuzeigen.</p>
+                    </div>
+                    <div class="mt-auto bg-slate-800/50 rounded-lg p-2 border border-slate-700/50 h-48 relative">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Säulendiagramm / Balkendiagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex flex-col">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M9 21v-6m4 6v-10m4 10V7"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Säulendiagramm (Balkendiagramm)</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Stellt Daten durch vertikale (Säulen) oder horizontale (Balken) Rechtecke dar. Die Länge oder Höhe ist proportional zum Wert, den sie repräsentieren.
+                    </p>
+                    <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg mb-6">
+                        <p class="text-slate-300 text-sm font-semibold mb-1">Wann benutzen?</p>
+                        <p class="text-slate-300 text-sm">Zum Vergleich von diskreten Werten oder Kategorien (z.B. Verkaufszahlen verschiedener Produkte).</p>
+                    </div>
+                    <div class="mt-auto bg-slate-800/50 rounded-lg p-2 border border-slate-700/50 h-48 relative">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Tortendiagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex flex-col md:col-span-2 max-w-2xl mx-auto w-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Kreisdiagramm (Tortendiagramm)</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Ein Kreis, der in Sektoren (Tortenstücke) unterteilt ist. Jeder Sektor illustriert einen numerischen Anteil, wobei die Summe aller Teile 100% (ein Ganzes) ergibt.
+                    </p>
+                    <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg mb-6">
+                        <p class="text-slate-300 text-sm font-semibold mb-1">Wann benutzen?</p>
+                        <p class="text-slate-300 text-sm">Zur Darstellung von Anteilen an einem Ganzen (z.B. Marktanteile, Umfrageergebnisse). <i>Achtung: Nur bei wenigen Kategorien (max. 5-7) verwenden, da es sonst unübersichtlich wird.</i></p>
+                    </div>
+                    <div class="mt-auto bg-slate-800/50 rounded-lg p-2 border border-slate-700/50 h-64 relative flex justify-center">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+    <script>
+        // Chart.js Configuration
+        Chart.defaults.color = '#94a3b8'; // text-slate-400
+        Chart.defaults.font.family = "'Inter', sans-serif";
+
+        const orangeColor = '#f97316'; // orange-500
+        const orangeColorLight = 'rgba(249, 115, 22, 0.2)'; // orange-500/20
+        const orangeColorHover = '#fb923c'; // orange-400
+
+        const gridColor = 'rgba(51, 65, 85, 0.5)'; // slate-700/50
+
+        // 1. Line Chart (Kurvendiagramm)
+        const ctxLine = document.getElementById('lineChart').getContext('2d');
+        new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun'],
+                datasets: [{
+                    label: 'Trend',
+                    data: [12, 19, 15, 25, 22, 30],
+                    borderColor: orangeColor,
+                    backgroundColor: orangeColorLight,
+                    borderWidth: 2,
+                    pointBackgroundColor: orangeColor,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: gridColor }
+                    },
+                    x: {
+                        grid: { color: gridColor }
+                    }
+                }
+            }
+        });
+
+        // 2. Bar Chart (Säulendiagramm)
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['A', 'B', 'C', 'D'],
+                datasets: [{
+                    label: 'Werte',
+                    data: [45, 25, 60, 30],
+                    backgroundColor: orangeColor,
+                    hoverBackgroundColor: orangeColorHover,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: gridColor }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // 3. Pie Chart (Tortendiagramm)
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'doughnut', // using doughnut for a more modern look, though it represents the same as a pie chart
+            data: {
+                labels: ['Kategorie 1', 'Kategorie 2', 'Kategorie 3'],
+                datasets: [{
+                    data: [55, 30, 15],
+                    backgroundColor: [
+                        orangeColor,
+                        '#fdba74', // orange-300
+                        '#78350f'  // orange-900
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            color: '#e2e8f0', // slate-200
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    }
+                },
+                cutout: '50%'
+            }
+        });
+    </script>
+</body>
+</html>
