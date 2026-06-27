@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Übersicht der Diagrammarten</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-orange-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.99l1.005.828c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
+                <span class="font-mono">ITAG Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Übersicht der Diagrammarten
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Gängige Diagrammarten in der IT und wann man sie am besten einsetzt.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='itag.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section: Grid -->
+        <section class="w-full max-w-5xl mx-auto mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- PAP / Flussdiagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4 flex-col sm:flex-row">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold mb-4 sm:mb-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Flussdiagramm / PAP</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Ein Programmablaufplan (PAP) oder Flussdiagramm stellt den zeitlichen und logischen Ablauf eines Algorithmus oder Prozesses dar.
+                        </p>
+                        <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg">
+                            <p class="text-slate-300 text-sm font-semibold mb-1">Einsatzgebiet:</p>
+                            <p class="text-slate-300 text-sm">Ideal zur Modellierung von Algorithmen vor der Programmierung oder zur Visualisierung einfacher Geschäftsprozesse mit klaren Entscheidungsstrukturen.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UML Anwendungsfalldiagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4 flex-col sm:flex-row">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold mb-4 sm:mb-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">UML Anwendungsfalldiagramm</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Das Use Case Diagramm zeigt das erwartete Verhalten eines Systems aus der Sicht seiner Benutzer (Akteure) und deren Interaktionen mit dem System.
+                        </p>
+                        <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg">
+                            <p class="text-slate-300 text-sm font-semibold mb-1">Einsatzgebiet:</p>
+                            <p class="text-slate-300 text-sm">Perfekt in der Anforderungsanalyse (Requirements Engineering), um Systemgrenzen und die grundlegenden Funktionen für den Kunden verständlich darzustellen.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UML Klassendiagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4 flex-col sm:flex-row">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold mb-4 sm:mb-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">UML Klassendiagramm</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Stellt die statische Struktur eines objektorientierten Systems dar. Es zeigt Klassen mit ihren Attributen und Methoden sowie die Beziehungen (Assoziationen, Vererbung) zwischen ihnen.
+                        </p>
+                        <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg">
+                            <p class="text-slate-300 text-sm font-semibold mb-1">Einsatzgebiet:</p>
+                            <p class="text-slate-300 text-sm">Unverzichtbar beim Software-Design für OOP (Objektorientierte Programmierung). Dient als Blueprint für die spätere Implementierung.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UML Sequenzdiagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4 flex-col sm:flex-row">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold mb-4 sm:mb-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">UML Sequenzdiagramm</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Modelliert den zeitlichen Ablauf von Nachrichtenaustauschen zwischen Objekten oder Akteuren in einem bestimmten Szenario.
+                        </p>
+                        <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg">
+                            <p class="text-slate-300 text-sm font-semibold mb-1">Einsatzgebiet:</p>
+                            <p class="text-slate-300 text-sm">Optimal zur Detaillierung komplexer Interaktionen, z.B. bei Client-Server-Kommunikation, API-Aufrufen oder dem Ablauf eines speziellen Use Cases.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UML Aktivitätsdiagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4 flex-col sm:flex-row">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold mb-4 sm:mb-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">UML Aktivitätsdiagramm</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Ähnlich dem Flussdiagramm, beschreibt es den Ablauf eines Systems durch Aktionen und Kontrollflüsse. Es unterstützt jedoch parallele Abläufe (Forks/Joins).
+                        </p>
+                        <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg">
+                            <p class="text-slate-300 text-sm font-semibold mb-1">Einsatzgebiet:</p>
+                            <p class="text-slate-300 text-sm">Sehr gut zur Modellierung komplexer Workflows, paralleler Verarbeitungsprozesse (Multithreading) oder geschäftlicher Arbeitsabläufe.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entity-Relationship-Modell -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4 flex-col sm:flex-row">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold mb-4 sm:mb-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">ERM (Entity-Relationship)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Das ER-Modell dient der konzeptionellen Datenmodellierung. Es zeigt Entitäten (Objekte) und die Beziehungen (Relationships) zwischen ihnen (z.B. 1:n, m:n).
+                        </p>
+                        <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg">
+                            <p class="text-slate-300 text-sm font-semibold mb-1">Einsatzgebiet:</p>
+                            <p class="text-slate-300 text-sm">Der absolute Standard für den Entwurf und die Planung von relationalen Datenbanken, bevor konkrete Tabellen angelegt werden.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Netzwerkplan -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4 flex-col sm:flex-row">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold mb-4 sm:mb-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Netzwerkplan / Topologie</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Visualisiert die physische oder logische Struktur eines IT-Netzwerks inklusive Hardware (Router, Switches, Server) und deren Verbindungen.
+                        </p>
+                        <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg">
+                            <p class="text-slate-300 text-sm font-semibold mb-1">Einsatzgebiet:</p>
+                            <p class="text-slate-300 text-sm">Systemintegration: Unverzichtbar für die Dokumentation von IT-Infrastrukturen, Fehlersuche im Netzwerk und Planung von Erweiterungen.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gantt-Diagramm -->
+                <div class="glass-card glass-card-hover-orange rounded-xl p-6 flex items-start gap-4 flex-col sm:flex-row">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold mb-4 sm:mb-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Gantt-Diagramm</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Ein Balkendiagramm, das die zeitliche Abfolge von Aktivitäten in Form von horizontalen Balken auf einer Zeitachse darstellt.
+                        </p>
+                        <div class="bg-orange-500/10 border-l-2 border-orange-500/50 p-3 rounded-r-lg">
+                            <p class="text-slate-300 text-sm font-semibold mb-1">Einsatzgebiet:</p>
+                            <p class="text-slate-300 text-sm">Projektmanagement: Ideal zur Terminplanung, um Meilensteine, parallele Aufgaben und Abhängigkeiten übersichtlich zu visualisieren.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>
