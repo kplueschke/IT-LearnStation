@@ -60,6 +60,7 @@
                         <li><span class="font-bold text-slate-200">Höhe in Zoll =</span> Höhe (cm) / 2,54</li>
                         <li><span class="font-bold text-slate-200">Pixel (Breite) =</span> Breite (Zoll) * DPI</li>
                         <li><span class="font-bold text-slate-200">Pixel (Höhe) =</span> Höhe (Zoll) * DPI</li>
+                        <li><span class="font-bold text-slate-200">Megapixel =</span> Gesamtpixel / 1.000.000</li>
                     </ul>
                 </div>
                 <div>
@@ -69,6 +70,7 @@
                         <li><span class="font-bold text-slate-200">Byte =</span> Bit / 8</li>
                         <li><span class="font-bold text-slate-200">KiB =</span> Byte / 1024</li>
                         <li><span class="font-bold text-slate-200">MiB =</span> KiB / 1024</li>
+                        <li><span class="font-bold text-slate-200">Bilderanzahl =</span> Speicher (MiB) / Dateigröße (MiB)</li>
                     </ul>
                 </div>
             </div>
@@ -112,6 +114,20 @@
                     <div class="relative">
                         <input type="number" step="0.01" id="input-filesize-mib" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition-colors" placeholder="z.B. 5.15">
                         <span class="absolute right-4 top-3 text-slate-500 font-mono">MiB</span>
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-slate-400 mb-2">Megapixel (auf 2 Nachkommastellen runden)</label>
+                    <div class="relative">
+                        <input type="number" step="0.01" id="input-mp" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition-colors" placeholder="z.B. 12.50">
+                        <span class="absolute right-4 top-3 text-slate-500 font-mono">MP</span>
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <label id="label-images-count" class="block text-sm font-medium text-slate-400 mb-2">Wie viele Bilder passen auf einen Speicher?</label>
+                    <div class="relative">
+                        <input type="number" id="input-images-count" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition-colors" placeholder="z.B. 450">
+                        <span class="absolute right-4 top-3 text-slate-500 font-mono">Bilder</span>
                     </div>
                 </div>
             </div>
@@ -169,6 +185,10 @@
             document.getElementById('input-height-px').classList.remove('border-green-500', 'border-red-500', 'bg-green-500/10', 'bg-red-500/10');
             document.getElementById('input-filesize-mib').value = '';
             document.getElementById('input-filesize-mib').classList.remove('border-green-500', 'border-red-500', 'bg-green-500/10', 'bg-red-500/10');
+            document.getElementById('input-mp').value = '';
+            document.getElementById('input-mp').classList.remove('border-green-500', 'border-red-500', 'bg-green-500/10', 'bg-red-500/10');
+            document.getElementById('input-images-count').value = '';
+            document.getElementById('input-images-count').classList.remove('border-green-500', 'border-red-500', 'bg-green-500/10', 'bg-red-500/10');
 
             document.getElementById('feedback').classList.add('hidden');
             document.getElementById('solution-path').classList.add('hidden');
@@ -191,6 +211,10 @@
             const kib = bytes / 1024;
             const mib = kib / 1024;
 
+            const mp = totalPx / 1000000;
+            const storageSizes = [4, 8, 16, 32, 64];
+            const storageGiB = storageSizes[Math.floor(Math.random() * storageSizes.length)];
+
             currentTask = {
                 formatName: format.name,
                 wCm: format.wCm,
@@ -200,17 +224,23 @@
                 wPx: wPx,
                 hPx: hPx,
                 totalPx: totalPx,
-                mib: mib
+                mib: mib,
+                mp: mp,
+                storageGiB: storageGiB
             };
 
             document.getElementById('task-description').innerHTML =
-                `Ein Bild im Format <strong>${currentTask.formatName} (${currentTask.wCm} cm × ${currentTask.hCm} cm)</strong> wird mit einer Auflösung von <strong>${currentTask.dpi} DPI</strong> und der Farbtiefe <strong>${currentTask.depth.name}</strong> gescannt.<br><br>Berechne die Breite und Höhe in Pixeln (kaufmännisch gerundet auf ganze Pixel) sowie die resultierende unkomprimierte Dateigröße in MiB.`;
+                `Ein Bild im Format <strong>${currentTask.formatName} (${currentTask.wCm} cm × ${currentTask.hCm} cm)</strong> wird mit einer Auflösung von <strong>${currentTask.dpi} DPI</strong> und der Farbtiefe <strong>${currentTask.depth.name}</strong> gescannt. Zusätzlich steht ein Speichermedium mit <strong>${currentTask.storageGiB} GiB</strong> zur Verfügung.<br><br>Berechne die Breite und Höhe in Pixeln (kaufmännisch gerundet auf ganze Pixel), die resultierende unkomprimierte Dateigröße in MiB, die Megapixel (auf 2 Nachkommastellen) sowie die Anzahl der Bilder, die auf das Speichermedium passen (abgerundet auf ganze Bilder).`;
+
+            document.getElementById('label-images-count').textContent = `Wie viele Bilder passen auf einen ${currentTask.storageGiB} GiB Speicher?`;
         }
 
         function checkAnswer() {
             const userWPx = parseInt(document.getElementById('input-width-px').value);
             const userHPx = parseInt(document.getElementById('input-height-px').value);
             const userMib = parseFloat(document.getElementById('input-filesize-mib').value);
+            const userMp = parseFloat(document.getElementById('input-mp').value);
+            const userImgCount = parseInt(document.getElementById('input-images-count').value);
 
             let allCorrect = true;
 
@@ -239,6 +269,27 @@
                 mibInput.classList.add('border-green-500', 'bg-green-500/10');
             } else {
                 mibInput.classList.add('border-red-500', 'bg-red-500/10');
+                allCorrect = false;
+            }
+
+            // Check MP
+            const mpInput = document.getElementById('input-mp');
+            const targetMp = parseFloat(currentTask.mp.toFixed(2));
+            if (!isNaN(userMp) && Math.abs(userMp - targetMp) <= 0.02) {
+                mpInput.classList.add('border-green-500', 'bg-green-500/10');
+            } else {
+                mpInput.classList.add('border-red-500', 'bg-red-500/10');
+                allCorrect = false;
+            }
+
+            // Check Image Count
+            const imgInput = document.getElementById('input-images-count');
+            const targetImages1 = Math.floor((currentTask.storageGiB * 1024) / parseFloat(currentTask.mib.toFixed(2)));
+            const targetImages2 = Math.floor((currentTask.storageGiB * 1024) / currentTask.mib);
+            if (userImgCount === targetImages1 || userImgCount === targetImages2) {
+                imgInput.classList.add('border-green-500', 'bg-green-500/10');
+            } else {
+                imgInput.classList.add('border-red-500', 'bg-red-500/10');
                 allCorrect = false;
             }
 
@@ -298,11 +349,20 @@
                     <strong class="text-blue-400">4. Dateigröße in Bit:</strong><br>
                     ${currentTask.totalPx.toLocaleString('de-DE')} Pixel × ${currentTask.depth.bit} Bit/Pixel = ${bits.toLocaleString('de-DE')} Bit
                 </div>
-                <div>
+                <div class="mb-4">
                     <strong class="text-blue-400">5. Umrechnung in MiB:</strong><br>
                     Byte: ${bits.toLocaleString('de-DE')} Bit / 8 = ${bytes.toLocaleString('de-DE')} Byte<br>
                     KiB: ${bytes.toLocaleString('de-DE')} Byte / 1024 = ${kib.toLocaleString('de-DE')} KiB<br>
                     MiB: ${kib.toLocaleString('de-DE')} KiB / 1024 = ${currentTask.mib.toFixed(4)} MiB -> gerundet: <span class="text-white bg-slate-800 px-1 rounded">${currentTask.mib.toFixed(2)} MiB</span>
+                </div>
+                <div class="mb-4">
+                    <strong class="text-blue-400">6. Megapixel:</strong><br>
+                    ${currentTask.totalPx.toLocaleString('de-DE')} / 1.000.000 = ${currentTask.mp.toFixed(4)} -> gerundet: <span class="text-white bg-slate-800 px-1 rounded">${currentTask.mp.toFixed(2)} MP</span>
+                </div>
+                <div>
+                    <strong class="text-blue-400">7. Anzahl Bilder:</strong><br>
+                    Speicherplatz in MiB: ${currentTask.storageGiB} GiB × 1024 = ${(currentTask.storageGiB * 1024).toLocaleString('de-DE')} MiB<br>
+                    Anzahl: ${(currentTask.storageGiB * 1024).toLocaleString('de-DE')} MiB / ${currentTask.mib.toFixed(2)} MiB = ${((currentTask.storageGiB * 1024) / currentTask.mib).toFixed(2)} -> abgerundet: <span class="text-white bg-slate-800 px-1 rounded">${Math.floor((currentTask.storageGiB * 1024) / currentTask.mib)} Bilder</span>
                 </div>
             `;
         }
