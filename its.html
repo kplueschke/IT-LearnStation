@@ -60,160 +60,165 @@
         <!-- Subject Section -->
         <section class="mb-16">
             <h2 class="text-3xl font-bold text-white mb-8 border-b border-slate-700 pb-3 font-mono">ITS (IT-Systeme)</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-            <!-- Card 1: IPv4 SubnetTrainer -->
-            <div class="glass-card glass-card-hover-emerald rounded-2xl p-6 flex flex-col justify-between group">
-                <div>
+
+            <!-- Interactive Section -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-300 mb-6 border-b border-slate-700/50 pb-2 flex items-center gap-3">
+                    <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Interaktive Trainer & Simulatoren
+                </h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                    <div>
                     <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"></path></svg>
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"></path></svg>
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-2">IPv4 SubnetTrainer</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                        Berechne Netz-IDs, Broadcasts und nutzbare Host-Adressen. Inklusive interaktivem Bit-Schalter und Schritt-für-Schritt-Erklärung über die Magic Number.
+                    <h3 class="text-lg font-semibold text-white mb-2">IPv4 SubnetTrainer</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                    Berechne Netz-IDs, Broadcasts und nutzbare Host-Adressen. Inklusive interaktivem Bit-Schalter und Schritt-für-Schritt-Erklärung über die Magic Number.
                     </p>
-                </div>
-                <a href="IPv4SubnetTrainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                    </div>
+                    <a href="IPv4SubnetTrainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
                     Trainer starten
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
                     </svg>
-                </a>
-            </div>
-
-            <!-- Card 2: Subnet Slider -->
-            <div class="glass-card glass-card-hover-emerald rounded-2xl p-6 flex flex-col justify-between group">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"></path></svg>
+                    </a>
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-2">Subnet Slider </h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                        Verschiebe das Präfix dynamisch über einen Schieberegler und beobachte sofort, wie sich Subnetzmaske, verfügbare Host-Anzahlen und die Bitstrukturen verändern.
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                    <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Subnet Slider </h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                    Verschiebe das Präfix dynamisch über einen Schieberegler und beobachte sofort, wie sich Subnetzmaske, verfügbare Host-Anzahlen und die Bitstrukturen verändern.
                     </p>
-                </div>
-                <a href="SubnetSlider.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                    </div>
+                    <a href="SubnetSlider.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
                     Slider öffnen
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
                     </svg>
-                </a>
-            </div>
-
-            <!-- Card 3: IPv6 SubnetTrainer -->
-            <div class="glass-card glass-card-hover-emerald rounded-2xl p-6 flex flex-col justify-between group">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"></path></svg>
+                    </a>
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-2">IPv6 SubnetTrainer</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                        Übe das Subnetting von IPv6-Adressen mit detaillierten Schritt-für-Schritt Erklärungen.
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                    <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">IPv6 SubnetTrainer</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                    Übe das Subnetting von IPv6-Adressen mit detaillierten Schritt-für-Schritt Erklärungen.
                     </p>
-                </div>
-                <a href="IPv6SubnetTrainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                    </div>
+                    <a href="IPv6SubnetTrainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
                     Trainer starten
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
                     </svg>
-                </a>
-            </div>
-                
-            <!-- Card 4: IPv6 Trainer -->
-            <div class="glass-card glass-card-hover-emerald rounded-2xl p-6 flex flex-col justify-between group">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"></path></svg>
+                    </a>
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-2">IPv6 KürzungsTrainer</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                        Übe das Komprimieren von IPv6-Adressen und das Finden von Netzwerk-Präfixen mit detaillierten Schritt-für-Schritt Erklärungen.
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                    <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">IPv6 KürzungsTrainer</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                    Übe das Komprimieren von IPv6-Adressen und das Finden von Netzwerk-Präfixen mit detaillierten Schritt-für-Schritt Erklärungen.
                     </p>
-                </div>
-                <a href="IPv6Trainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                    </div>
+                    <a href="IPv6Trainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
                     Trainer starten
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
                     </svg>
-                </a>
-            </div>
-
-            <!-- Card 5: OSI Model Trainer -->
-            <div class="glass-card glass-card-hover-emerald rounded-2xl p-6 flex flex-col justify-between group">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"></path></svg>
+                    </a>
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-2">OSI Modell Puzzle</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                        Ziehe Protokolle, Geräte und PDUs auf die entsprechenden Schichten des OSI-Modells per Drag & Drop, um dein Wissen zu testen.
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                    <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">OSI Modell Puzzle</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                    Ziehe Protokolle, Geräte und PDUs auf die entsprechenden Schichten des OSI-Modells per Drag & Drop, um dein Wissen zu testen.
                     </p>
-                </div>
-                 <a href="OsiTrainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                    </div>
+                    <a href="OsiTrainer.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
                     Puzzle starten
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
                     </svg>
-                </a>
-            </div>
-
-            <!-- Card 6: NumSystem BinToDecHex -->
-            <div class="glass-card glass-card-hover-emerald rounded-2xl p-6 flex flex-col justify-between group">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </a>
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-2">Binär Umrechner</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                        Übe das Umrechnen von Binärzahlen in Dezimal- und Hexadezimalzahlen mit sofortigem Feedback und Lösungswegen.
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                    <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Binär Umrechner</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                    Übe das Umrechnen von Binärzahlen in Dezimal- und Hexadezimalzahlen mit sofortigem Feedback und Lösungswegen.
                     </p>
-                </div>
-                <a href="NumSystemBinToDecHex.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                    </div>
+                    <a href="NumSystemBinToDecHex.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
                     Trainer starten
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
                     </svg>
-                </a>
-            </div>
-
-            <!-- Card 7: NumSystem HexToBinDec -->
-            <div class="glass-card glass-card-hover-emerald rounded-2xl p-6 flex flex-col justify-between group">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </a>
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-2">Hexadezimal Umrechner</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                        Übe das Umrechnen von Hexadezimalzahlen in Binär- und Dezimalzahlen mit sofortigem Feedback und Lösungswegen.
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                    <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Hexadezimal Umrechner</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                    Übe das Umrechnen von Hexadezimalzahlen in Binär- und Dezimalzahlen mit sofortigem Feedback und Lösungswegen.
                     </p>
-                </div>
-                <a href="NumSystemHexToBinDec.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                    </div>
+                    <a href="NumSystemHexToBinDec.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
                     Trainer starten
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
                     </svg>
-                </a>
-            </div>
-
-            <!-- Card 8: NumSystem DecToBinHex -->
-            <div class="glass-card glass-card-hover-emerald rounded-2xl p-6 flex flex-col justify-between group">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </a>
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-2">Dezimal Umrechner</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                        Übe das Umrechnen von Dezimalzahlen in Binär- und Hexadezimalzahlen mit sofortigem Feedback und Lösungswegen.
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                    <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Dezimal Umrechner</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                    Übe das Umrechnen von Dezimalzahlen in Binär- und Hexadezimalzahlen mit sofortigem Feedback und Lösungswegen.
                     </p>
-                </div>
-                <a href="NumSystemDecToBinHex.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                    </div>
+                    <a href="NumSystemDecToBinHex.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
                     Trainer starten
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
                     </svg>
-                </a>
+                    </a>
+                    </div>
+                </div>
             </div>
 
-            </div>
+            <!-- Theory Section -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-300 mb-6 border-b border-slate-700/50 pb-2 flex items-center gap-3">
+                    <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    Theorie & Nachschlagewerke
+                </h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-center items-center text-center h-full min-h-[250px] border-dashed border-2 border-slate-700/50 opacity-50">
+                        <svg class="w-12 h-12 text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        <p class="text-slate-400 font-medium">Noch keine theoretischen Inhalte verfügbar.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
