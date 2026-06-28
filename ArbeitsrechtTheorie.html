@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Arbeitsrecht & Jugendarbeitsschutz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-slate-400/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.99l1.005.828c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-400/10 border border-slate-400/20 text-slate-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-slate-400 animate-pulse"></span>
+                <span class="font-mono">PUG Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Arbeitszeiten & Jugendarbeitsschutz
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Vergleich der Regelungen für Erwachsene (ArbZG) und Jugendliche unter 18 Jahren (JArbSchG).
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='pug.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section: Comparison Table -->
+        <section class="w-full max-w-6xl mx-auto mb-16 overflow-x-auto">
+            <div class="min-w-[800px] glass-card glass-card-hover-slate rounded-xl p-6">
+
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b-2 border-slate-700/50">
+                            <th class="py-4 px-4 text-slate-400 font-medium">Kriterium</th>
+                            <th class="py-4 px-4 text-white font-bold w-2/5">
+                                Erwachsene (ab 18 Jahren)<br>
+                                <span class="text-xs text-slate-500 font-normal">Arbeitszeitgesetz (ArbZG)</span>
+                            </th>
+                            <th class="py-4 px-4 text-green-400 font-bold w-2/5">
+                                Jugendliche (unter 18 Jahren)<br>
+                                <span class="text-xs text-slate-500 font-normal">Jugendarbeitsschutzgesetz (JArbSchG)</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700/50 text-slate-300">
+
+                        <!-- Max. Arbeitszeit -->
+                        <tr class="hover:bg-slate-800/30 transition-colors">
+                            <td class="py-4 px-4 font-medium text-slate-400">Max. Arbeitszeit pro Tag / Woche</td>
+                            <td class="py-4 px-4">
+                                <span class="block">Regulär 8 Std. / 48 Std. (6-Tage-Woche)</span>
+                                <span class="text-xs text-slate-500 mt-1 block">Ausnahme: Bis 10 Std. möglich, wenn innerhalb von 6 Monaten im Schnitt 8 Std. erreicht werden.</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="block text-white">Max. 8 Std. / 40 Std. (5-Tage-Woche)</span>
+                                <span class="text-xs text-slate-500 mt-1 block">Ausnahme: 8,5 Std. am Tag, wenn an einem anderen Tag früher frei (z.B. Freitag).</span>
+                            </td>
+                        </tr>
+
+                        <!-- Pausenzeiten -->
+                        <tr class="hover:bg-slate-800/30 transition-colors">
+                            <td class="py-4 px-4 font-medium text-slate-400">Ruhepausen (täglich)</td>
+                            <td class="py-4 px-4">
+                                <ul class="list-disc list-inside">
+                                    <li>Ab 6 bis 9 Std.: <strong>30 Min.</strong></li>
+                                    <li>Mehr als 9 Std.: <strong>45 Min.</strong></li>
+                                </ul>
+                                <span class="text-xs text-slate-500 mt-1 block">Kann in 15-Min.-Blöcke aufgeteilt werden. Keine Arbeit >6 Std. ohne Pause.</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <ul class="list-disc list-inside">
+                                    <li>Ab 4,5 bis 6 Std.: <strong class="text-white">30 Min.</strong></li>
+                                    <li>Mehr als 6 Std.: <strong class="text-white">60 Min.</strong></li>
+                                </ul>
+                                <span class="text-xs text-slate-500 mt-1 block">Frühestens nach 1 Std., spätestens nach 4,5 Std. Arbeit.</span>
+                            </td>
+                        </tr>
+
+                        <!-- Ruhezeit (zwischen Schichten) -->
+                        <tr class="hover:bg-slate-800/30 transition-colors">
+                            <td class="py-4 px-4 font-medium text-slate-400">Ruhezeit (zwischen zwei Arbeitstagen)</td>
+                            <td class="py-4 px-4">Mindestens <strong>11 Stunden</strong> ununterbrochen.</td>
+                            <td class="py-4 px-4">Mindestens <strong class="text-white">12 Stunden</strong> ununterbrochen.</td>
+                        </tr>
+
+                        <!-- Arbeitszeitrahmen / Schicht -->
+                        <tr class="hover:bg-slate-800/30 transition-colors">
+                            <td class="py-4 px-4 font-medium text-slate-400">Arbeitszeitrahmen (Nachtarbeit)</td>
+                            <td class="py-4 px-4">Grundsätzlich erlaubt, aber besondere Gesundheitsprüfungen erforderlich.</td>
+                            <td class="py-4 px-4">
+                                <span class="block text-white">Nur von 06:00 bis 20:00 Uhr erlaubt.</span>
+                                <span class="text-xs text-slate-500 mt-1 block">Ausnahmen z.B. für Bäcker, Gastronomie, Landwirtschaft.</span>
+                            </td>
+                        </tr>
+
+                        <!-- Wochenende -->
+                        <tr class="hover:bg-slate-800/30 transition-colors">
+                            <td class="py-4 px-4 font-medium text-slate-400">Wochenend- / Feiertagsarbeit</td>
+                            <td class="py-4 px-4">
+                                <span class="block">Sonntags-/Feiertagsarbeit grds. verboten, aber viele Branchen-Ausnahmen (Krankenhäuser, Gastro, IT-Notdienst).</span>
+                                <span class="text-xs text-slate-500 mt-1 block">Ersatzruhetag innerhalb von 2 Wochen erforderlich. Min. 15 freie Sonntage im Jahr.</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="block text-white">Samstags, sonntags und feiertags frei!</span>
+                                <span class="text-xs text-slate-500 mt-1 block">Auch hier gibt es spezifische Branchenausnahmen. Min. 2 Wochenenden im Monat müssen frei bleiben.</span>
+                            </td>
+                        </tr>
+
+                        <!-- Urlaubsanspruch -->
+                        <tr class="hover:bg-slate-800/30 transition-colors">
+                            <td class="py-4 px-4 font-medium text-slate-400">Gesetzlicher Mindesturlaub (pro Jahr)</td>
+                            <td class="py-4 px-4">
+                                <span class="block">Mind. <strong>24 Werktage</strong> (bezogen auf eine 6-Tage-Woche).</span>
+                                <span class="text-xs text-slate-500 mt-1 block">Entspricht 20 Tagen bei einer 5-Tage-Woche. (4 Wochen)</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                Gestaffelt nach Alter am Jahresbeginn (1.1.):
+                                <ul class="list-disc list-inside mt-1">
+                                    <li>Unter 16 J.: <strong class="text-white">30 Werktage</strong></li>
+                                    <li>Unter 17 J.: <strong class="text-white">27 Werktage</strong></li>
+                                    <li>Unter 18 J.: <strong class="text-white">25 Werktage</strong></li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <!-- Berufsschule -->
+                        <tr class="hover:bg-slate-800/30 transition-colors">
+                            <td class="py-4 px-4 font-medium text-slate-400">Berufsschule (Anrechnung auf Arbeitszeit)</td>
+                            <td class="py-4 px-4">Freistellungspflicht. Anrechnung der echten Unterrichtszeit + Wegezeit. Rückkehr in Betrieb ggf. zumutbar.</td>
+                            <td class="py-4 px-4">
+                                Ein Berufsschultag mit <strong class="text-white">> 5 Unterrichtsstunden (à 45 Min)</strong> zählt pauschal als <strong class="text-white">8 Zeitstunden</strong> Arbeitszeit.
+                                <span class="text-xs text-slate-500 mt-1 block">An diesem Tag keine Beschäftigung im Betrieb mehr zulässig (gilt 1x pro Woche).</span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>
