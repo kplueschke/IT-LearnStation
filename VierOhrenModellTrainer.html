@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>10 Regeln für gute Folien Trainer</title>
+    <title>4-Ohren-Modell Trainer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -39,10 +39,10 @@
                 <span class="font-mono">ITAG Workspace</span>
             </div>
             <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
-                10 Regeln für gute Folien Trainer
+                4-Ohren-Modell Trainer
             </h1>
             <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
-                Trainiere dein Wissen über die wichtigsten Grundregeln der Foliengestaltung in IT-Präsentationen.
+                Überlege dir für jede Aussage die vier möglichen Botschaften (Sachebene, Selbstoffenbarung, Beziehungsebene, Appellebene) nach Schulz von Thun.
             </p>
         </div>
 
@@ -69,12 +69,12 @@
                 </div>
             </div>
 
-            <div id="flashcard" class="relative w-full transition-transform duration-500 transform-style-3d cursor-pointer min-h-[300px]">
+            <div id="flashcard" class="relative w-full transition-transform duration-500 transform-style-3d cursor-pointer min-h-[350px]">
 
                 <!-- Front of card (Question) -->
                 <div id="card-front" class="absolute w-full h-full backface-hidden glass-card glass-card-hover-orange rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-2xl border-2 border-slate-700/50">
-                    <span class="text-orange-500 mb-6 border border-orange-500/30 bg-orange-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Welche Regel ist gemeint?</span>
-                    <h2 id="question-text" class="text-xl md:text-2xl font-bold text-white mb-8">...</h2>
+                    <span class="text-orange-500 mb-6 border border-orange-500/30 bg-orange-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Aussage</span>
+                    <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-white mb-8 italic">"Die Ampel ist grün."</h2>
                     <p class="text-slate-400 text-sm mt-auto flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
                         Klicken zum Aufdecken
@@ -82,13 +82,29 @@
                 </div>
 
                 <!-- Back of card (Answer) -->
-                <div id="card-back" class="absolute w-full h-full backface-hidden glass-card rounded-2xl p-8 flex flex-col items-center justify-center rotate-y-180 shadow-2xl border-2 border-orange-500/50 bg-slate-800/90 hidden">
-                    <span class="text-emerald-400 mb-6 border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Lösung</span>
+                <div id="card-back" class="absolute w-full h-full backface-hidden glass-card rounded-2xl p-8 flex flex-col rotate-y-180 shadow-2xl border-2 border-orange-500/50 bg-slate-800/90 hidden">
+                    <span class="text-emerald-400 mb-4 border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider self-center">Lösung (Beispielhafte Interpretation)</span>
 
-                    <h2 id="answer-text" class="text-2xl md:text-3xl font-bold text-orange-400 mb-4 text-center">...</h2>
-                    <p id="answer-desc" class="text-slate-300 text-center mb-8">...</p>
+                    <div class="flex-grow flex flex-col justify-center gap-4 text-left w-full max-w-lg mx-auto">
+                        <div>
+                            <span class="text-orange-400 font-bold block">Sachebene:</span>
+                            <span id="ans-sache" class="text-white">...</span>
+                        </div>
+                        <div>
+                            <span class="text-orange-400 font-bold block">Selbstoffenbarung:</span>
+                            <span id="ans-selbst" class="text-white">...</span>
+                        </div>
+                        <div>
+                            <span class="text-orange-400 font-bold block">Beziehungsebene:</span>
+                            <span id="ans-beziehung" class="text-white">...</span>
+                        </div>
+                        <div>
+                            <span class="text-orange-400 font-bold block">Appellebene:</span>
+                            <span id="ans-appell" class="text-white">...</span>
+                        </div>
+                    </div>
 
-                    <div class="mt-auto pt-6 border-t border-slate-700 flex gap-4 w-full">
+                    <div class="mt-8 pt-6 border-t border-slate-700 flex gap-4 w-full">
                         <button onclick="checkAnswer(false, event)" class="flex-1 py-3 px-4 bg-slate-700 hover:bg-red-600/80 active:bg-red-700 text-white font-medium rounded-xl transition-colors border border-slate-600 hover:border-red-500">
                             Nicht gewusst
                         </button>
@@ -108,7 +124,7 @@
                     </svg>
                 </div>
                 <h2 class="text-3xl font-bold text-white mb-4">Training beendet!</h2>
-                <p class="text-slate-400 mb-8 max-w-md">Du hast alle Fragen durchgearbeitet. Hier ist dein Ergebnis:</p>
+                <p class="text-slate-400 mb-8 max-w-md">Du hast alle Aussagen durchgearbeitet. Hier ist dein Ergebnis:</p>
 
                 <div class="flex gap-6 mb-8 w-full justify-center">
                     <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 min-w-[120px]">
@@ -142,54 +158,60 @@
     <script>
         const cardData = [
             {
-                q: "Maximal 6 Stichpunkte pro Folie und maximal 6 Wörter pro Stichpunkt. Verzichte auf vollständige Sätze.",
-                a: "Die 6x6 Regel",
-                desc: "Hält die Informationsmenge überschaubar und zwingt zur Kürze."
+                quote: "Die Ampel ist grün.",
+                sache: "Die Ampel leuchtet grün.",
+                selbst: "Ich habe es eilig.",
+                beziehung: "Du fährst nicht los / Du brauchst meine Hilfe beim Fahren.",
+                appell: "Fahr endlich los!"
             },
             {
-                q: "\"Keep It Short and Simple\". Die Folie soll den Vortrag unterstützen, nicht ersetzen.",
-                a: "Weniger ist mehr (KISS)",
-                desc: "Vermeide überladene Folien mit zu vielen Informationen."
+                quote: "Da ist etwas Grünes in der Suppe.",
+                sache: "In der Suppe schwimmt etwas Grünes.",
+                selbst: "Ich weiß nicht, was das ist / Mir schmeckt das nicht.",
+                beziehung: "Du bist eine schlechte Köchin / Du weißt, was das ist.",
+                appell: "Sag mir, was das ist! / Iss das selbst!"
             },
             {
-                q: "Das Publikum kann nicht lesen und gleichzeitig zuhören. Konzentriere dich auf einen zentralen Gedanken pro Slide.",
-                a: "Eine Kernbotschaft pro Folie",
-                desc: "Lenkt die Aufmerksamkeit und verhindert Verwirrung."
+                quote: "Mir ist kalt.",
+                sache: "Die Temperatur ist niedrig.",
+                selbst: "Ich friere.",
+                beziehung: "Du kümmerst dich nicht genug um mich.",
+                appell: "Mach das Fenster zu! / Dreh die Heizung auf!"
             },
             {
-                q: "Mindestens Schriftgröße 24pt bis 30pt für Fließtext.",
-                a: "Große, lesbare Schriften",
-                desc: "Damit auch Zuschauer in der letzten Reihe alles mühelos lesen können."
+                quote: "Der Mülleimer ist voll.",
+                sache: "Der Mülleimer ist bis zum Rand gefüllt.",
+                selbst: "Mich stört das.",
+                beziehung: "Du bringst nie den Müll raus.",
+                appell: "Bring den Müll raus!"
             },
             {
-                q: "Dunkle Schrift auf hellem Grund oder helle Schrift auf dunklem Grund.",
-                a: "Starke Kontraste",
-                desc: "Achte auf gute Lesbarkeit auch bei schlechten Beamer-Verhältnissen."
+                quote: "Du hast da einen Fleck auf dem Hemd.",
+                sache: "Auf dem Hemd befindet sich ein Fleck.",
+                selbst: "Mir fällt das auf / Ich bin aufmerksam.",
+                beziehung: "Du achtest nicht auf dein Äußeres.",
+                appell: "Mach den Fleck weg!"
             },
             {
-                q: "Visualisiere Konzepte mit Diagrammen, Icons oder aussagekräftigen Fotos anstelle von Textblöcken.",
-                a: "Bilder statt Text",
-                desc: "Ein Bild sagt mehr als tausend Worte."
+                quote: "Das Meeting beginnt in 5 Minuten.",
+                sache: "In 5 Minuten startet das Meeting.",
+                selbst: "Ich bin bereit / Ich bin gestresst.",
+                beziehung: "Du bist oft zu spät / Du trödelst.",
+                appell: "Beeil dich!"
             },
             {
-                q: "Bleibe bei 1-2 Schriftarten und einem festen Farbschema.",
-                a: "Einheitliches Design (Corporate Design)",
-                desc: "Verwende für gleiche Elemente immer die gleichen Farben und Layouts."
+                quote: "Die Präsentation hat 50 Folien.",
+                sache: "Die Präsentation besteht aus 50 Folien.",
+                selbst: "Das ist mir zu viel / Ich bin besorgt wegen der Länge.",
+                beziehung: "Du hast dich nicht an die Vorgaben gehalten.",
+                appell: "Kürze die Präsentation!"
             },
             {
-                q: "Zeige keine komplexen Excel-Tabellen. Nutze stattdessen klare Diagramme, um Trends sofort sichtbar zu machen.",
-                a: "Daten visualisieren",
-                desc: "Balken-, Torten- oder Liniendiagramme sind schneller erfassbar als reine Zahlen."
-            },
-            {
-                q: "Nutze nicht jeden Quadratzentimeter der Folie. \"Atempause\" auf der Folie erhöht die Lesbarkeit.",
-                a: "Freiraum (White Space) lassen",
-                desc: "Lenkt den Fokus auf das Wesentliche."
-            },
-            {
-                q: "Animationen nur gezielt nutzen, um Spannung aufzubauen. Keine wild fliegenden Texte oder störende Sounds.",
-                a: "Sanfte Animationen, kein Kitsch",
-                desc: "Der Fokus soll auf dem Inhalt und dem Vortragenden liegen, nicht auf wilden Effekten."
+                quote: "Das WLAN funktioniert schon wieder nicht.",
+                sache: "Es gibt keine funktionierende WLAN-Verbindung.",
+                selbst: "Ich bin genervt, dass ich nicht arbeiten kann.",
+                beziehung: "Du als ITler hast das nicht im Griff.",
+                appell: "Repariere das WLAN!"
             }
         ];
 
@@ -238,9 +260,11 @@
             stats.current++;
             document.getElementById('current-card-num').textContent = stats.current;
 
-            document.getElementById('question-text').textContent = currentCard.q;
-            document.getElementById('answer-text').textContent = currentCard.a;
-            document.getElementById('answer-desc').textContent = currentCard.desc;
+            document.getElementById('question-text').textContent = `"${currentCard.quote}"`;
+            document.getElementById('ans-sache').textContent = currentCard.sache;
+            document.getElementById('ans-selbst').textContent = currentCard.selbst;
+            document.getElementById('ans-beziehung').textContent = currentCard.beziehung;
+            document.getElementById('ans-appell').textContent = currentCard.appell;
 
             unflipCard();
         }
@@ -271,6 +295,7 @@
                 stats.correct++;
             } else {
                 stats.incorrect++;
+                // Optional: put it back in queue? Nah, just move on for now.
             }
             updateStatsUI();
             nextCard();
