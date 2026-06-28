@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Audio-Dateigrößen (Theorie)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-blue-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                <span class="font-mono">ITT Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Audio-Dateigrößen
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Berechnung des Speicherbedarfs von unkomprimierten Audiodaten (z.B. WAV).
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='itt.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section -->
+        <section class="w-full max-w-5xl mx-auto mb-16">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Parameter Karte -->
+                <div class="glass-card rounded-xl p-6 border border-slate-700/50 h-full">
+                    <div class="flex items-center gap-3 mb-4 border-b border-slate-700/50 pb-2">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                        <h3 class="text-xl font-bold text-white">Einflussfaktoren</h3>
+                    </div>
+                    <ul class="space-y-4 text-slate-300 text-sm">
+                        <li>
+                            <strong class="text-blue-300 block mb-1">Abtastrate (Sampling-Rate):</strong>
+                            Gibt an, wie oft das analoge Signal pro Sekunde abgetastet wird (in Hertz, Hz).
+                            <em class="text-slate-400 text-xs block mt-1">CD-Qualität: 44.100 Hz (44,1 kHz). Studio: 48 kHz oder 96 kHz.</em>
+                        </li>
+                        <li>
+                            <strong class="text-blue-300 block mb-1">Auflösung (Wortbreite/Sampling-Tiefe):</strong>
+                            Anzahl der Bits pro Abtastwert. Bestimmt den Dynamikumfang.
+                            <em class="text-slate-400 text-xs block mt-1">CD-Qualität: 16 Bit. Studio: 24 Bit oder 32 Bit.</em>
+                        </li>
+                        <li>
+                            <strong class="text-blue-300 block mb-1">Kanäle (Channels):</strong>
+                            Mono (1 Kanal), Stereo (2 Kanäle), Surround (z.B. 5.1 = 6 Kanäle).
+                        </li>
+                        <li>
+                            <strong class="text-blue-300 block mb-1">Dauer:</strong>
+                            Die Länge der Audiodatei in Sekunden.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Formeln Karte -->
+                <div class="glass-card rounded-xl p-6 border border-slate-700/50 h-full">
+                    <div class="flex items-center gap-3 mb-4 border-b border-slate-700/50 pb-2">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                        <h3 class="text-xl font-bold text-white">Formeln</h3>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                            <h4 class="text-sm font-semibold text-blue-300 mb-1">Gesamtgröße in Bit</h4>
+                            <p class="font-mono text-sm text-slate-200">Größe = Rate [Hz] * Auflösung [Bit] * Kanäle * Dauer [s]</p>
+                        </div>
+
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                            <h4 class="text-sm font-semibold text-blue-300 mb-1">Bitrate (in Bit/s)</h4>
+                            <p class="font-mono text-sm text-slate-200">Bitrate = Rate [Hz] * Auflösung [Bit] * Kanäle</p>
+                        </div>
+
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                            <h4 class="text-sm font-semibold text-blue-300 mb-1">Umrechnung in Megabyte (MB)</h4>
+                            <p class="font-mono text-sm text-slate-200">MB = Bit / 8 / 1024 / 1024</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rechenbeispiel -->
+            <div class="mt-6 glass-card rounded-xl p-6 md:p-8 border border-blue-500/30">
+                <h3 class="text-xl font-bold text-white mb-4">Beispielrechnung</h3>
+                <p class="text-slate-300 text-sm mb-4">
+                    Ein Song (Dauer: 3 Minuten und 30 Sekunden) wird unkomprimiert in CD-Qualität (44,1 kHz, 16 Bit, Stereo) gespeichert. Wie groß ist die Datei in Megabyte (MB)?
+                </p>
+
+                <ol class="list-decimal list-inside space-y-3 text-sm text-slate-400 font-mono bg-slate-900/50 p-4 rounded-lg">
+                    <li><span class="text-slate-300">Dauer in Sekunden:</span> (3 * 60) + 30 = 210 Sekunden</li>
+                    <li><span class="text-slate-300">Abtastrate in Hz:</span> 44.100 Hz</li>
+                    <li><span class="text-slate-300">Größe in Bit:</span> 44.100 Hz * 16 Bit * 2 Kanäle * 210 Sekunden</li>
+                    <li><span class="text-slate-300">Berechnung (Bit):</span> 296.352.000 Bit</li>
+                    <li><span class="text-slate-300">In Byte ( / 8):</span> 37.044.000 Byte</li>
+                    <li><span class="text-slate-300">In KB ( / 1024):</span> 36.175,78 KB</li>
+                    <li><span class="text-slate-300">In MB ( / 1024):</span> ≈ <strong class="text-blue-400">35,33 MB</strong></li>
+                </ol>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>

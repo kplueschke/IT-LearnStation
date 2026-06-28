@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Bildgrößen (DPI) (Theorie)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-blue-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                <span class="font-mono">ITT Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Bildgrößen (DPI) & Scanner
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Grundlagen zur Berechnung von Pixelauflösung und Dateigrößen beim Scannen.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='itt.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section -->
+        <section class="w-full max-w-5xl mx-auto mb-16">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Grundlagen Karte -->
+                <div class="glass-card rounded-xl p-6 border border-slate-700/50 h-full">
+                    <div class="flex items-center gap-3 mb-4 border-b border-slate-700/50 pb-2">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        <h3 class="text-xl font-bold text-white">Grundlagen</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-300 text-sm">
+                        <li><strong class="text-blue-300">DPI (Dots per Inch):</strong> Gibt an, wie viele Bildpunkte (Pixel) pro Inch gescannt bzw. gedruckt werden.</li>
+                        <li><strong class="text-blue-300">1 Inch (Zoll):</strong> Entspricht exakt 2,54 cm.</li>
+                        <li><strong class="text-blue-300">Farbtiefe:</strong> Bestimmt, wie viele Bits für die Farbinformation eines einzelnen Pixels verwendet werden.
+                            <ul class="list-disc pl-5 mt-1 space-y-1 text-slate-400">
+                                <li>Schwarzweiß (Strichzeichnung): 1 Bit</li>
+                                <li>Graustufen: 8 Bit (1 Byte)</li>
+                                <li>True Color (RGB): 24 Bit (3 Byte)</li>
+                                <li>CMYK (Druck): 32 Bit (4 Byte)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Formeln Karte -->
+                <div class="glass-card rounded-xl p-6 border border-slate-700/50 h-full">
+                    <div class="flex items-center gap-3 mb-4 border-b border-slate-700/50 pb-2">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                        <h3 class="text-xl font-bold text-white">Formeln</h3>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                            <h4 class="text-sm font-semibold text-blue-300 mb-1">1. Umrechnung in Inch</h4>
+                            <p class="font-mono text-sm text-slate-200">Länge [in] = Länge [cm] / 2,54</p>
+                        </div>
+
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                            <h4 class="text-sm font-semibold text-blue-300 mb-1">2. Berechnung der Pixel pro Seite</h4>
+                            <p class="font-mono text-sm text-slate-200">Pixel = Länge [in] * DPI</p>
+                        </div>
+
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                            <h4 class="text-sm font-semibold text-blue-300 mb-1">3. Gesamtzahl der Pixel</h4>
+                            <p class="font-mono text-sm text-slate-200">Gesamtpixel = Breite [px] * Höhe [px]</p>
+                        </div>
+
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                            <h4 class="text-sm font-semibold text-blue-300 mb-1">4. Unkomprimierte Dateigröße</h4>
+                            <p class="font-mono text-sm text-slate-200">Größe [Bit] = Gesamtpixel * Farbtiefe [Bit]</p>
+                            <p class="font-mono text-xs text-slate-400 mt-1">Anschließend Umrechnung in Byte ( / 8), KB ( / 1024), MB ( / 1024).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rechenbeispiel -->
+            <div class="mt-6 glass-card rounded-xl p-6 md:p-8 border border-blue-500/30">
+                <h3 class="text-xl font-bold text-white mb-4">Beispielrechnung</h3>
+                <p class="text-slate-300 text-sm mb-4">
+                    Ein Foto im Format 10 cm x 15 cm wird mit 300 DPI als True Color (24 Bit) gescannt. Wie groß ist die unkomprimierte Bilddatei in Megabyte (MB)?
+                </p>
+
+                <ol class="list-decimal list-inside space-y-3 text-sm text-slate-400 font-mono bg-slate-900/50 p-4 rounded-lg">
+                    <li><span class="text-slate-300">Breite in Inch:</span> 10 cm / 2,54 = 3,937 in</li>
+                    <li><span class="text-slate-300">Höhe in Inch:</span> 15 cm / 2,54 = 5,906 in</li>
+                    <li><span class="text-slate-300">Pixel Breite:</span> 3,937 in * 300 DPI = 1.181 px</li>
+                    <li><span class="text-slate-300">Pixel Höhe:</span> 5,906 in * 300 DPI = 1.772 px</li>
+                    <li><span class="text-slate-300">Gesamtpixel:</span> 1.181 px * 1.772 px = 2.092.732 px</li>
+                    <li><span class="text-slate-300">Dateigröße in Bit:</span> 2.092.732 px * 24 Bit = 50.225.568 Bit</li>
+                    <li><span class="text-slate-300">In Byte:</span> 50.225.568 Bit / 8 = 6.278.196 Byte</li>
+                    <li><span class="text-slate-300">In KB:</span> 6.278.196 Byte / 1024 = 6.131,05 KB</li>
+                    <li><span class="text-slate-300">In MB:</span> 6.131,05 KB / 1024 ≈ <strong class="text-blue-400">5,98 MB</strong></li>
+                </ol>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>

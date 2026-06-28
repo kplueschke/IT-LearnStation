@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>RAID-Kapazitäten (Theorie)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-blue-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                <span class="font-mono">ITT Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                RAID-Kapazitäten
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Berechnung der nutzbaren Netto-Kapazität verschiedener RAID-Level.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='itt.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section -->
+        <section class="w-full max-w-5xl mx-auto mb-16">
+
+            <div class="glass-card rounded-xl p-6 border border-slate-700/50 mb-8">
+                <div class="flex items-center gap-3 mb-4 border-b border-slate-700/50 pb-2">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                    <h3 class="text-xl font-bold text-white">Grundregel für Festplattengrößen</h3>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                    In einem RAID-Verbund bestimmt <strong>immer die kleinste Festplatte</strong> die nutzbare Kapazität pro Platte.
+                    Wenn man z.B. eine 2 TB und eine 4 TB Festplatte in einem RAID kombiniert, werden von der 4 TB Platte nur 2 TB genutzt. Die restlichen 2 TB liegen brach.
+                </p>
+                <div class="bg-blue-500/10 border-l-2 border-blue-500/50 p-3 rounded-r-lg">
+                    <p class="font-mono text-sm text-slate-200">c = Kapazität der kleinsten Festplatte</p>
+                    <p class="font-mono text-sm text-slate-200">n = Anzahl der Festplatten im Verbund</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- RAID 0 -->
+                <div class="glass-card rounded-xl p-6 border border-slate-700/50 flex flex-col">
+                    <h4 class="text-lg font-bold text-blue-400 mb-2">RAID 0 (Striping)</h4>
+                    <p class="text-slate-400 text-sm mb-4 flex-grow">
+                        Daten werden auf alle Platten verteilt (schneller). Keine Redundanz! Fällt eine Platte aus, sind alle Daten weg.
+                    </p>
+                    <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700 mt-auto">
+                        <p class="text-xs text-slate-400 mb-1">Nutzbare Kapazität:</p>
+                        <p class="font-mono text-sm text-white font-bold">Kapazität = n * c</p>
+                        <p class="text-xs text-slate-500 mt-2">Mindestens 2 Festplatten.</p>
+                    </div>
+                </div>
+
+                <!-- RAID 1 -->
+                <div class="glass-card rounded-xl p-6 border border-slate-700/50 flex flex-col">
+                    <h4 class="text-lg font-bold text-blue-400 mb-2">RAID 1 (Mirroring)</h4>
+                    <p class="text-slate-400 text-sm mb-4 flex-grow">
+                        Daten werden komplett gespiegelt. Sehr sicher, aber "verschwendet" 50% des Speichers.
+                    </p>
+                    <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700 mt-auto">
+                        <p class="text-xs text-slate-400 mb-1">Nutzbare Kapazität:</p>
+                        <p class="font-mono text-sm text-white font-bold">Kapazität = (n / 2) * c</p>
+                        <p class="text-xs text-slate-500 mt-2">Gerade Anzahl an Festplatten (min. 2).</p>
+                    </div>
+                </div>
+
+                <!-- RAID 5 -->
+                <div class="glass-card rounded-xl p-6 border border-slate-700/50 flex flex-col">
+                    <h4 class="text-lg font-bold text-blue-400 mb-2">RAID 5 (Parity)</h4>
+                    <p class="text-slate-400 text-sm mb-4 flex-grow">
+                        Guter Kompromiss aus Speed, Speicherplatz und Sicherheit. Eine Festplatte darf ausfallen (Paritätsdaten).
+                    </p>
+                    <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700 mt-auto">
+                        <p class="text-xs text-slate-400 mb-1">Nutzbare Kapazität:</p>
+                        <p class="font-mono text-sm text-white font-bold">Kapazität = (n - 1) * c</p>
+                        <p class="text-xs text-slate-500 mt-2">Mindestens 3 Festplatten.</p>
+                    </div>
+                </div>
+
+                <!-- RAID 6 -->
+                <div class="glass-card rounded-xl p-6 border border-slate-700/50 flex flex-col">
+                    <h4 class="text-lg font-bold text-blue-400 mb-2">RAID 6 (Dual Parity)</h4>
+                    <p class="text-slate-400 text-sm mb-4 flex-grow">
+                        Wie RAID 5, aber es dürfen zwei Festplatten gleichzeitig ausfallen. Höhere Sicherheit.
+                    </p>
+                    <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700 mt-auto">
+                        <p class="text-xs text-slate-400 mb-1">Nutzbare Kapazität:</p>
+                        <p class="font-mono text-sm text-white font-bold">Kapazität = (n - 2) * c</p>
+                        <p class="text-xs text-slate-500 mt-2">Mindestens 4 Festplatten.</p>
+                    </div>
+                </div>
+
+                <!-- RAID 10 -->
+                <div class="glass-card rounded-xl p-6 border border-slate-700/50 flex flex-col md:col-span-2 lg:col-span-2">
+                    <h4 class="text-lg font-bold text-blue-400 mb-2">RAID 10 (1+0)</h4>
+                    <p class="text-slate-400 text-sm mb-4 flex-grow">
+                        Kombiniert die Geschwindigkeit von RAID 0 (Striping) mit der Sicherheit von RAID 1 (Mirroring). Sehr performant, aber teuer (50% Verlust).
+                    </p>
+                    <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700 mt-auto">
+                        <p class="text-xs text-slate-400 mb-1">Nutzbare Kapazität:</p>
+                        <p class="font-mono text-sm text-white font-bold">Kapazität = (n / 2) * c</p>
+                        <p class="text-xs text-slate-500 mt-2">Gerade Anzahl an Festplatten (min. 4).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rechenbeispiel -->
+            <div class="mt-6 glass-card rounded-xl p-6 md:p-8 border border-blue-500/30">
+                <h3 class="text-xl font-bold text-white mb-4">Beispielrechnung</h3>
+                <p class="text-slate-300 text-sm mb-4">
+                    Ein Server wird mit fünf Festplatten (3x 4 TB, 2x 2 TB) ausgestattet. Wie groß ist die nutzbare Netto-Kapazität, wenn ein RAID 5 konfiguriert wird?
+                </p>
+
+                <ol class="list-decimal list-inside space-y-3 text-sm text-slate-400 font-mono bg-slate-900/50 p-4 rounded-lg">
+                    <li><span class="text-slate-300">Anzahl Festplatten (n):</span> 5</li>
+                    <li><span class="text-slate-300">Kleinste Kapazität (c):</span> 2 TB <em class="text-slate-500">(Die 4 TB Platten werden "beschnitten")</em></li>
+                    <li><span class="text-slate-300">Formel RAID 5:</span> (n - 1) * c</li>
+                    <li><span class="text-slate-300">Rechnung:</span> (5 - 1) * 2 TB</li>
+                    <li><span class="text-slate-300">Ergebnis:</span> 4 * 2 TB = <strong class="text-blue-400">8 TB</strong></li>
+                </ol>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>
