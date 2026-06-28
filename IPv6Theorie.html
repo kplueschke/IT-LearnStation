@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-[#0a0a0a] text-slate-300 min-h-screen flex flex-col font-sans antialiased overflow-x-hidden selection:bg-purple-500/30">
+<body class="bg-[#0a0a0a] text-slate-300 min-h-screen flex flex-col font-sans antialiased overflow-x-hidden selection:bg-emerald-500/30">
 
     <!-- Matrix Background -->
     <canvas id="matrix-bg" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
@@ -32,11 +32,11 @@
 
         <!-- Header -->
         <div class="text-center mb-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-medium uppercase tracking-wider mb-4">
-                <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span class="font-mono">ITS Workspace</span>
             </div>
-            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-indigo-400 to-emerald-400">
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
                 IPv6 Grundlagen
             </h1>
             <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
@@ -59,21 +59,21 @@
 
             <div class="glass-card rounded-xl p-6 md:p-8 border border-slate-700/50">
                 <div class="flex items-center gap-3 mb-4 border-b border-slate-700/50 pb-2">
-                    <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
                     <h3 class="text-xl font-bold text-white">Aufbau einer IPv6-Adresse</h3>
                 </div>
                 <p class="text-slate-300 text-sm leading-relaxed mb-4">
                     Eine IPv6-Adresse ist <strong>128 Bit</strong> lang. Sie wird in 8 Blöcken (Hextets) zu je 16 Bit (4 Hexadezimalzeichen) geschrieben, getrennt durch Doppelpunkte.
                 </p>
                 <div class="bg-slate-900/50 border border-slate-700 p-4 rounded-lg text-center overflow-x-auto">
-                    <p class="font-mono text-lg md:text-xl text-purple-400 tracking-wider whitespace-nowrap">
+                    <p class="font-mono text-lg md:text-xl text-emerald-400 tracking-wider whitespace-nowrap">
                         2001 : 0db8 : 85a3 : 0000 : 0000 : 8a2e : 0370 : 7334
                     </p>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass-card rounded-xl p-6 border border-purple-500/30">
+                <div class="glass-card rounded-xl p-6 border border-emerald-500/30">
                     <h4 class="text-lg font-bold text-emerald-400 mb-3">Komprimierungsregel 1: Führende Nullen</h4>
                     <p class="text-slate-300 text-sm leading-relaxed mb-4">
                         Führende Nullen innerhalb eines 16-Bit-Blocks dürfen weggelassen werden. Ein Block, der nur aus Nullen besteht, wird als einzelne "0" geschrieben.
@@ -92,7 +92,7 @@
                     </div>
                 </div>
 
-                <div class="glass-card rounded-xl p-6 border border-purple-500/30">
+                <div class="glass-card rounded-xl p-6 border border-emerald-500/30">
                     <h4 class="text-lg font-bold text-emerald-400 mb-3">Komprimierungsregel 2: Null-Blöcke</h4>
                     <p class="text-slate-300 text-sm leading-relaxed mb-4">
                         Eine fortlaufende Folge von Blöcken, die nur aus Nullen bestehen, kann <strong>einmalig pro Adresse</strong> durch zwei Doppelpunkte (::) ersetzt werden.
@@ -109,25 +109,25 @@
             </div>
 
             <div class="glass-card rounded-xl p-6 border border-slate-700/50">
-                <h4 class="text-lg font-bold text-purple-400 mb-4">Netz- und Interface-Identifier (Prefix)</h4>
+                <h4 class="text-lg font-bold text-emerald-400 mb-4">Netz- und Interface-Identifier (Prefix)</h4>
                 <p class="text-slate-300 text-sm leading-relaxed mb-4">
                     Ähnlich wie bei IPv4 wird die Adresse in einen Netzteil (Routing-Präfix + Subnetz-ID) und einen Hostteil (Interface-Identifier) aufgeteilt. Bei IPv6 wird üblicherweise ein <code class="text-emerald-300">/64</code> Präfix verwendet.
                 </p>
                 <div class="relative pt-8 pb-4">
                     <div class="flex bg-slate-800/80 rounded-lg overflow-hidden border border-slate-700">
-                        <div class="w-1/2 p-3 text-center border-r border-slate-700 bg-purple-900/20">
-                            <span class="text-purple-400 font-mono font-bold">2001:0db8:85a3:0000</span>
+                        <div class="w-1/2 p-3 text-center border-r border-slate-700 bg-emerald-900/20">
+                            <span class="text-emerald-400 font-mono font-bold">2001:0db8:85a3:0000</span>
                         </div>
-                        <div class="w-1/2 p-3 text-center bg-indigo-900/20">
-                            <span class="text-indigo-400 font-mono font-bold">0000:8a2e:0370:7334</span>
+                        <div class="w-1/2 p-3 text-center bg-emerald-900/20">
+                            <span class="text-emerald-400 font-mono font-bold">0000:8a2e:0370:7334</span>
                         </div>
                     </div>
 
                     <!-- Labels -->
-                    <div class="absolute top-0 left-0 w-1/2 text-center text-xs text-purple-300 font-semibold uppercase tracking-wider">
+                    <div class="absolute top-0 left-0 w-1/2 text-center text-xs text-emerald-300 font-semibold uppercase tracking-wider">
                         Netzpräfix (64 Bit)
                     </div>
-                    <div class="absolute top-0 right-0 w-1/2 text-center text-xs text-indigo-300 font-semibold uppercase tracking-wider">
+                    <div class="absolute top-0 right-0 w-1/2 text-center text-xs text-emerald-300 font-semibold uppercase tracking-wider">
                         Interface ID (64 Bit)
                     </div>
                 </div>
