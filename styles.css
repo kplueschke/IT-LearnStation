@@ -177,3 +177,39 @@ input[type=range]::-moz-range-track {
     border-radius: 4px;
     border: 1px solid #334155;
 }
+
+/* Fade-In Animation */
+@keyframes slideUpFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-on-load {
+    opacity: 0;
+    animation: slideUpFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+.stagger-7 { animation-delay: 0.7s; }
+
+/* Subject H2 Color Hover States */
+.glass-card-hover-indigo:hover h2 { color: #818cf8; /* indigo-400 */ }
+.glass-card-hover-red:hover h2 { color: #f87171; /* red-400 */ }
+.glass-card-hover-emerald:hover h2 { color: #34d399; /* emerald-400 */ }
+.glass-card-hover-purple:hover h2 { color: #c084fc; /* purple-400 */ }
+.glass-card-hover-orange:hover h2 { color: #fb923c; /* orange-400 */ }
+.glass-card-hover-blue:hover h2 { color: #60a5fa; /* blue-400 */ }
+.glass-card-hover-yellow:hover h2 { color: #facc15; /* yellow-400 */ }
+.glass-card-hover-slate:hover h2 { color: #94a3b8; /* slate-400 */ }
+.glass-card h2 { transition: color 0.3s ease; }
