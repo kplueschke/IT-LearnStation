@@ -56,68 +56,81 @@
             </button>
         </div>
 
-        <!-- Flashcard Container -->
-        <div class="w-full max-w-2xl mx-auto perspective-1000">
+        <!-- Terminal UI Container -->
+        <div class="w-full max-w-4xl mx-auto flex flex-col gap-6">
 
-            <div class="flex justify-between items-center mb-4">
+            <div class="flex justify-between items-center mb-2">
                 <div class="text-slate-400 font-mono text-sm">
-                    Aufgabe <span id="current-card-num" class="text-orange-400 font-bold">1</span> / <span id="total-cards-num">X</span>
+                    Szenario <span id="current-scenario-num" class="text-orange-400 font-bold">1</span> / <span id="total-scenarios-num">X</span>
                 </div>
                 <div class="flex gap-2 text-xs font-mono">
-                    <span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Gewusst: <span id="score-correct">0</span></span>
-                    <span class="px-2 py-1 rounded bg-red-500/20 text-red-400 border border-red-500/30">Nicht gewusst: <span id="score-incorrect">0</span></span>
+                    <span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Fehlerlos: <span id="score-perfect">0</span></span>
+                    <span class="px-2 py-1 rounded bg-red-500/20 text-red-400 border border-red-500/30">Mit Fehlern: <span id="score-imperfect">0</span></span>
                 </div>
             </div>
 
-            <div id="flashcard" class="relative w-full transition-transform duration-500 transform-style-3d cursor-pointer min-h-[300px]">
+            <!-- Terminal Screen -->
+            <div id="terminal-interface" class="flex flex-col gap-6">
+                <!-- Display Area -->
+                <div class="glass-card rounded-2xl border-2 border-slate-700/50 bg-[#0a0f16] overflow-hidden flex flex-col min-h-[300px]">
+                    <div class="bg-slate-800/80 border-b border-slate-700/50 p-2 flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                        <div class="w-3 h-3 rounded-full bg-emerald-500/50"></div>
+                        <span class="text-xs text-slate-500 font-mono ml-2">Atherton_Analysis_Term_v1.0</span>
+                    </div>
 
-                <!-- Front of card (Question) -->
-                <div id="card-front" class="absolute w-full h-full backface-hidden glass-card glass-card-hover-orange rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-2xl border-2 border-slate-700/50">
-                    <span class="text-orange-500 mb-6 border border-orange-500/30 bg-orange-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Welche Theorie ist gemeint?</span>
-                    <h2 id="question-text" class="text-xl md:text-2xl font-bold text-white mb-8">...</h2>
-                    <p class="text-slate-400 text-sm mt-auto flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
-                        Klicken zum Aufdecken
-                    </p>
-                </div>
+                    <div class="p-6 flex-grow flex flex-col justify-center text-center relative">
+                        <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:100%_4px] pointer-events-none"></div>
+                        <span class="text-orange-500/70 text-xs font-mono uppercase tracking-widest mb-4 block animate-pulse">Lade Szenario-Daten...</span>
+                        <h2 id="scenario-text" class="text-xl md:text-2xl font-bold text-slate-200 z-10 leading-relaxed font-mono">...</h2>
 
-                <!-- Back of card (Answer) -->
-                <div id="card-back" class="absolute w-full h-full backface-hidden glass-card rounded-2xl p-8 flex flex-col items-center justify-center rotate-y-180 shadow-2xl border-2 border-orange-500/50 bg-slate-800/90 hidden">
-                    <span class="text-emerald-400 mb-6 border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Lösung</span>
-
-                    <h2 id="answer-text" class="text-2xl md:text-3xl font-bold text-orange-400 mb-4 text-center">...</h2>
-                    <p id="answer-desc" class="text-slate-300 text-center mb-8">...</p>
-
-                    <div class="mt-auto pt-6 border-t border-slate-700 flex gap-4 w-full">
-                        <button onclick="checkAnswer(false, event)" class="flex-1 py-3 px-4 bg-slate-700 hover:bg-red-600/80 active:bg-red-700 text-white font-medium rounded-xl transition-colors border border-slate-600 hover:border-red-500">
-                            Nicht gewusst
-                        </button>
-                        <button onclick="checkAnswer(true, event)" class="flex-1 py-3 px-4 bg-orange-600 hover:bg-emerald-600 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg hover:shadow-emerald-600/20">
-                            Gewusst
-                        </button>
+                        <div id="terminal-feedback" class="mt-6 p-4 rounded-xl border border-dashed border-slate-700 text-sm hidden font-mono z-10"></div>
                     </div>
                 </div>
 
+                <!-- Theory Buttons Panel -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button onclick="classifyTheory('Cognitive Load Theory')" class="theory-btn relative overflow-hidden group py-6 px-4 glass-card border-2 border-slate-700/50 hover:border-orange-500 rounded-2xl flex flex-col items-center justify-center gap-2 transition-all hover:bg-slate-800/80">
+                        <span class="font-bold text-slate-300 group-hover:text-white text-lg">Cognitive Load Theory</span>
+                        <span class="text-xs text-slate-500 group-hover:text-orange-400 font-mono text-center">(Theorie zur kognitiven Belastung)</span>
+                    </button>
+
+                    <button onclick="classifyTheory('Dual Coding Theory')" class="theory-btn relative overflow-hidden group py-6 px-4 glass-card border-2 border-slate-700/50 hover:border-orange-500 rounded-2xl flex flex-col items-center justify-center gap-2 transition-all hover:bg-slate-800/80">
+                        <span class="font-bold text-slate-300 group-hover:text-white text-lg">Dual Coding Theory</span>
+                        <span class="text-xs text-slate-500 group-hover:text-orange-400 font-mono text-center">(Theorie der dualen Codierung)</span>
+                    </button>
+
+                    <button onclick="classifyTheory('Split-Attention Effect')" class="theory-btn relative overflow-hidden group py-6 px-4 glass-card border-2 border-slate-700/50 hover:border-orange-500 rounded-2xl flex flex-col items-center justify-center gap-2 transition-all hover:bg-slate-800/80">
+                        <span class="font-bold text-slate-300 group-hover:text-white text-lg">Split-Attention Effect</span>
+                        <span class="text-xs text-slate-500 group-hover:text-orange-400 font-mono text-center">(Effekt der geteilten Aufmerksamkeit)</span>
+                    </button>
+
+                    <button onclick="classifyTheory('Limited Working Memory')" class="theory-btn relative overflow-hidden group py-6 px-4 glass-card border-2 border-slate-700/50 hover:border-orange-500 rounded-2xl flex flex-col items-center justify-center gap-2 transition-all hover:bg-slate-800/80">
+                        <span class="font-bold text-slate-300 group-hover:text-white text-lg">Limited Working Memory</span>
+                        <span class="text-xs text-slate-500 group-hover:text-orange-400 font-mono text-center">(Begrenzung des Arbeitsgedächtnisses)</span>
+                    </button>
+                </div>
             </div>
 
             <!-- End Screen -->
-            <div id="end-screen" class="hidden glass-card rounded-2xl p-10 flex-col items-center justify-center text-center shadow-2xl border-2 border-orange-500/50">
+            <div id="end-screen" class="hidden glass-card rounded-2xl p-10 flex-col items-center justify-center text-center shadow-2xl border-2 border-orange-500/50 mt-8">
                 <div class="w-20 h-20 rounded-full bg-orange-500/20 border-2 border-orange-500 flex items-center justify-center text-orange-400 mb-6">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
-                <h2 class="text-3xl font-bold text-white mb-4">Training beendet!</h2>
-                <p class="text-slate-400 mb-8 max-w-md">Du hast alle Fragen durchgearbeitet. Hier ist dein Ergebnis:</p>
+                <h2 class="text-3xl font-bold text-white mb-4">Terminal-Sitzung beendet!</h2>
+                <p class="text-slate-400 mb-8 max-w-md">Du hast alle Szenarien klassifiziert.</p>
 
                 <div class="flex gap-6 mb-8 w-full justify-center">
                     <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 min-w-[120px]">
-                        <div class="text-3xl font-bold text-emerald-400 mb-1" id="final-correct">0</div>
-                        <div class="text-xs text-emerald-500/70 uppercase tracking-wider">Gewusst</div>
+                        <div class="text-3xl font-bold text-emerald-400 mb-1" id="final-perfect">0</div>
+                        <div class="text-xs text-emerald-500/70 uppercase tracking-wider">Fehlerlos</div>
                     </div>
                     <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 min-w-[120px]">
-                        <div class="text-3xl font-bold text-red-400 mb-1" id="final-incorrect">0</div>
-                        <div class="text-xs text-red-500/70 uppercase tracking-wider">Nicht gewusst</div>
+                        <div class="text-3xl font-bold text-red-400 mb-1" id="final-imperfect">0</div>
+                        <div class="text-xs text-red-500/70 uppercase tracking-wider">Mit Fehlern</div>
                     </div>
                 </div>
 
@@ -125,7 +138,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                     </svg>
-                    Neuer Durchgang
+                    Neustart
                 </button>
             </div>
 
@@ -184,14 +197,13 @@
         ];
 
         let queue = [];
-        let currentCard = null;
-        let isFlipped = false;
-        let stats = { correct: 0, incorrect: 0, total: 0, current: 0 };
+        let currentScenario = null;
+        let stats = { perfect: 0, imperfect: 0, total: 0, current: 0 };
+        let currentScenarioHadError = false;
 
-        const flashcard = document.getElementById('flashcard');
-        const cardFront = document.getElementById('card-front');
-        const cardBack = document.getElementById('card-back');
+        const terminalInterface = document.getElementById('terminal-interface');
         const endScreen = document.getElementById('end-screen');
+        const terminalFeedback = document.getElementById('terminal-feedback');
 
         function shuffleArray(array) {
             let curId = array.length;
@@ -207,90 +219,107 @@
 
         function initTrainer() {
             queue = shuffleArray([...cardData]);
-            stats = { correct: 0, incorrect: 0, total: cardData.length, current: 0 };
+            stats = { perfect: 0, imperfect: 0, total: cardData.length, current: 0 };
 
-            document.getElementById('total-cards-num').textContent = stats.total;
+            document.getElementById('total-scenarios-num').textContent = stats.total;
             updateStatsUI();
 
             endScreen.classList.add('hidden');
-            flashcard.classList.remove('hidden');
+            endScreen.classList.remove('flex');
+            terminalInterface.classList.remove('hidden');
+            terminalInterface.classList.add('flex');
 
-            nextCard();
+            nextScenario();
         }
 
-        function nextCard() {
+        function nextScenario() {
             if (queue.length === 0) {
                 showEndScreen();
                 return;
             }
 
-            currentCard = queue.pop();
+            currentScenario = queue.pop();
             stats.current++;
-            document.getElementById('current-card-num').textContent = stats.current;
+            currentScenarioHadError = false;
+            document.getElementById('current-scenario-num').textContent = stats.current;
 
-            document.getElementById('question-text').textContent = currentCard.q;
-            document.getElementById('answer-text').textContent = currentCard.a;
-            document.getElementById('answer-desc').textContent = currentCard.desc;
+            const textEl = document.getElementById('scenario-text');
+            textEl.textContent = ""; // Clear for typing effect
+            terminalFeedback.classList.add('hidden');
 
-            unflipCard();
-        }
+            // Enable buttons
+            document.querySelectorAll('.theory-btn').forEach(b => {
+                b.disabled = false;
+                b.classList.remove('opacity-50', 'cursor-not-allowed', 'border-emerald-500', 'border-red-500');
+            });
 
-        function toggleFlip() {
-            if (!isFlipped) {
-                flashcard.classList.add('rotate-y-180');
-                cardBack.classList.remove('hidden');
-                setTimeout(() => {
-                    cardFront.classList.add('hidden');
-                }, 150);
-                isFlipped = true;
+            // Typing effect
+            let i = 0;
+            const speed = 25; // ms per char
+            const text = "> " + currentScenario.q;
+
+            function typeWriter() {
+                if (i < text.length) {
+                    textEl.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                }
             }
+            typeWriter();
         }
 
-        function unflipCard() {
-            flashcard.classList.remove('rotate-y-180');
-            cardFront.classList.remove('hidden');
-            setTimeout(() => {
-                cardBack.classList.add('hidden');
-            }, 150);
-            isFlipped = false;
-        }
+        function classifyTheory(theoryName) {
+            const isCorrect = (theoryName === currentScenario.a);
 
-        function checkAnswer(isCorrect, event) {
-            event.stopPropagation();
+            // Find button
+            const btns = document.querySelectorAll('.theory-btn');
+            let clickedBtn;
+            btns.forEach(b => {
+                if(b.querySelector('span').textContent === theoryName) clickedBtn = b;
+            });
+
             if (isCorrect) {
-                stats.correct++;
+                if (!currentScenarioHadError) stats.perfect++;
+                else stats.imperfect++;
+                updateStatsUI();
+
+                clickedBtn.classList.add('border-emerald-500', 'bg-emerald-500/10');
+
+                terminalFeedback.classList.remove('hidden', 'text-red-400', 'border-red-500/50', 'bg-red-900/20');
+                terminalFeedback.classList.add('text-emerald-400', 'border-emerald-500/50', 'bg-emerald-900/20');
+                terminalFeedback.innerHTML = `[MATCH FOUND] ${theoryName}<br><span class="text-slate-400 mt-2 block">${currentScenario.desc}</span>`;
+
+                btns.forEach(b => b.disabled = true);
+
+                setTimeout(() => {
+                    nextScenario();
+                }, 2500);
             } else {
-                stats.incorrect++;
+                currentScenarioHadError = true;
+
+                clickedBtn.classList.add('border-red-500', 'opacity-50', 'cursor-not-allowed');
+                clickedBtn.disabled = true;
+
+                terminalFeedback.classList.remove('hidden', 'text-emerald-400', 'border-emerald-500/50', 'bg-emerald-900/20');
+                terminalFeedback.classList.add('text-red-400', 'border-red-500/50', 'bg-red-900/20');
+                terminalFeedback.innerHTML = `[ERROR] Klassifizierung fehlgeschlagen.`;
             }
-            updateStatsUI();
-            nextCard();
         }
 
         function updateStatsUI() {
-            document.getElementById('score-correct').textContent = stats.correct;
-            document.getElementById('score-incorrect').textContent = stats.incorrect;
+            document.getElementById('score-perfect').textContent = stats.perfect;
+            document.getElementById('score-imperfect').textContent = stats.imperfect;
         }
 
         function showEndScreen() {
-            flashcard.classList.add('hidden');
+            terminalInterface.classList.add('hidden');
+            terminalInterface.classList.remove('flex');
             endScreen.classList.remove('hidden');
             endScreen.classList.add('flex');
 
-            document.getElementById('final-correct').textContent = stats.correct;
-            document.getElementById('final-incorrect').textContent = stats.incorrect;
+            document.getElementById('final-perfect').textContent = stats.perfect;
+            document.getElementById('final-imperfect').textContent = stats.imperfect;
         }
-
-        flashcard.addEventListener('click', toggleFlip);
-
-        // Required CSS for 3D flip effect
-        const style = document.createElement('style');
-        style.textContent = `
-            .perspective-1000 { perspective: 1000px; }
-            .transform-style-3d { transform-style: preserve-3d; }
-            .backface-hidden { backface-visibility: hidden; }
-            .rotate-y-180 { transform: rotateY(180deg); }
-        `;
-        document.head.appendChild(style);
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', initTrainer);

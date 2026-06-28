@@ -56,84 +56,108 @@
             </button>
         </div>
 
-        <!-- Flashcard Container -->
-        <div class="w-full max-w-2xl mx-auto perspective-1000">
+        <!-- Scanner UI Container -->
+        <div class="w-full max-w-4xl mx-auto">
 
-            <div class="flex justify-between items-center mb-4">
+            <div class="flex justify-between items-center mb-6">
                 <div class="text-slate-400 font-mono text-sm">
-                    Aufgabe <span id="current-card-num" class="text-orange-400 font-bold">1</span> / <span id="total-cards-num">X</span>
+                    Aussage <span id="current-quote-num" class="text-orange-400 font-bold">1</span> / <span id="total-quotes-num">X</span>
                 </div>
                 <div class="flex gap-2 text-xs font-mono">
-                    <span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Gewusst: <span id="score-correct">0</span></span>
-                    <span class="px-2 py-1 rounded bg-red-500/20 text-red-400 border border-red-500/30">Nicht gewusst: <span id="score-incorrect">0</span></span>
+                    <span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Fehlerlos: <span id="score-perfect">0</span></span>
+                    <span class="px-2 py-1 rounded bg-red-500/20 text-red-400 border border-red-500/30">Mit Fehlern: <span id="score-imperfect">0</span></span>
                 </div>
             </div>
 
-            <div id="flashcard" class="relative w-full transition-transform duration-500 transform-style-3d cursor-pointer min-h-[350px]">
-
-                <!-- Front of card (Question) -->
-                <div id="card-front" class="absolute w-full h-full backface-hidden glass-card glass-card-hover-orange rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-2xl border-2 border-slate-700/50">
-                    <span class="text-orange-500 mb-6 border border-orange-500/30 bg-orange-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Aussage</span>
-                    <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-white mb-8 italic">"Die Ampel ist grün."</h2>
-                    <p class="text-slate-400 text-sm mt-auto flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
-                        Klicken zum Aufdecken
-                    </p>
+            <div id="scanner-interface" class="flex flex-col gap-6">
+                <!-- Quote Display -->
+                <div class="glass-card rounded-2xl p-6 border-2 border-orange-500/30 text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-50"></div>
+                    <span class="text-orange-500/70 text-xs font-mono uppercase tracking-widest mb-2 block">Empfangene Aussage</span>
+                    <h2 id="main-quote" class="text-2xl md:text-3xl font-bold text-white italic">"..."</h2>
                 </div>
 
-                <!-- Back of card (Answer) -->
-                <div id="card-back" class="absolute w-full h-full backface-hidden glass-card rounded-2xl p-8 flex flex-col rotate-y-180 shadow-2xl border-2 border-orange-500/50 bg-slate-800/90 hidden">
-                    <span class="text-emerald-400 mb-4 border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider self-center">Lösung (Beispielhafte Interpretation)</span>
+                <!-- Signal Scanner -->
+                <div class="glass-card rounded-2xl p-8 border border-slate-700/50 bg-slate-800/50 text-center relative flex flex-col items-center justify-center min-h-[150px]">
+                    <span class="absolute top-4 left-4 text-slate-500 text-xs font-mono uppercase flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span> Eingehendes Signal
+                    </span>
 
-                    <div class="flex-grow flex flex-col justify-center gap-4 text-left w-full max-w-lg mx-auto">
-                        <div>
-                            <span class="text-orange-400 font-bold block">Sachebene:</span>
-                            <span id="ans-sache" class="text-white">...</span>
-                        </div>
-                        <div>
-                            <span class="text-orange-400 font-bold block">Selbstoffenbarung:</span>
-                            <span id="ans-selbst" class="text-white">...</span>
-                        </div>
-                        <div>
-                            <span class="text-orange-400 font-bold block">Beziehungsebene:</span>
-                            <span id="ans-beziehung" class="text-white">...</span>
-                        </div>
-                        <div>
-                            <span class="text-orange-400 font-bold block">Appellebene:</span>
-                            <span id="ans-appell" class="text-white">...</span>
-                        </div>
-                    </div>
-
-                    <div class="mt-8 pt-6 border-t border-slate-700 flex gap-4 w-full">
-                        <button onclick="checkAnswer(false, event)" class="flex-1 py-3 px-4 bg-slate-700 hover:bg-red-600/80 active:bg-red-700 text-white font-medium rounded-xl transition-colors border border-slate-600 hover:border-red-500">
-                            Nicht gewusst
-                        </button>
-                        <button onclick="checkAnswer(true, event)" class="flex-1 py-3 px-4 bg-orange-600 hover:bg-emerald-600 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg hover:shadow-emerald-600/20">
-                            Gewusst
-                        </button>
+                    <div id="signal-text" class="text-xl md:text-2xl font-medium text-orange-300 mt-4 transition-all duration-300 transform">
+                        Lade Signal...
                     </div>
                 </div>
 
+                <!-- Control Panel (4 Ears) -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button onclick="categorize('sache')" class="ear-btn relative overflow-hidden group py-4 px-2 glass-card border border-slate-600 hover:border-orange-500 rounded-xl flex flex-col items-center gap-2 transition-all hover:bg-slate-800/80">
+                        <div class="w-10 h-10 rounded-full bg-slate-700 group-hover:bg-orange-500/20 flex items-center justify-center text-slate-300 group-hover:text-orange-400 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <span class="font-bold text-slate-300 group-hover:text-white text-sm">Sachebene</span>
+                    </button>
+
+                    <button onclick="categorize('selbst')" class="ear-btn relative overflow-hidden group py-4 px-2 glass-card border border-slate-600 hover:border-orange-500 rounded-xl flex flex-col items-center gap-2 transition-all hover:bg-slate-800/80">
+                        <div class="w-10 h-10 rounded-full bg-slate-700 group-hover:bg-orange-500/20 flex items-center justify-center text-slate-300 group-hover:text-orange-400 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        </div>
+                        <span class="font-bold text-slate-300 group-hover:text-white text-sm">Selbstoffenbarung</span>
+                    </button>
+
+                    <button onclick="categorize('beziehung')" class="ear-btn relative overflow-hidden group py-4 px-2 glass-card border border-slate-600 hover:border-orange-500 rounded-xl flex flex-col items-center gap-2 transition-all hover:bg-slate-800/80">
+                        <div class="w-10 h-10 rounded-full bg-slate-700 group-hover:bg-orange-500/20 flex items-center justify-center text-slate-300 group-hover:text-orange-400 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <span class="font-bold text-slate-300 group-hover:text-white text-sm">Beziehungsebene</span>
+                    </button>
+
+                    <button onclick="categorize('appell')" class="ear-btn relative overflow-hidden group py-4 px-2 glass-card border border-slate-600 hover:border-orange-500 rounded-xl flex flex-col items-center gap-2 transition-all hover:bg-slate-800/80">
+                        <div class="w-10 h-10 rounded-full bg-slate-700 group-hover:bg-orange-500/20 flex items-center justify-center text-slate-300 group-hover:text-orange-400 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                        </div>
+                        <span class="font-bold text-slate-300 group-hover:text-white text-sm">Appellebene</span>
+                    </button>
+                </div>
+
+                <!-- Analysis Results -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-2">
+                    <div id="slot-sache" class="p-3 border border-slate-700/50 rounded-lg bg-slate-800/30 text-sm text-slate-500 flex flex-col gap-1 min-h-[80px]">
+                        <span class="text-xs uppercase font-mono text-slate-600">Sache</span>
+                        <span class="content"></span>
+                    </div>
+                    <div id="slot-selbst" class="p-3 border border-slate-700/50 rounded-lg bg-slate-800/30 text-sm text-slate-500 flex flex-col gap-1 min-h-[80px]">
+                        <span class="text-xs uppercase font-mono text-slate-600">Selbstoffenbarung</span>
+                        <span class="content"></span>
+                    </div>
+                    <div id="slot-beziehung" class="p-3 border border-slate-700/50 rounded-lg bg-slate-800/30 text-sm text-slate-500 flex flex-col gap-1 min-h-[80px]">
+                        <span class="text-xs uppercase font-mono text-slate-600">Beziehung</span>
+                        <span class="content"></span>
+                    </div>
+                    <div id="slot-appell" class="p-3 border border-slate-700/50 rounded-lg bg-slate-800/30 text-sm text-slate-500 flex flex-col gap-1 min-h-[80px]">
+                        <span class="text-xs uppercase font-mono text-slate-600">Appell</span>
+                        <span class="content"></span>
+                    </div>
+                </div>
             </div>
 
             <!-- End Screen -->
-            <div id="end-screen" class="hidden glass-card rounded-2xl p-10 flex-col items-center justify-center text-center shadow-2xl border-2 border-orange-500/50">
+            <div id="end-screen" class="hidden glass-card rounded-2xl p-10 flex-col items-center justify-center text-center shadow-2xl border-2 border-orange-500/50 mt-8">
                 <div class="w-20 h-20 rounded-full bg-orange-500/20 border-2 border-orange-500 flex items-center justify-center text-orange-400 mb-6">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
-                <h2 class="text-3xl font-bold text-white mb-4">Training beendet!</h2>
-                <p class="text-slate-400 mb-8 max-w-md">Du hast alle Aussagen durchgearbeitet. Hier ist dein Ergebnis:</p>
+                <h2 class="text-3xl font-bold text-white mb-4">Analyse abgeschlossen!</h2>
+                <p class="text-slate-400 mb-8 max-w-md">Du hast alle Aussagen erfolgreich decodiert.</p>
 
                 <div class="flex gap-6 mb-8 w-full justify-center">
                     <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 min-w-[120px]">
-                        <div class="text-3xl font-bold text-emerald-400 mb-1" id="final-correct">0</div>
-                        <div class="text-xs text-emerald-500/70 uppercase tracking-wider">Gewusst</div>
+                        <div class="text-3xl font-bold text-emerald-400 mb-1" id="final-perfect">0</div>
+                        <div class="text-xs text-emerald-500/70 uppercase tracking-wider">Fehlerlos</div>
                     </div>
                     <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 min-w-[120px]">
-                        <div class="text-3xl font-bold text-red-400 mb-1" id="final-incorrect">0</div>
-                        <div class="text-xs text-red-500/70 uppercase tracking-wider">Nicht gewusst</div>
+                        <div class="text-3xl font-bold text-red-400 mb-1" id="final-imperfect">0</div>
+                        <div class="text-xs text-red-500/70 uppercase tracking-wider">Mit Fehlern</div>
                     </div>
                 </div>
 
@@ -141,7 +165,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                     </svg>
-                    Neuer Durchgang
+                    Neustart
                 </button>
             </div>
 
@@ -216,13 +240,13 @@
         ];
 
         let queue = [];
-        let currentCard = null;
-        let isFlipped = false;
-        let stats = { correct: 0, incorrect: 0, total: 0, current: 0 };
+        let currentQuote = null;
+        let signalQueue = [];
+        let currentSignal = null;
+        let stats = { perfect: 0, imperfect: 0, total: 0, current: 0 };
+        let currentQuoteHadError = false;
 
-        const flashcard = document.getElementById('flashcard');
-        const cardFront = document.getElementById('card-front');
-        const cardBack = document.getElementById('card-back');
+        const scannerInterface = document.getElementById('scanner-interface');
         const endScreen = document.getElementById('end-screen');
 
         function shuffleArray(array) {
@@ -239,93 +263,144 @@
 
         function initTrainer() {
             queue = shuffleArray([...cardData]);
-            stats = { correct: 0, incorrect: 0, total: cardData.length, current: 0 };
+            stats = { perfect: 0, imperfect: 0, total: cardData.length, current: 0 };
 
-            document.getElementById('total-cards-num').textContent = stats.total;
+            document.getElementById('total-quotes-num').textContent = stats.total;
             updateStatsUI();
 
             endScreen.classList.add('hidden');
-            flashcard.classList.remove('hidden');
+            endScreen.classList.remove('flex');
+            scannerInterface.classList.remove('hidden');
+            scannerInterface.classList.add('flex');
 
-            nextCard();
+            nextQuote();
         }
 
-        function nextCard() {
+        function nextQuote() {
             if (queue.length === 0) {
                 showEndScreen();
                 return;
             }
 
-            currentCard = queue.pop();
+            currentQuote = queue.pop();
             stats.current++;
-            document.getElementById('current-card-num').textContent = stats.current;
+            currentQuoteHadError = false;
+            document.getElementById('current-quote-num').textContent = stats.current;
 
-            document.getElementById('question-text').textContent = `"${currentCard.quote}"`;
-            document.getElementById('ans-sache').textContent = currentCard.sache;
-            document.getElementById('ans-selbst').textContent = currentCard.selbst;
-            document.getElementById('ans-beziehung').textContent = currentCard.beziehung;
-            document.getElementById('ans-appell').textContent = currentCard.appell;
+            document.getElementById('main-quote').textContent = '"' + currentQuote.quote + '"';
 
-            unflipCard();
+            // Clear slots
+            ['sache', 'selbst', 'beziehung', 'appell'].forEach(type => {
+                const slot = document.getElementById(`slot-${type}`);
+                slot.querySelector('.content').textContent = '';
+                slot.classList.remove('bg-orange-500/10', 'border-orange-500/30', 'text-slate-300');
+                slot.classList.add('bg-slate-800/30', 'border-slate-700/50', 'text-slate-500');
+            });
+
+            // Prepare signals
+            signalQueue = shuffleArray([
+                { type: 'sache', text: currentQuote.sache },
+                { type: 'selbst', text: currentQuote.selbst },
+                { type: 'beziehung', text: currentQuote.beziehung },
+                { type: 'appell', text: currentQuote.appell }
+            ]);
+
+            nextSignal();
         }
 
-        function toggleFlip() {
-            if (!isFlipped) {
-                flashcard.classList.add('rotate-y-180');
-                cardBack.classList.remove('hidden');
+        function nextSignal() {
+            if (signalQueue.length === 0) {
+                // Done with this quote
+                if (currentQuoteHadError) {
+                    stats.imperfect++;
+                } else {
+                    stats.perfect++;
+                }
+                updateStatsUI();
+
+                // Visual feedback before next
+                const st = document.getElementById('signal-text');
+                st.textContent = "Aussage vollständig analysiert!";
+                st.classList.add('text-emerald-400');
+                st.classList.remove('text-orange-300');
+
                 setTimeout(() => {
-                    cardFront.classList.add('hidden');
-                }, 150);
-                isFlipped = true;
+                    st.classList.remove('text-emerald-400');
+                    st.classList.add('text-orange-300');
+                    nextQuote();
+                }, 1500);
+                return;
             }
-        }
 
-        function unflipCard() {
-            flashcard.classList.remove('rotate-y-180');
-            cardFront.classList.remove('hidden');
+            currentSignal = signalQueue.pop();
+            const signalEl = document.getElementById('signal-text');
+
+            // Animation for new signal
+            signalEl.style.opacity = 0;
+            signalEl.style.transform = 'translateY(10px)';
+
             setTimeout(() => {
-                cardBack.classList.add('hidden');
-            }, 150);
-            isFlipped = false;
+                signalEl.textContent = currentSignal.text;
+                signalEl.style.opacity = 1;
+                signalEl.style.transform = 'translateY(0)';
+            }, 200);
         }
 
-        function checkAnswer(isCorrect, event) {
-            event.stopPropagation();
-            if (isCorrect) {
-                stats.correct++;
+        function categorize(type) {
+            if (!currentSignal) return;
+
+            const signalEl = document.getElementById('signal-text');
+
+            if (type === currentSignal.type) {
+                // Correct
+                const slot = document.getElementById(`slot-${type}`);
+                slot.querySelector('.content').textContent = currentSignal.text;
+                slot.classList.remove('bg-slate-800/30', 'border-slate-700/50', 'text-slate-500');
+                slot.classList.add('bg-orange-500/10', 'border-orange-500/30', 'text-slate-300');
+
+                // Temporary success styling on signal
+                signalEl.classList.add('text-emerald-400');
+                signalEl.classList.remove('text-orange-300');
+
+                setTimeout(() => {
+                    signalEl.classList.remove('text-emerald-400');
+                    signalEl.classList.add('text-orange-300');
+                    nextSignal();
+                }, 400);
+
             } else {
-                stats.incorrect++;
-                // Optional: put it back in queue? Nah, just move on for now.
+                // Incorrect
+                currentQuoteHadError = true;
+
+                // Shake animation
+                signalEl.classList.add('text-red-400');
+                signalEl.classList.remove('text-orange-300');
+                signalEl.style.transform = 'translateX(-10px)';
+                setTimeout(() => { signalEl.style.transform = 'translateX(10px)'; }, 50);
+                setTimeout(() => { signalEl.style.transform = 'translateX(-10px)'; }, 100);
+                setTimeout(() => { signalEl.style.transform = 'translateX(10px)'; }, 150);
+                setTimeout(() => {
+                    signalEl.style.transform = 'translateX(0)';
+                    signalEl.classList.remove('text-red-400');
+                    signalEl.classList.add('text-orange-300');
+                }, 200);
             }
-            updateStatsUI();
-            nextCard();
         }
 
         function updateStatsUI() {
-            document.getElementById('score-correct').textContent = stats.correct;
-            document.getElementById('score-incorrect').textContent = stats.incorrect;
+            document.getElementById('score-perfect').textContent = stats.perfect;
+            document.getElementById('score-imperfect').textContent = stats.imperfect;
         }
 
         function showEndScreen() {
-            flashcard.classList.add('hidden');
+            scannerInterface.classList.add('hidden');
+            scannerInterface.classList.remove('flex');
             endScreen.classList.remove('hidden');
             endScreen.classList.add('flex');
 
-            document.getElementById('final-correct').textContent = stats.correct;
-            document.getElementById('final-incorrect').textContent = stats.incorrect;
+            document.getElementById('final-perfect').textContent = stats.perfect;
+            document.getElementById('final-imperfect').textContent = stats.imperfect;
         }
-
-        flashcard.addEventListener('click', toggleFlip);
-
-        // Required CSS for 3D flip effect
-        const style = document.createElement('style');
-        style.textContent = `
-            .perspective-1000 { perspective: 1000px; }
-            .transform-style-3d { transform-style: preserve-3d; }
-            .backface-hidden { backface-visibility: hidden; }
-            .rotate-y-180 { transform: rotateY(180deg); }
-        `;
-        document.head.appendChild(style);
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', initTrainer);
