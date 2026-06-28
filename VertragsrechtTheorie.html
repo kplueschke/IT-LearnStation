@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Vertragsrecht Grundlagen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-slate-400/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.99l1.005.828c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-400/10 border border-slate-400/20 text-slate-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-slate-400 animate-pulse"></span>
+                <span class="font-mono">PUG Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Vertragsrecht Grundlagen
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Rechtsfähigkeit, Geschäftsfähigkeit, Willenserklärungen und die Anfechtbarkeit/Nichtigkeit von Verträgen nach dem BGB.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='pug.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section: Grid -->
+        <section class="w-full max-w-6xl mx-auto mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Rechtsfähigkeit -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <h3 class="text-xl font-semibold text-white mb-4 border-b border-slate-700/50 pb-2">Rechtsfähigkeit</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Rechtsfähigkeit ist die Fähigkeit, Träger von Rechten und Pflichten zu sein.
+                    </p>
+                    <div class="space-y-4 text-sm text-slate-300">
+                        <div>
+                            <strong class="text-white block mb-1">Natürliche Personen:</strong>
+                            Beginnt mit der Vollendung der Geburt und endet mit dem Tod. (Jeder Mensch)
+                        </div>
+                        <div>
+                            <strong class="text-white block mb-1">Juristische Personen des Privatrechts:</strong>
+                            Z.B. GmbH, AG, eingetragener Verein (e.V.). Beginnt mit der Eintragung in das entsprechende Register (z.B. Handelsregister) und endet mit der Löschung.
+                        </div>
+                        <div>
+                            <strong class="text-white block mb-1">Juristische Personen des öffentlichen Rechts:</strong>
+                            Z.B. Bund, Länder, Gemeinden, IHK. Entstehen durch staatlichen Hoheitsakt (Gesetz/Verordnung).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Willenserklärungen & Verträge -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <h3 class="text-xl font-semibold text-white mb-4 border-b border-slate-700/50 pb-2">Willenserklärungen & Verträge</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Ein Vertrag kommt durch zwei übereinstimmende Willenserklärungen zustande: Angebot (Antrag) und Annahme.
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-slate-300">
+                        <li><strong>Ausdrückliche Erklärung:</strong> Mündlich oder schriftlich (z.B. Unterschrift unter einen Vertrag).</li>
+                        <li><strong>Schlüssiges (konkludentes) Handeln:</strong> Die Absicht ergibt sich aus dem Verhalten (z.B. Ware auf das Kassenband legen, Einsteigen in die Straßenbahn).</li>
+                        <li><strong>Schweigen:</strong> Gilt im BGB grundsätzlich <span class="text-red-400 font-medium">nicht</span> als Zustimmung! (Ausnahme: unter Kaufleuten beim kaufmännischen Bestätigungsschreiben).</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mt-12 mb-6 border-b border-slate-700/50 pb-2">Geschäftsfähigkeit</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- Geschäftsunfähig -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full border-l-4 border-red-500/50">
+                    <h4 class="text-lg font-semibold text-white mb-2">Geschäftsunfähigkeit</h4>
+                    <p class="text-xs text-red-400 font-mono mb-4">§ 104 BGB</p>
+                    <div class="space-y-3 text-sm text-slate-300">
+                        <p><strong>Wer?</strong> Kinder bis zum vollendeten 7. Lebensjahr (0-6 Jahre) sowie dauerhaft geisteskranke Personen.</p>
+                        <p><strong>Rechtsfolge:</strong> Willenserklärungen sind von vornherein <strong class="text-red-400">nichtig</strong> (ungültig).</p>
+                        <p>Verträge können nur durch den gesetzlichen Vertreter (Eltern/Vormund) abgeschlossen werden. Einzige Ausnahme: Botengang für die Eltern.</p>
+                    </div>
+                </div>
+
+                <!-- Beschränkt Geschäftsfähig -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full border-l-4 border-yellow-500/50">
+                    <h4 class="text-lg font-semibold text-white mb-2">Beschränkte Geschäftsfähigkeit</h4>
+                    <p class="text-xs text-yellow-400 font-mono mb-4">§ 106 BGB</p>
+                    <div class="space-y-3 text-sm text-slate-300">
+                        <p><strong>Wer?</strong> Minderjährige vom vollendeten 7. bis zum vollendeten 18. Lebensjahr (7-17 Jahre).</p>
+                        <p><strong>Rechtsfolge:</strong> Verträge sind <strong class="text-yellow-400">schwebend unwirksam</strong>. Sie benötigen die Zustimmung (Einwilligung vorab oder Genehmigung im Nachhinein) der gesetzlichen Vertreter.</p>
+                        <p><strong>Ausnahmen (sofort wirksam):</strong>
+                            <ul class="list-disc list-inside mt-1 ml-2 space-y-1 text-xs">
+                                <li>Taschengeldparagraph (§ 110 BGB): Kauf mit eigenen Mitteln bewirkt.</li>
+                                <li>Lediglich rechtlicher Vorteil (z.B. eine reine Schenkung ohne Folgekosten).</li>
+                                <li>Selbstständiger Betrieb / Arbeitsverhältnis (sofern vorher genehmigt).</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Voll Geschäftsfähig -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full border-l-4 border-green-500/50">
+                    <h4 class="text-lg font-semibold text-white mb-2">Volle Geschäftsfähigkeit</h4>
+                    <p class="text-xs text-green-400 font-mono mb-4">§ 106 BGB (Umkehrschluss)</p>
+                    <div class="space-y-3 text-sm text-slate-300">
+                        <p><strong>Wer?</strong> Alle Personen ab der Vollendung des 18. Lebensjahres (sofern nicht dauerhaft geisteskrank).</p>
+                        <p><strong>Rechtsfolge:</strong> Willenserklärungen sind <strong class="text-green-400">voll wirksam</strong>.</p>
+                        <p>Diese Personen können Verträge jeglicher Art selbstständig und bindend abschließen.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mt-12 mb-6 border-b border-slate-700/50 pb-2">Nichtigkeit und Anfechtbarkeit</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Nichtigkeit -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <h4 class="text-lg font-semibold text-white mb-4">Nichtige Rechtsgeschäfte</h4>
+                    <p class="text-slate-400 text-sm mb-4">Nichtige Geschäfte sind von Anfang an (ex tunc) ungültig, so als wären sie nie geschlossen worden.</p>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-slate-300">
+                        <li>Geschäftsunfähigkeit eines Vertragspartners.</li>
+                        <li>Verstoß gegen ein gesetzliches Verbot (§ 134 BGB, z.B. Drogenkauf).</li>
+                        <li>Sittenwidrigkeit / Wucher (§ 138 BGB, z.B. extreme Zinsen aus Notlagen).</li>
+                        <li>Mangel der gesetzlichen Form (z.B. Hauskauf ohne Notar).</li>
+                        <li>Scherzgeschäfte oder Scheingeschäfte.</li>
+                    </ul>
+                </div>
+
+                <!-- Anfechtbarkeit -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <h4 class="text-lg font-semibold text-white mb-4">Anfechtbare Rechtsgeschäfte</h4>
+                    <p class="text-slate-400 text-sm mb-4">Das Geschäft ist zunächst gültig, wird aber durch die Anfechtung rückwirkend nichtig.</p>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-slate-300">
+                        <li><strong>Erklärungsirrtum:</strong> Man verschreibt oder verspricht sich ("1000" statt "100" geschrieben).</li>
+                        <li><strong>Inhaltsirrtum:</strong> Man irrt sich über die Bedeutung der Erklärung (z.B. falsche Fachbegriffe benutzt).</li>
+                        <li><strong>Arglistige Täuschung oder widerrechtliche Drohung:</strong> Jemand wurde zum Vertragsschluss gezwungen oder absichtlich belogen (z.B. Unfallwagen als unfallfrei verkauft).</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>

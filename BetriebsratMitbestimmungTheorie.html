@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Betriebsrat & Mitbestimmung</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-slate-400/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.99l1.005.828c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-400/10 border border-slate-400/20 text-slate-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-slate-400 animate-pulse"></span>
+                <span class="font-mono">PUG Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Betriebsrat & Mitbestimmung
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Grundlagen des Betriebsverfassungsgesetzes (BetrVG): Rechte, Pflichten und Stufen der Beteiligung.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='pug.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section: Grid -->
+        <section class="w-full max-w-6xl mx-auto mb-16 space-y-12">
+
+            <!-- Wahlen und Gründung -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Voraussetzungen Betriebsrat -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-white mb-4 border-b border-slate-700/50 pb-2">Gründung eines Betriebsrats</h3>
+                    <div class="space-y-4 text-sm text-slate-300">
+                        <p>
+                            Ein Betriebsrat <strong>kann</strong> gewählt werden in Betrieben mit in der Regel <strong>mindestens 5 ständigen wahlberechtigten Arbeitnehmern</strong>, von denen 3 wählbar sind (§ 1 BetrVG).
+                        </p>
+                        <div>
+                            <strong class="text-white block mb-1">Wahlberechtigt (aktives Wahlrecht):</strong>
+                            Alle Arbeitnehmer des Betriebs, die das 16. Lebensjahr vollendet haben.
+                        </div>
+                        <div>
+                            <strong class="text-white block mb-1">Wählbar (passives Wahlrecht):</strong>
+                            Alle wahlberechtigten Arbeitnehmer, die dem Betrieb seit mindestens 6 Monaten angehören und das 18. Lebensjahr vollendet haben.
+                        </div>
+                        <div>
+                            <strong class="text-white block mb-1">Amtszeit:</strong>
+                            Regulär 4 Jahre. Die Wahlen finden bundesweit in einem bestimmten Zeitraum (alle 4 Jahre) statt.
+                        </div>
+                        <div class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <span class="text-slate-400 text-xs block mb-1">Hinweis:</span>
+                            Es gibt keine Pflicht, einen Betriebsrat zu gründen, es ist ein Recht der Arbeitnehmer.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JAV -->
+                <div class="glass-card glass-card-hover-slate rounded-xl p-6 flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-white mb-4 border-b border-slate-700/50 pb-2">Jugend- & Auszubildendenvertretung (JAV)</h3>
+                    <div class="space-y-4 text-sm text-slate-300">
+                        <p>
+                            Die JAV vertritt die besonderen Interessen der jugendlichen Arbeitnehmer und der Auszubildenden. Sie kann nur gewählt werden, wenn <strong>bereits ein Betriebsrat besteht</strong>.
+                        </p>
+                        <div>
+                            <strong class="text-white block mb-1">Voraussetzung:</strong>
+                            Mindestens 5 Arbeitnehmer unter 18 Jahren oder Auszubildende unter 25 Jahren im Betrieb.
+                        </div>
+                        <div>
+                            <strong class="text-white block mb-1">Wahlberechtigt (aktives Wahlrecht):</strong>
+                            Alle Arbeitnehmer unter 18 Jahren und alle Auszubildenden unter 25 Jahren.
+                        </div>
+                        <div>
+                            <strong class="text-white block mb-1">Wählbar (passives Wahlrecht):</strong>
+                            Alle Arbeitnehmer des Betriebs, die das 25. Lebensjahr noch nicht vollendet haben.
+                        </div>
+                        <div>
+                            <strong class="text-white block mb-1">Amtszeit:</strong>
+                            Regulär 2 Jahre.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Stufen der Beteiligung -->
+            <div class="glass-card glass-card-hover-slate rounded-xl p-8">
+                <h3 class="text-2xl font-bold text-white mb-6 border-b border-slate-700/50 pb-2">Die 3 Stufen der Beteiligungsrechte</h3>
+                <p class="text-slate-400 text-sm mb-6">
+                    Die Rechte des Betriebsrats sind nach ihrer Stärke gestaffelt. Das stärkste Recht ist die Mitbestimmung.
+                </p>
+
+                <div class="space-y-6">
+                    <!-- Informationsrecht -->
+                    <div class="border-l-4 border-blue-500/50 pl-4">
+                        <h4 class="text-lg font-semibold text-white mb-2">1. Informations- und Beratungsrecht (Schwächste Form)</h4>
+                        <p class="text-sm text-slate-300 mb-2">
+                            Der Arbeitgeber muss den Betriebsrat rechtzeitig und umfassend unterrichten, darf aber am Ende alleine entscheiden.
+                        </p>
+                        <p class="text-sm text-slate-400">
+                            <strong>Beispiele:</strong> Umbau von Betriebsräumen, wirtschaftliche Lage des Unternehmens, Planung von Arbeitsverfahren.
+                        </p>
+                    </div>
+
+                    <!-- Mitwirkungsrecht -->
+                    <div class="border-l-4 border-yellow-500/50 pl-4">
+                        <h4 class="text-lg font-semibold text-white mb-2">2. Mitwirkungsrecht / Zustimmungsverweigerungsrecht</h4>
+                        <p class="text-sm text-slate-300 mb-2">
+                            Der Arbeitgeber muss den Betriebsrat anhören und seine Stellungnahme einholen. Der Betriebsrat kann Widerspruch einlegen, aber wenn der Arbeitgeber darauf beharrt (und arbeitsrechtlich im Recht ist), kann die Maßnahme trotzdem durchgeführt werden.
+                        </p>
+                        <p class="text-sm text-slate-400">
+                            <strong>Beispiele:</strong> <strong class="text-yellow-400">Ordentliche Kündigungen (§ 102 BetrVG)</strong>. Eine Kündigung ohne Anhörung des Betriebsrats ist unwirksam! Personelle Einzelmaßnahmen wie Einstellungen oder Versetzungen.
+                        </p>
+                    </div>
+
+                    <!-- Mitbestimmungsrecht -->
+                    <div class="border-l-4 border-red-500/50 pl-4">
+                        <h4 class="text-lg font-semibold text-white mb-2">3. Echtes Mitbestimmungsrecht (Stärkste Form)</h4>
+                        <p class="text-sm text-slate-300 mb-2">
+                            Entscheidungen dürfen <strong>nicht ohne die Zustimmung</strong> des Betriebsrats getroffen werden. Können sich beide Seiten nicht einigen, entscheidet eine Einigungsstelle.
+                        </p>
+                        <p class="text-sm text-slate-400">
+                            <strong>Beispiele:</strong> Beginn und Ende der täglichen Arbeitszeit, Pausenregelungen, Aufstellung von Urlaubsgrundsätzen, Einführung technischer Einrichtungen zur Überwachung (Kameras, Zeiterfassung).
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>
