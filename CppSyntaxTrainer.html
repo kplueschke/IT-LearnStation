@@ -89,37 +89,241 @@
     <script src="matrix.js"></script>
     <script>
         const tasks = [
-            {
-                topic: "Variablen",
-                description: "Deklariere eine Integer-Variable namens 'age' und weise ihr den Wert 25 zu.",
-                codeTemplate: "#include <iostream>\n\nint main() {\n    [[INPUT_1]] [[INPUT_2]] = [[INPUT_3]];\n    std::cout << age;\n    return 0;\n}",
-                answers: ["int", "age", "25"]
-            },
-            {
-                topic: "Bedingungen (If-Else)",
-                description: "Vervollständige die If-Bedingung, die prüft, ob die Variable 'x' größer als 10 ist.",
-                codeTemplate: "#include <iostream>\n\nint main() {\n    int x = 15;\n    [[INPUT_1]] (x [[INPUT_2]] 10) {\n        std::cout << \"x ist groesser als 10\";\n    }\n    return 0;\n}",
-                answers: ["if", ">"]
-            },
-            {
-                topic: "Schleifen (For-Schleife)",
-                description: "Vervollständige den Kopf der For-Schleife, sodass sie von 0 bis 9 (insgesamt 10 Mal) läuft.",
-                codeTemplate: "#include <iostream>\n\nint main() {\n    [[INPUT_1]] (int i = 0; i [[INPUT_2]] 10; [[INPUT_3]]) {\n        std::cout << i << \"\\n\";\n    }\n    return 0;\n}",
-                answers: ["for", "<", "i++"]
-            },
-            {
-                topic: "Funktionen",
-                description: "Deklariere den Rückgabetyp der Funktion 'add', die zwei Integer addiert und einen Integer zurückgibt. Verwende außerdem das richtige Keyword für die Rückgabe.",
-                codeTemplate: "#include <iostream>\n\n[[INPUT_1]] add(int a, int b) {\n    [[INPUT_2]] a + b;\n}\n\nint main() {\n    int result = add(5, 3);\n    return 0;\n}",
-                answers: ["int", "return"]
-            },
-            {
-                topic: "Klassen und Objekte",
-                description: "Erstelle eine Instanz (ein Objekt) der Klasse 'Car' namens 'myCar'.",
-                codeTemplate: "#include <iostream>\n\nclass Car {\npublic:\n    void honk() {\n        std::cout << \"Beep!\";\n    }\n};\n\nint main() {\n    [[INPUT_1]] [[INPUT_2]];\n    myCar.honk();\n    return 0;\n}",
-                answers: ["Car", "myCar"]
-            }
-        ];
+    {
+        "topic": "Variablen",
+        "description": "Deklariere eine Integer-Variable namens 'age' und weise ihr den Wert 25 zu.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    [[INPUT_1]] [[INPUT_2]] = [[INPUT_3]];\n    std::cout << age;\n    return 0;\n}",
+        "answers": [
+            "int",
+            "age",
+            "25"
+        ]
+    },
+    {
+        "topic": "Konstanten",
+        "description": "Deklariere eine Konstante vom Typ double namens 'PI' mit dem Wert 3.14159.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    [[INPUT_1]] double [[INPUT_2]] = 3.14159;\n    std::cout << PI;\n    return 0;\n}",
+        "answers": [
+            "const",
+            "PI"
+        ]
+    },
+    {
+        "topic": "Datentypen (String)",
+        "description": "Binde die nötige Bibliothek ein und deklariere eine String-Variable namens 'name'.",
+        "codeTemplate": "#include <iostream>\n#include [[INPUT_1]]\n\nint main() {\n    [[INPUT_2]] name = \"Alice\";\n    std::cout << name;\n    return 0;\n}",
+        "answers": [
+            "<string>",
+            "std::string"
+        ]
+    },
+    {
+        "topic": "Datentypen (Boolean)",
+        "description": "Deklariere eine boolesche Variable namens 'isAdult' und setze sie auf wahr.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    [[INPUT_1]] isAdult = [[INPUT_2]];\n    return 0;\n}",
+        "answers": [
+            "bool",
+            "true"
+        ]
+    },
+    {
+        "topic": "Ein- und Ausgabe",
+        "description": "Lies den eingegebenen Wert des Benutzers in die Variable 'age' ein.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    int age;\n    std::cout << \"Alter: \";\n    std::[[INPUT_1]] [[INPUT_2]] age;\n    return 0;\n}",
+        "answers": [
+            "cin",
+            ">>"
+        ]
+    },
+    {
+        "topic": "Logische Operatoren (UND)",
+        "description": "Vervollständige die Bedingung so, dass sie nur wahr ist, wenn 'a' größer 5 UND 'b' kleiner 10 ist.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    int a = 6;\n    int b = 8;\n    if (a > 5 [[INPUT_1]] b < 10) {\n        std::cout << \"Bedingung erfuellt\";\n    }\n    return 0;\n}",
+        "answers": [
+            "&&"
+        ]
+    },
+    {
+        "topic": "Logische Operatoren (ODER)",
+        "description": "Vervollständige die Bedingung so, dass sie wahr ist, wenn 'x' gleich 0 ODER 'y' gleich 0 ist.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    int x = 0;\n    int y = 5;\n    if (x == 0 [[INPUT_1]] y == 0) {\n        std::cout << \"Einer ist Null\";\n    }\n    return 0;\n}",
+        "answers": [
+            "||"
+        ]
+    },
+    {
+        "topic": "Bedingungen (If-Else)",
+        "description": "Vervollständige die If-Bedingung, die prüft, ob die Variable 'x' größer als 10 ist.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    int x = 15;\n    [[INPUT_1]] (x [[INPUT_2]] 10) {\n        std::cout << \"x ist groesser als 10\";\n    }\n    return 0;\n}",
+        "answers": [
+            "if",
+            ">"
+        ]
+    },
+    {
+        "topic": "Bedingungen (Else-If)",
+        "description": "Ergänze den else-if Block, um zu prüfen, ob 'x' genau 10 ist.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    int x = 10;\n    if (x > 10) {\n        std::cout << \"Groesser\";\n    } [[INPUT_1]] (x [[INPUT_2]] 10) {\n        std::cout << \"Gleich\";\n    } else {\n        std::cout << \"Kleiner\";\n    }\n    return 0;\n}",
+        "answers": [
+            "else if",
+            "=="
+        ]
+    },
+    {
+        "topic": "Switch-Statement",
+        "description": "Ergänze das Switch-Statement, damit Fall 1 ausgeführt wird und vergesse nicht, danach abzubrechen.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    int option = 1;\n    [[INPUT_1]] (option) {\n        [[INPUT_2]] 1:\n            std::cout << \"Eins\";\n            [[INPUT_3]];\n        default:\n            std::cout << \"Andere\";\n    }\n    return 0;\n}",
+        "answers": [
+            "switch",
+            "case",
+            "break"
+        ]
+    },
+    {
+        "topic": "Schleifen (For-Schleife)",
+        "description": "Vervollständige den Kopf der For-Schleife, sodass sie von 0 bis 9 (insgesamt 10 Mal) läuft.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    [[INPUT_1]] (int i = 0; i [[INPUT_2]] 10; [[INPUT_3]]) {\n        std::cout << i << \"\\n\";\n    }\n    return 0;\n}",
+        "answers": [
+            "for",
+            "<",
+            "i++"
+        ]
+    },
+    {
+        "topic": "Schleifen (While-Schleife)",
+        "description": "Ergänze die While-Schleife, damit sie solange läuft, wie 'x' größer als 0 ist.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    int x = 5;\n    [[INPUT_1]] (x [[INPUT_2]] 0) {\n        std::cout << x << \"\\n\";\n        x--;\n    }\n    return 0;\n}",
+        "answers": [
+            "while",
+            ">"
+        ]
+    },
+    {
+        "topic": "Schleifen (Do-While)",
+        "description": "Vervollständige die Do-While-Schleife. Beachte die korrekte Syntax am Ende.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    int x = 0;\n    [[INPUT_1]] {\n        std::cout << x << \"\\n\";\n        x++;\n    } [[INPUT_2]] (x < 5)[[INPUT_3]]\n    return 0;\n}",
+        "answers": [
+            "do",
+            "while",
+            ";"
+        ]
+    },
+    {
+        "topic": "Arrays",
+        "description": "Deklariere ein Integer-Array mit dem Namen 'numbers' und einer festen Größe von 5. Initialisiere es mit 1, 2, 3, 4, 5.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    int [[INPUT_1]][[INPUT_2]] = {1, 2, 3, 4, 5};\n    std::cout << numbers[0];\n    return 0;\n}",
+        "answers": [
+            "numbers",
+            "[5]"
+        ]
+    },
+    {
+        "topic": "Vektoren (Deklaration)",
+        "description": "Binde die Vector-Bibliothek ein und deklariere einen Vektor aus Integern namens 'vec'.",
+        "codeTemplate": "#include <iostream>\n#include [[INPUT_1]]\n\nint main() {\n    std::[[INPUT_2]]<int> vec;\n    return 0;\n}",
+        "answers": [
+            "<vector>",
+            "vector"
+        ]
+    },
+    {
+        "topic": "Vektoren (Methoden)",
+        "description": "Füge die Zahl 10 an das Ende des Vektors an und gib danach die aktuelle Größe des Vektors aus.",
+        "codeTemplate": "#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> vec;\n    vec.[[INPUT_1]](10);\n    std::cout << vec.[[INPUT_2]]();\n    return 0;\n}",
+        "answers": [
+            "push_back",
+            "size"
+        ]
+    },
+    {
+        "topic": "Pointer",
+        "description": "Deklariere einen Pointer auf Integer namens 'ptr' und weise ihm die Speicheradresse der Variable 'var' zu.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    int var = 42;\n    int[[INPUT_1]] ptr = [[INPUT_2]]var;\n    std::cout << *ptr;\n    return 0;\n}",
+        "answers": [
+            "*",
+            "&"
+        ]
+    },
+    {
+        "topic": "Referenzen",
+        "description": "Erstelle eine Referenz 'ref', die auf die Variable 'var' verweist.",
+        "codeTemplate": "#include <iostream>\n\nint main() {\n    int var = 42;\n    int[[INPUT_1]] ref = [[INPUT_2]];\n    ref = 100;\n    return 0;\n}",
+        "answers": [
+            "&",
+            "var"
+        ]
+    },
+    {
+        "topic": "Funktionen (Deklaration)",
+        "description": "Deklariere den Rückgabetyp der Funktion 'add', die zwei Integer addiert und einen Integer zurückgibt. Verwende außerdem das richtige Keyword für die Rückgabe.",
+        "codeTemplate": "#include <iostream>\n\n[[INPUT_1]] add(int a, int b) {\n    [[INPUT_2]] a + b;\n}\n\nint main() {\n    int result = add(5, 3);\n    return 0;\n}",
+        "answers": [
+            "int",
+            "return"
+        ]
+    },
+    {
+        "topic": "Funktionen (Void)",
+        "description": "Deklariere eine Funktion 'printMsg', die keinen Rückgabewert hat.",
+        "codeTemplate": "#include <iostream>\n\n[[INPUT_1]] printMsg() {\n    std::cout << \"Hello World\";\n}\n\nint main() {\n    printMsg();\n    return 0;\n}",
+        "answers": [
+            "void"
+        ]
+    },
+    {
+        "topic": "Call by Reference",
+        "description": "Übergib die Variable 'value' als Referenz an die Funktion 'increment', damit ihr Wert auch in main() geändert wird.",
+        "codeTemplate": "#include <iostream>\n\nvoid increment(int[[INPUT_1]] val) {\n    val++;\n}\n\nint main() {\n    int value = 5;\n    increment([[INPUT_2]]);\n    std::cout << value;\n    return 0;\n}",
+        "answers": [
+            "&",
+            "value"
+        ]
+    },
+    {
+        "topic": "Structs",
+        "description": "Definiere ein Struct namens 'Point' mit den Integer-Eigenschaften 'x' und 'y'. Vergiss das Semikolon nicht.",
+        "codeTemplate": "#include <iostream>\n\n[[INPUT_1]] Point {\n    int x;\n    int y;\n}[[INPUT_2]]\n\nint main() {\n    Point p1;\n    p1.x = 10;\n    return 0;\n}",
+        "answers": [
+            "struct",
+            ";"
+        ]
+    },
+    {
+        "topic": "Klassen und Objekte",
+        "description": "Erstelle eine Instanz (ein Objekt) der Klasse 'Car' namens 'myCar'.",
+        "codeTemplate": "#include <iostream>\n\nclass Car {\npublic:\n    void honk() {\n        std::cout << \"Beep!\";\n    }\n};\n\nint main() {\n    [[INPUT_1]] [[INPUT_2]];\n    myCar.honk();\n    return 0;\n}",
+        "answers": [
+            "Car",
+            "myCar"
+        ]
+    },
+    {
+        "topic": "Klassen (Sichtbarkeit)",
+        "description": "Mache die Methode 'start' für Code außerhalb der Klasse sichtbar, aber die Variable 'engineId' unsichtbar.",
+        "codeTemplate": "#include <iostream>\n\nclass Engine {\n[[INPUT_1]]:\n    int engineId;\n[[INPUT_2]]:\n    void start() {\n        std::cout << \"Started\";\n    }\n};\n\nint main() {\n    Engine e;\n    e.start();\n    return 0;\n}",
+        "answers": [
+            "private",
+            "public"
+        ]
+    },
+    {
+        "topic": "Konstruktoren",
+        "description": "Definiere den Standardkonstruktor für die Klasse 'Player', der aufgerufen wird, wenn ein Objekt erstellt wird.",
+        "codeTemplate": "#include <iostream>\n\nclass Player {\npublic:\n    [[INPUT_1]]() {\n        std::cout << \"Player created\";\n    }\n};\n\nint main() {\n    Player p1;\n    return 0;\n}",
+        "answers": [
+            "Player"
+        ]
+    },
+    {
+        "topic": "Vererbung",
+        "description": "Lass die Klasse 'Dog' öffentlich von der Basisklasse 'Animal' erben.",
+        "codeTemplate": "#include <iostream>\n\nclass Animal {\npublic:\n    void eat() { std::cout << \"Eating\"; }\n};\n\nclass Dog [[INPUT_1]] [[INPUT_2]] Animal {\npublic:\n    void bark() { std::cout << \"Barking\"; }\n};\n\nint main() {\n    Dog myDog;\n    myDog.eat();\n    return 0;\n}",
+        "answers": [
+            ":",
+            "public"
+        ]
+    }
+];
 
         let currentTaskIndex = -1;
         let attempts = 0;
