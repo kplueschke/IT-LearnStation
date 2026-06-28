@@ -56,68 +56,66 @@
             </button>
         </div>
 
-        <!-- Flashcard Container -->
-        <div class="w-full max-w-2xl mx-auto perspective-1000">
+        <!-- Chat Simulation Container -->
+        <div class="w-full max-w-3xl mx-auto flex flex-col gap-6">
 
-            <div class="flex justify-between items-center mb-4">
+            <div class="flex justify-between items-center mb-2">
                 <div class="text-slate-400 font-mono text-sm">
-                    Aufgabe <span id="current-card-num" class="text-orange-400 font-bold">1</span> / <span id="total-cards-num">X</span>
+                    Kunde <span id="current-card-num" class="text-orange-400 font-bold">1</span> / <span id="total-cards-num">X</span>
                 </div>
                 <div class="flex gap-2 text-xs font-mono">
-                    <span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Gewusst: <span id="score-correct">0</span></span>
-                    <span class="px-2 py-1 rounded bg-red-500/20 text-red-400 border border-red-500/30">Nicht gewusst: <span id="score-incorrect">0</span></span>
+                    <span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Erfolgreich: <span id="score-correct">0</span></span>
+                    <span class="px-2 py-1 rounded bg-red-500/20 text-red-400 border border-red-500/30">Fehlschläge: <span id="score-incorrect">0</span></span>
                 </div>
             </div>
 
-            <div id="flashcard" class="relative w-full transition-transform duration-500 transform-style-3d cursor-pointer min-h-[300px]">
+            <!-- Chat Window -->
+            <div id="chat-window" class="glass-card rounded-2xl border-2 border-slate-700/50 flex flex-col overflow-hidden min-h-[400px]">
 
-                <!-- Front of card (Question) -->
-                <div id="card-front" class="absolute w-full h-full backface-hidden glass-card glass-card-hover-orange rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-2xl border-2 border-slate-700/50">
-                    <span class="text-orange-500 mb-6 border border-orange-500/30 bg-orange-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Welches Diagramm ist gesucht?</span>
-                    <h2 id="question-text" class="text-xl md:text-2xl font-bold text-white mb-8">...</h2>
-                    <p class="text-slate-400 text-sm mt-auto flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
-                        Klicken zum Aufdecken
-                    </p>
-                </div>
-
-                <!-- Back of card (Answer) -->
-                <div id="card-back" class="absolute w-full h-full backface-hidden glass-card rounded-2xl p-8 flex flex-col items-center justify-center rotate-y-180 shadow-2xl border-2 border-orange-500/50 bg-slate-800/90 hidden">
-                    <span class="text-emerald-400 mb-6 border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Lösung</span>
-
-                    <h2 id="answer-text" class="text-2xl md:text-3xl font-bold text-orange-400 mb-4 text-center">...</h2>
-                    <p id="answer-desc" class="text-slate-300 text-center mb-8">...</p>
-
-                    <div class="mt-auto pt-6 border-t border-slate-700 flex gap-4 w-full">
-                        <button onclick="checkAnswer(false, event)" class="flex-1 py-3 px-4 bg-slate-700 hover:bg-red-600/80 active:bg-red-700 text-white font-medium rounded-xl transition-colors border border-slate-600 hover:border-red-500">
-                            Nicht gewusst
-                        </button>
-                        <button onclick="checkAnswer(true, event)" class="flex-1 py-3 px-4 bg-orange-600 hover:bg-emerald-600 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg hover:shadow-emerald-600/20">
-                            Gewusst
-                        </button>
+                <!-- Chat Header -->
+                <div class="bg-slate-800/80 border-b border-slate-700/50 p-4 flex items-center gap-4">
+                    <div class="relative">
+                        <div class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-400 font-bold">K</div>
+                        <div class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-slate-800 rounded-full"></div>
+                    </div>
+                    <div>
+                        <div class="font-bold text-white">Kunde <span class="text-slate-400 font-normal text-sm">(Support Ticket)</span></div>
+                        <div class="text-xs text-slate-500 font-mono" id="typing-indicator">Online</div>
                     </div>
                 </div>
 
+                <!-- Chat History -->
+                <div id="chat-history" class="flex-grow p-6 flex flex-col gap-4 overflow-y-auto bg-slate-900/50">
+                    <!-- Dynamic chat messages go here -->
+                </div>
+
+                <!-- Action Panel -->
+                <div id="action-panel" class="p-4 border-t border-slate-700/50 bg-slate-800/50">
+                    <div class="text-xs text-slate-400 uppercase font-mono mb-3">Wähle deine Antwort (Diagrammtyp):</div>
+                    <div class="grid grid-cols-2 gap-3" id="options-container">
+                        <!-- Options generated via JS -->
+                    </div>
+                </div>
             </div>
 
             <!-- End Screen -->
-            <div id="end-screen" class="hidden glass-card rounded-2xl p-10 flex-col items-center justify-center text-center shadow-2xl border-2 border-orange-500/50">
+            <div id="end-screen" class="hidden glass-card rounded-2xl p-10 flex-col items-center justify-center text-center shadow-2xl border-2 border-orange-500/50 mt-8">
                 <div class="w-20 h-20 rounded-full bg-orange-500/20 border-2 border-orange-500 flex items-center justify-center text-orange-400 mb-6">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
-                <h2 class="text-3xl font-bold text-white mb-4">Training beendet!</h2>
-                <p class="text-slate-400 mb-8 max-w-md">Du hast alle Fragen durchgearbeitet. Hier ist dein Ergebnis:</p>
+                <h2 class="text-3xl font-bold text-white mb-4">Schicht beendet!</h2>
+                <p class="text-slate-400 mb-8 max-w-md">Du hast alle Support-Anfragen bearbeitet. Hier ist deine Statistik:</p>
 
                 <div class="flex gap-6 mb-8 w-full justify-center">
                     <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 min-w-[120px]">
                         <div class="text-3xl font-bold text-emerald-400 mb-1" id="final-correct">0</div>
-                        <div class="text-xs text-emerald-500/70 uppercase tracking-wider">Gewusst</div>
+                        <div class="text-xs text-emerald-500/70 uppercase tracking-wider">Erfolgreich</div>
                     </div>
                     <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 min-w-[120px]">
                         <div class="text-3xl font-bold text-red-400 mb-1" id="final-incorrect">0</div>
-                        <div class="text-xs text-red-500/70 uppercase tracking-wider">Nicht gewusst</div>
+                        <div class="text-xs text-red-500/70 uppercase tracking-wider">Fehlschläge</div>
                     </div>
                 </div>
 
@@ -125,7 +123,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                     </svg>
-                    Neuer Durchgang
+                    Neue Schicht starten
                 </button>
             </div>
 
@@ -215,13 +213,14 @@
 
         let queue = [];
         let currentCard = null;
-        let isFlipped = false;
         let stats = { correct: 0, incorrect: 0, total: 0, current: 0 };
 
-        const flashcard = document.getElementById('flashcard');
-        const cardFront = document.getElementById('card-front');
-        const cardBack = document.getElementById('card-back');
+        const allAnswers = cardData.map(d => d.a);
+        const chatWindow = document.getElementById('chat-window');
+        const chatHistory = document.getElementById('chat-history');
         const endScreen = document.getElementById('end-screen');
+        const actionPanel = document.getElementById('action-panel');
+        const typingIndicator = document.getElementById('typing-indicator');
 
         function shuffleArray(array) {
             let curId = array.length;
@@ -243,12 +242,15 @@
             updateStatsUI();
 
             endScreen.classList.add('hidden');
-            flashcard.classList.remove('hidden');
+            endScreen.classList.remove('flex');
+            chatWindow.classList.remove('hidden');
+            chatWindow.classList.add('flex');
 
-            nextCard();
+            chatHistory.innerHTML = ''; // Clear chat
+            nextTicket();
         }
 
-        function nextCard() {
+        function nextTicket() {
             if (queue.length === 0) {
                 showEndScreen();
                 return;
@@ -258,42 +260,78 @@
             stats.current++;
             document.getElementById('current-card-num').textContent = stats.current;
 
-            document.getElementById('question-text').textContent = currentCard.q;
-            document.getElementById('answer-text').textContent = currentCard.a;
-            document.getElementById('answer-desc').textContent = currentCard.desc;
+            // Clear previous options
+            actionPanel.classList.add('hidden');
 
-            unflipCard();
-        }
+            // Simulate typing
+            typingIndicator.innerHTML = '<span class="animate-pulse">schreibt...</span>';
 
-        function toggleFlip() {
-            if (!isFlipped) {
-                flashcard.classList.add('rotate-y-180');
-                cardBack.classList.remove('hidden');
-                setTimeout(() => {
-                    cardFront.classList.add('hidden');
-                }, 150);
-                isFlipped = true;
-            }
-        }
-
-        function unflipCard() {
-            flashcard.classList.remove('rotate-y-180');
-            cardFront.classList.remove('hidden');
             setTimeout(() => {
-                cardBack.classList.add('hidden');
-            }, 150);
-            isFlipped = false;
+                typingIndicator.innerHTML = 'Online';
+                addMessage('client', "Hallo Support-Team! " + currentCard.q + " Welches Diagramm nehme ich da am besten?");
+                generateOptions();
+                actionPanel.classList.remove('hidden');
+            }, 800);
         }
 
-        function checkAnswer(isCorrect, event) {
-            event.stopPropagation();
-            if (isCorrect) {
-                stats.correct++;
-            } else {
-                stats.incorrect++;
+        function addMessage(sender, text, isError = false) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `max-w-[80%] p-4 rounded-2xl text-sm ${sender === 'client' ? 'bg-slate-700/60 rounded-tl-sm self-start text-slate-200' : 'bg-orange-600/80 rounded-tr-sm self-end text-white'}`;
+            if (isError) {
+                msgDiv.classList.add('bg-red-900/50', 'border', 'border-red-500/50');
+                msgDiv.classList.remove('bg-slate-700/60', 'bg-orange-600/80');
             }
-            updateStatsUI();
-            nextCard();
+            msgDiv.textContent = text;
+            chatHistory.appendChild(msgDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        function generateOptions() {
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            // Pick correct answer and 3 random wrong answers
+            let options = [currentCard.a];
+            let wrongOptions = shuffleArray(allAnswers.filter(a => a !== currentCard.a)).slice(0, 3);
+            options = shuffleArray([...options, ...wrongOptions]);
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'py-3 px-4 glass-card border border-slate-600 hover:border-orange-500 rounded-xl text-left text-sm text-slate-300 hover:text-white transition-colors hover:bg-slate-800 flex justify-between items-center group';
+                btn.innerHTML = `<span>${opt}</span><svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>`;
+                btn.onclick = () => submitAnswer(opt);
+                container.appendChild(btn);
+            });
+        }
+
+        function submitAnswer(selectedAnswer) {
+            actionPanel.classList.add('hidden'); // Hide options immediately
+            addMessage('agent', "Ich empfehle dafür ein: " + selectedAnswer);
+
+            typingIndicator.innerHTML = '<span class="animate-pulse">schreibt...</span>';
+
+            setTimeout(() => {
+                typingIndicator.innerHTML = 'Online';
+                if (selectedAnswer === currentCard.a) {
+                    stats.correct++;
+                    addMessage('client', `Super, danke! Das ${selectedAnswer} ist perfekt. (${currentCard.desc})`);
+                    updateStatsUI();
+                    setTimeout(() => {
+                        // Add visual separator
+                        const sep = document.createElement('div');
+                        sep.className = 'w-full border-b border-dashed border-slate-700/50 my-2';
+                        chatHistory.appendChild(sep);
+                        nextTicket();
+                    }, 2000);
+                } else {
+                    stats.incorrect++;
+                    addMessage('client', `Hm, nein, das passt leider nicht so gut... Ein ${selectedAnswer} ist nicht das, was ich suche.`, true);
+                    updateStatsUI();
+                    setTimeout(() => {
+                        actionPanel.classList.remove('hidden'); // Let them try again
+                    }, 1000);
+                }
+            }, 1000);
         }
 
         function updateStatsUI() {
@@ -302,25 +340,14 @@
         }
 
         function showEndScreen() {
-            flashcard.classList.add('hidden');
+            chatWindow.classList.add('hidden');
+            chatWindow.classList.remove('flex');
             endScreen.classList.remove('hidden');
             endScreen.classList.add('flex');
 
             document.getElementById('final-correct').textContent = stats.correct;
             document.getElementById('final-incorrect').textContent = stats.incorrect;
         }
-
-        flashcard.addEventListener('click', toggleFlip);
-
-        // Required CSS for 3D flip effect
-        const style = document.createElement('style');
-        style.textContent = `
-            .perspective-1000 { perspective: 1000px; }
-            .transform-style-3d { transform-style: preserve-3d; }
-            .backface-hidden { backface-visibility: hidden; }
-            .rotate-y-180 { transform: rotateY(180deg); }
-        `;
-        document.head.appendChild(style);
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', initTrainer);

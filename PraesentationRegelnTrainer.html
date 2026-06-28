@@ -56,48 +56,41 @@
             </button>
         </div>
 
-        <!-- Flashcard Container -->
-        <div class="w-full max-w-2xl mx-auto perspective-1000">
+        <!-- Analyzer UI Container -->
+        <div class="w-full max-w-5xl mx-auto flex flex-col gap-8">
 
-            <div class="flex justify-between items-center mb-4">
+            <div class="flex justify-between items-center">
                 <div class="text-slate-400 font-mono text-sm">
-                    Aufgabe <span id="current-card-num" class="text-orange-400 font-bold">1</span> / <span id="total-cards-num">X</span>
+                    Folie <span id="current-slide-num" class="text-orange-400 font-bold">1</span> / <span id="total-slides-num">X</span>
                 </div>
                 <div class="flex gap-2 text-xs font-mono">
-                    <span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Gewusst: <span id="score-correct">0</span></span>
-                    <span class="px-2 py-1 rounded bg-red-500/20 text-red-400 border border-red-500/30">Nicht gewusst: <span id="score-incorrect">0</span></span>
+                    <span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Fehlerlos: <span id="score-perfect">0</span></span>
+                    <span class="px-2 py-1 rounded bg-red-500/20 text-red-400 border border-red-500/30">Mit Fehlern: <span id="score-imperfect">0</span></span>
                 </div>
             </div>
 
-            <div id="flashcard" class="relative w-full transition-transform duration-500 transform-style-3d cursor-pointer min-h-[300px]">
-
-                <!-- Front of card (Question) -->
-                <div id="card-front" class="absolute w-full h-full backface-hidden glass-card glass-card-hover-orange rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-2xl border-2 border-slate-700/50">
-                    <span class="text-orange-500 mb-6 border border-orange-500/30 bg-orange-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Welche Regel ist gemeint?</span>
-                    <h2 id="question-text" class="text-xl md:text-2xl font-bold text-white mb-8">...</h2>
-                    <p class="text-slate-400 text-sm mt-auto flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
-                        Klicken zum Aufdecken
-                    </p>
-                </div>
-
-                <!-- Back of card (Answer) -->
-                <div id="card-back" class="absolute w-full h-full backface-hidden glass-card rounded-2xl p-8 flex flex-col items-center justify-center rotate-y-180 shadow-2xl border-2 border-orange-500/50 bg-slate-800/90 hidden">
-                    <span class="text-emerald-400 mb-6 border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Lösung</span>
-
-                    <h2 id="answer-text" class="text-2xl md:text-3xl font-bold text-orange-400 mb-4 text-center">...</h2>
-                    <p id="answer-desc" class="text-slate-300 text-center mb-8">...</p>
-
-                    <div class="mt-auto pt-6 border-t border-slate-700 flex gap-4 w-full">
-                        <button onclick="checkAnswer(false, event)" class="flex-1 py-3 px-4 bg-slate-700 hover:bg-red-600/80 active:bg-red-700 text-white font-medium rounded-xl transition-colors border border-slate-600 hover:border-red-500">
-                            Nicht gewusst
-                        </button>
-                        <button onclick="checkAnswer(true, event)" class="flex-1 py-3 px-4 bg-orange-600 hover:bg-emerald-600 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg hover:shadow-emerald-600/20">
-                            Gewusst
-                        </button>
+            <div id="analyzer-interface" class="flex flex-col lg:flex-row gap-6">
+                <!-- Slide Display (Problem) -->
+                <div class="flex-1 glass-card rounded-2xl border-2 border-orange-500/30 p-6 flex flex-col min-h-[300px]">
+                    <div class="flex items-center justify-between border-b border-slate-700/50 pb-4 mb-4">
+                        <span class="text-orange-500/70 text-xs font-mono uppercase tracking-widest flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            Erkannte Problemstellung
+                        </span>
+                    </div>
+                    <div class="flex-grow flex flex-col items-center justify-center text-center">
+                        <h2 id="problem-text" class="text-xl md:text-2xl font-bold text-white mb-6">...</h2>
+                        <div id="feedback-area" class="mt-4 p-4 rounded-xl text-sm hidden font-mono w-full"></div>
                     </div>
                 </div>
 
+                <!-- Tools Panel (Rules) -->
+                <div class="flex-1 glass-card rounded-2xl border border-slate-700/50 p-6 bg-slate-800/30">
+                    <span class="text-slate-400 text-xs font-mono uppercase tracking-widest mb-4 block">Verfügbare Regeln (Werkzeuge)</span>
+                    <div id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[400px] overflow-y-auto pr-2">
+                        <!-- Tools generated via JS -->
+                    </div>
+                </div>
             </div>
 
             <!-- End Screen -->
@@ -107,17 +100,17 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
-                <h2 class="text-3xl font-bold text-white mb-4">Training beendet!</h2>
-                <p class="text-slate-400 mb-8 max-w-md">Du hast alle Fragen durchgearbeitet. Hier ist dein Ergebnis:</p>
+                <h2 class="text-3xl font-bold text-white mb-4">Analyse beendet!</h2>
+                <p class="text-slate-400 mb-8 max-w-md">Du hast alle Folienprobleme erfolgreich gelöst.</p>
 
                 <div class="flex gap-6 mb-8 w-full justify-center">
                     <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 min-w-[120px]">
-                        <div class="text-3xl font-bold text-emerald-400 mb-1" id="final-correct">0</div>
-                        <div class="text-xs text-emerald-500/70 uppercase tracking-wider">Gewusst</div>
+                        <div class="text-3xl font-bold text-emerald-400 mb-1" id="final-perfect">0</div>
+                        <div class="text-xs text-emerald-500/70 uppercase tracking-wider">Fehlerlos</div>
                     </div>
                     <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 min-w-[120px]">
-                        <div class="text-3xl font-bold text-red-400 mb-1" id="final-incorrect">0</div>
-                        <div class="text-xs text-red-500/70 uppercase tracking-wider">Nicht gewusst</div>
+                        <div class="text-3xl font-bold text-red-400 mb-1" id="final-imperfect">0</div>
+                        <div class="text-xs text-red-500/70 uppercase tracking-wider">Mit Fehlern</div>
                     </div>
                 </div>
 
@@ -125,7 +118,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                     </svg>
-                    Neuer Durchgang
+                    Neue Analyse starten
                 </button>
             </div>
 
@@ -194,14 +187,14 @@
         ];
 
         let queue = [];
-        let currentCard = null;
-        let isFlipped = false;
-        let stats = { correct: 0, incorrect: 0, total: 0, current: 0 };
+        let currentProblem = null;
+        let stats = { perfect: 0, imperfect: 0, total: 0, current: 0 };
+        let currentSlideHadError = false;
 
-        const flashcard = document.getElementById('flashcard');
-        const cardFront = document.getElementById('card-front');
-        const cardBack = document.getElementById('card-back');
+        const allRules = cardData.map(d => ({ name: d.a, desc: d.desc }));
+        const analyzerInterface = document.getElementById('analyzer-interface');
         const endScreen = document.getElementById('end-screen');
+        const feedbackArea = document.getElementById('feedback-area');
 
         function shuffleArray(array) {
             let curId = array.length;
@@ -217,90 +210,115 @@
 
         function initTrainer() {
             queue = shuffleArray([...cardData]);
-            stats = { correct: 0, incorrect: 0, total: cardData.length, current: 0 };
+            stats = { perfect: 0, imperfect: 0, total: cardData.length, current: 0 };
 
-            document.getElementById('total-cards-num').textContent = stats.total;
+            document.getElementById('total-slides-num').textContent = stats.total;
             updateStatsUI();
 
             endScreen.classList.add('hidden');
-            flashcard.classList.remove('hidden');
+            endScreen.classList.remove('flex');
+            analyzerInterface.classList.remove('hidden');
+            analyzerInterface.classList.add('flex');
 
-            nextCard();
+            generateTools();
+            nextSlide();
         }
 
-        function nextCard() {
+        function generateTools() {
+            const grid = document.getElementById('tools-grid');
+            grid.innerHTML = '';
+
+            // Generate standard tools panel (always same order or shuffled once)
+            const tools = shuffleArray([...allRules]);
+
+            tools.forEach(tool => {
+                const btn = document.createElement('button');
+                btn.className = 'p-3 glass-card border border-slate-600 hover:border-orange-500 rounded-xl text-left text-sm transition-colors hover:bg-slate-800 flex flex-col gap-1 group';
+                btn.innerHTML = `<span class="font-bold text-slate-200 group-hover:text-orange-400">${tool.name}</span>`;
+                btn.onclick = () => applyRule(tool.name);
+                grid.appendChild(btn);
+            });
+        }
+
+        function nextSlide() {
             if (queue.length === 0) {
                 showEndScreen();
                 return;
             }
 
-            currentCard = queue.pop();
+            currentProblem = queue.pop();
             stats.current++;
-            document.getElementById('current-card-num').textContent = stats.current;
+            currentSlideHadError = false;
+            document.getElementById('current-slide-num').textContent = stats.current;
 
-            document.getElementById('question-text').textContent = currentCard.q;
-            document.getElementById('answer-text').textContent = currentCard.a;
-            document.getElementById('answer-desc').textContent = currentCard.desc;
+            document.getElementById('problem-text').textContent = currentProblem.q;
 
-            unflipCard();
+            feedbackArea.classList.add('hidden');
+
+            // Reset tools
+            const btns = document.getElementById('tools-grid').querySelectorAll('button');
+            btns.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed', 'border-red-500', 'border-emerald-500');
+            });
         }
 
-        function toggleFlip() {
-            if (!isFlipped) {
-                flashcard.classList.add('rotate-y-180');
-                cardBack.classList.remove('hidden');
-                setTimeout(() => {
-                    cardFront.classList.add('hidden');
-                }, 150);
-                isFlipped = true;
-            }
-        }
+        function applyRule(ruleName) {
+            const isCorrect = (ruleName === currentProblem.a);
 
-        function unflipCard() {
-            flashcard.classList.remove('rotate-y-180');
-            cardFront.classList.remove('hidden');
-            setTimeout(() => {
-                cardBack.classList.add('hidden');
-            }, 150);
-            isFlipped = false;
-        }
+            // Find the clicked button to apply styles
+            const btns = document.getElementById('tools-grid').querySelectorAll('button');
+            let clickedBtn;
+            btns.forEach(btn => {
+                if (btn.querySelector('span').textContent === ruleName) clickedBtn = btn;
+            });
 
-        function checkAnswer(isCorrect, event) {
-            event.stopPropagation();
             if (isCorrect) {
-                stats.correct++;
+                if (!currentSlideHadError) stats.perfect++;
+                else stats.imperfect++;
+
+                updateStatsUI();
+
+                // Success styling
+                clickedBtn.classList.add('border-emerald-500', 'bg-emerald-500/10');
+
+                feedbackArea.classList.remove('hidden', 'bg-red-900/50', 'text-red-300', 'border-red-500/50');
+                feedbackArea.classList.add('bg-emerald-900/50', 'text-emerald-300', 'border', 'border-emerald-500/50');
+                feedbackArea.innerHTML = `<span class="block font-bold mb-1">Korrektes Werkzeug angewendet!</span>${currentProblem.desc}`;
+
+                // Disable all tools
+                btns.forEach(b => b.disabled = true);
+
+                setTimeout(() => {
+                    nextSlide();
+                }, 2500);
             } else {
-                stats.incorrect++;
+                currentSlideHadError = true;
+
+                // Error styling
+                clickedBtn.classList.add('border-red-500', 'opacity-50', 'cursor-not-allowed');
+                clickedBtn.disabled = true;
+
+                feedbackArea.classList.remove('hidden', 'bg-emerald-900/50', 'text-emerald-300', 'border-emerald-500/50');
+                feedbackArea.classList.add('bg-red-900/50', 'text-red-300', 'border', 'border-red-500/50');
+                feedbackArea.innerHTML = `<span class="block font-bold">Falsches Werkzeug.</span>Diese Regel passt nicht zum beschriebenen Problem.`;
             }
-            updateStatsUI();
-            nextCard();
         }
 
         function updateStatsUI() {
-            document.getElementById('score-correct').textContent = stats.correct;
-            document.getElementById('score-incorrect').textContent = stats.incorrect;
+            document.getElementById('score-perfect').textContent = stats.perfect;
+            document.getElementById('score-imperfect').textContent = stats.imperfect;
         }
 
         function showEndScreen() {
-            flashcard.classList.add('hidden');
+            analyzerInterface.classList.add('hidden');
+            analyzerInterface.classList.remove('flex');
             endScreen.classList.remove('hidden');
             endScreen.classList.add('flex');
 
-            document.getElementById('final-correct').textContent = stats.correct;
-            document.getElementById('final-incorrect').textContent = stats.incorrect;
+            document.getElementById('final-perfect').textContent = stats.perfect;
+            document.getElementById('final-imperfect').textContent = stats.imperfect;
         }
-
-        flashcard.addEventListener('click', toggleFlip);
-
-        // Required CSS for 3D flip effect
-        const style = document.createElement('style');
-        style.textContent = `
-            .perspective-1000 { perspective: 1000px; }
-            .transform-style-3d { transform-style: preserve-3d; }
-            .backface-hidden { backface-visibility: hidden; }
-            .rotate-y-180 { transform: rotateY(180deg); }
-        `;
-        document.head.appendChild(style);
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', initTrainer);
