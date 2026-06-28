@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Vorwärtskalkulation (Theorie)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Background Decorative Elements -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-blue-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                <span class="font-mono">ITT Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Vorwärtskalkulation
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Das vollständige Kalkulationsschema vom Listeneinkaufspreis bis zum Bruttoverkaufspreis.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='itt.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section -->
+        <section class="w-full max-w-4xl mx-auto mb-16">
+            <div class="glass-card rounded-xl p-6 md:p-10 border border-slate-700/50">
+                <h3 class="text-2xl font-bold text-white mb-6 border-b border-slate-700/50 pb-4">Das Kalkulationsschema</h3>
+
+                <div class="space-y-4 font-mono text-sm md:text-base">
+                    <!-- Einkaufsbereich -->
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-slate-800/50">
+                        <span class="text-slate-300">Listeneinkaufspreis (LEP)</span>
+                        <span class="text-slate-400">100%</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg text-red-400 pl-8">
+                        <span>- Liefererrabatt</span>
+                        <span>% vom LEP</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-blue-900/30 border border-blue-500/20 font-bold text-blue-300">
+                        <span>= Zieleinkaufspreis (ZEP)</span>
+                        <span class="text-slate-400 font-normal">100%</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg text-red-400 pl-8">
+                        <span>- Lieferskonto</span>
+                        <span>% vom ZEP</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-blue-900/30 border border-blue-500/20 font-bold text-blue-300">
+                        <span>= Bareinkaufspreis (BEP)</span>
+                        <span></span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg text-emerald-400 pl-8">
+                        <span>+ Bezugskosten (Fracht, Porto, Verpackung)</span>
+                        <span>Betrag</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-blue-500/20 border border-blue-500/40 font-bold text-white">
+                        <span>= Bezugspreis (Einstandspreis)</span>
+                        <span class="text-slate-400 font-normal">100%</span>
+                    </div>
+
+                    <div class="h-4"></div> <!-- Spacer -->
+
+                    <!-- Handlungsbereich -->
+                    <div class="flex justify-between items-center p-3 rounded-lg text-emerald-400 pl-8">
+                        <span>+ Handlungskostenzuschlag (HKZ)</span>
+                        <span>% vom Bezugspreis</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-blue-500/20 border border-blue-500/40 font-bold text-white">
+                        <span>= Selbstkostenpreis (SKP)</span>
+                        <span class="text-slate-400 font-normal">100%</span>
+                    </div>
+
+                    <div class="h-4"></div> <!-- Spacer -->
+
+                    <!-- Verkaufsbereich -->
+                    <div class="flex justify-between items-center p-3 rounded-lg text-emerald-400 pl-8">
+                        <span>+ Gewinnzuschlag</span>
+                        <span>% vom SKP</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-blue-900/30 border border-blue-500/20 font-bold text-blue-300">
+                        <span>= Barverkaufspreis (BVP)</span>
+                        <span class="text-slate-400 font-normal">97% / 98% (entspricht 100% - Skonto)</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg text-emerald-400 pl-8">
+                        <span>+ Kundenskonto</span>
+                        <span>% (berechnet im Hundert)</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-blue-900/30 border border-blue-500/20 font-bold text-blue-300">
+                        <span>= Zielverkaufspreis (ZVP)</span>
+                        <span class="text-slate-400 font-normal">z.B. 90% (entspricht 100% - Rabatt)</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg text-emerald-400 pl-8">
+                        <span>+ Kundenrabatt</span>
+                        <span>% (berechnet im Hundert)</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-blue-500/20 border border-blue-500/40 font-bold text-white">
+                        <span>= Nettoverkaufspreis / Listenverkaufspreis (LVP)</span>
+                        <span class="text-slate-400 font-normal">100%</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg text-emerald-400 pl-8">
+                        <span>+ Umsatzsteuer (MwSt)</span>
+                        <span>19% vom Nettoverkaufspreis</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-blue-500/40 border border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.3)] font-bold text-white text-lg">
+                        <span>= Bruttoverkaufspreis</span>
+                        <span class="text-slate-300 font-normal text-sm">119%</span>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-blue-500/10 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                    <h4 class="text-blue-400 font-bold mb-2">Besonderheit: "Im Hundert" rechnen</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-2">
+                        Bei der Berechnung des Verkaufsbereichs von unten (ausgehend vom Barverkaufspreis zum Nettoverkaufspreis) muss man beachten, dass die prozentualen Abzüge (Skonto, Rabatt) vom jeweils <strong>nächsten, höheren Wert</strong> (100%) berechnet werden.
+                    </p>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Wenn der Barverkaufspreis vorliegt und 2% Skonto gewährt werden, entspricht der Barverkaufspreis 98%. Der Zielverkaufspreis (100%) wird berechnet durch: <code>(Barverkaufspreis / 98) * 100</code>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>
