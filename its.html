@@ -212,10 +212,79 @@
                     Theorie & Nachschlagewerke
                 </h3>
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-center items-center text-center h-full min-h-[250px] border-dashed border-2 border-slate-700/50 opacity-50">
-                        <svg class="w-12 h-12 text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                        <p class="text-slate-400 font-medium">Noch keine theoretischen Inhalte verfügbar.</p>
+
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-white mb-2">IPv4 Subnetting</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Grundlagen der IPv4-Adressierung, Netz-/Hostanteil, CIDR-Notation und Subnetting-Berechnungen (Magic Number).
+                            </p>
+                        </div>
+                        <a href="IPv4SubnetTheorie.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
+                            Theorie ansehen
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
                     </div>
+
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-white mb-2">IPv6 Grundlagen</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Aufbau von IPv6-Adressen, Komprimierungsregeln (führende Nullen, Null-Blöcke) und Netzaufteilung.
+                            </p>
+                        </div>
+                        <a href="IPv6Theorie.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
+                            Theorie ansehen
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"></path></svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-white mb-2">OSI-Modell</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Die 7 Schichten der Netzwerkkommunikation. Aufgaben, PDUs, Protokolle und Geräte je Schicht im Detail.
+                            </p>
+                        </div>
+                        <a href="OsiModellTheorie.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
+                            Modell ansehen
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group h-full min-h-[250px] glass-card-hover-emerald">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold mb-6 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-white mb-2">Zahlensysteme</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Grundlagen zu Dezimal-, Binär- und Hexadezimalsystem sowie die Umrechnungswege zwischen den Formaten.
+                            </p>
+                        </div>
+                        <a href="ZahlensystemeTheorie.html" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-emerald-600/20 mt-6 whitespace-nowrap">
+                            Theorie ansehen
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </section>
