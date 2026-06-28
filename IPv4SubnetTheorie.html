@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>IPv4 Subnetting - Theorie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#0a0a0a] text-slate-300 min-h-screen flex flex-col font-sans antialiased overflow-x-hidden selection:bg-emerald-500/30">
+
+    <!-- Matrix Background -->
+    <canvas id="matrix-bg" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="font-mono">ITS Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                IPv4 Subnetting
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Die Theorie hinter IP-Adressen, CIDR-Notation und Subnetting-Berechnungen.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='its.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Main Content Section -->
+        <section class="w-full max-w-5xl mx-auto mb-16 space-y-8">
+
+            <div class="glass-card rounded-xl p-6 md:p-8 border border-slate-700/50">
+                <div class="flex items-center gap-3 mb-4 border-b border-slate-700/50 pb-2">
+                    <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                    <h3 class="text-xl font-bold text-white">Aufbau einer IPv4-Adresse</h3>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                    Eine IPv4-Adresse besteht aus <strong>32 Bits</strong>, aufgeteilt in 4 Blöcke (Oktette) zu je 8 Bit. Sie wird üblicherweise in dezimaler Schreibweise dargestellt.
+                </p>
+                <div class="bg-slate-900/50 border border-slate-700 p-4 rounded-lg flex flex-col md:flex-row justify-around items-center font-mono gap-4">
+                    <div class="text-center">
+                        <div class="text-2xl text-emerald-400 font-bold mb-1">192</div>
+                        <div class="text-xs text-slate-500">11000000</div>
+                    </div>
+                    <div class="text-2xl text-slate-500 hidden md:block">.</div>
+                    <div class="text-center">
+                        <div class="text-2xl text-emerald-400 font-bold mb-1">168</div>
+                        <div class="text-xs text-slate-500">10101000</div>
+                    </div>
+                    <div class="text-2xl text-slate-500 hidden md:block">.</div>
+                    <div class="text-center">
+                        <div class="text-2xl text-emerald-400 font-bold mb-1">1</div>
+                        <div class="text-xs text-slate-500">00000001</div>
+                    </div>
+                    <div class="text-2xl text-slate-500 hidden md:block">.</div>
+                    <div class="text-center">
+                        <div class="text-2xl text-emerald-400 font-bold mb-1">10</div>
+                        <div class="text-xs text-slate-500">00001010</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card rounded-xl p-6 border border-slate-700/50">
+                    <h4 class="text-lg font-bold text-emerald-400 mb-3">Netz- und Hostanteil</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Jede IP-Adresse ist logisch in zwei Teile getrennt:
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-slate-300">
+                        <li><strong class="text-white">Netzanteil:</strong> Identifiziert das Netzwerk. Alle Geräte im gleichen Netzwerk haben denselben Netzanteil.</li>
+                        <li><strong class="text-white">Hostanteil:</strong> Identifiziert das spezifische Gerät (Host) innerhalb dieses Netzwerks.</li>
+                    </ul>
+                    <p class="text-slate-400 text-xs mt-4">
+                        Die Subnetzmaske bestimmt, wo genau diese Trennung stattfindet.
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-xl p-6 border border-slate-700/50">
+                    <h4 class="text-lg font-bold text-emerald-400 mb-3">CIDR Notation</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Statt der vollen Subnetzmaske (z.B. <code class="text-emerald-300">255.255.255.0</code>) wird oft die CIDR-Notation (Classless Inter-Domain Routing) verwendet.
+                    </p>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Sie gibt mit einem Slash (<code>/</code>) an, <strong>wie viele Bits auf 1 gesetzt sind</strong> (d.h. wie lang der Netzanteil ist).
+                    </p>
+                    <div class="bg-emerald-500/10 border-l-2 border-emerald-500/50 p-3 mt-4 rounded-r-lg">
+                        <p class="font-mono text-sm text-slate-200">192.168.1.0/24</p>
+                        <p class="text-xs text-slate-400 mt-1">24 Bits für das Netz, 8 Bits für Hosts (32 - 24 = 8)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-xl p-6 border border-slate-700/50">
+                <h4 class="text-lg font-bold text-emerald-400 mb-4">Wichtige Adressen im Subnetz</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                        <h5 class="text-white font-semibold mb-2">Netzwerkadresse</h5>
+                        <p class="text-sm text-slate-400">Die allererste Adresse. Der gesamte Hostanteil besteht binär aus <strong>Nullen (0)</strong>. Wird zur Identifikation des Netzes genutzt, nicht an Geräte vergeben.</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                        <h5 class="text-white font-semibold mb-2">Broadcastadresse</h5>
+                        <p class="text-sm text-slate-400">Die allerletzte Adresse. Der gesamte Hostanteil besteht binär aus <strong>Einsen (1)</strong>. Sendet Daten an alle Hosts im Netz.</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-4 rounded-lg border border-emerald-500/30">
+                        <h5 class="text-white font-semibold mb-2">Nutzbare Hosts</h5>
+                        <p class="text-sm text-slate-400 mb-2">Alle Adressen dazwischen. Erste nutzbare IP ist Netz+1, letzte ist Broadcast-1.</p>
+                        <p class="font-mono text-xs text-emerald-400">Anzahl = 2^h - 2 <br><span class="text-slate-500">(h = Anzahl Host-Bits)</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-xl p-6 md:p-8 border border-emerald-500/30">
+                <h3 class="text-xl font-bold text-white mb-4">Berechnung mit der Magic Number Methode</h3>
+                <p class="text-slate-300 text-sm mb-4">
+                    Die "Magic Number" (Schrittweite) ist ein Trick, um Subnetze im Kopf schnell zu berechnen.
+                </p>
+
+                <ol class="list-decimal list-inside space-y-4 text-sm text-slate-300 bg-slate-900/50 p-6 rounded-lg border border-slate-700/50">
+                    <li class="pb-2 border-b border-slate-700/50">
+                        <strong class="text-white">Interessantes Oktett finden:</strong> Welches Oktett der Subnetzmaske ist nicht 255 und nicht 0?<br>
+                        <span class="text-slate-400 pl-5 inline-block mt-1">Bsp: Bei <code class="text-emerald-400">/26</code> ist die Maske 255.255.255.192. Das 4. Oktett (192) ist interessant.</span>
+                    </li>
+                    <li class="pb-2 border-b border-slate-700/50">
+                        <strong class="text-white">Magic Number berechnen:</strong> 256 minus dem Wert des interessanten Oktetts.<br>
+                        <span class="text-slate-400 pl-5 inline-block mt-1">Bsp: 256 - 192 = <strong class="text-emerald-400">64</strong>. Die Netze springen in 64er Schritten.</span>
+                    </li>
+                    <li>
+                        <strong class="text-white">Netze aufzählen:</strong>
+                        <ul class="list-disc list-inside pl-5 mt-2 space-y-1 text-slate-400 font-mono">
+                            <li>Netz 1: 192.168.1.0</li>
+                            <li>Netz 2: 192.168.1.64</li>
+                            <li>Netz 3: 192.168.1.128</li>
+                            <li>Netz 4: 192.168.1.192</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>
