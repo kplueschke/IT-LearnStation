@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>10 Regeln für gute Folien Trainer</title>
+    <title>4 Theorien von Dr. Chris Atherton Trainer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -39,10 +39,10 @@
                 <span class="font-mono">ITAG Workspace</span>
             </div>
             <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
-                10 Regeln für gute Folien Trainer
+                Atherton Theorien Trainer
             </h1>
             <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
-                Trainiere dein Wissen über die wichtigsten Grundregeln der Foliengestaltung in IT-Präsentationen.
+                Trainiere dein Wissen über die vier Theorien zur optimalen Foliengestaltung nach Dr. Chris Atherton.
             </p>
         </div>
 
@@ -73,7 +73,7 @@
 
                 <!-- Front of card (Question) -->
                 <div id="card-front" class="absolute w-full h-full backface-hidden glass-card glass-card-hover-orange rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-2xl border-2 border-slate-700/50">
-                    <span class="text-orange-500 mb-6 border border-orange-500/30 bg-orange-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Welche Regel ist gemeint?</span>
+                    <span class="text-orange-500 mb-6 border border-orange-500/30 bg-orange-500/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider">Welche Theorie ist gemeint?</span>
                     <h2 id="question-text" class="text-xl md:text-2xl font-bold text-white mb-8">...</h2>
                     <p class="text-slate-400 text-sm mt-auto flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
@@ -142,54 +142,44 @@
     <script>
         const cardData = [
             {
-                q: "Maximal 6 Stichpunkte pro Folie und maximal 6 Wörter pro Stichpunkt. Verzichte auf vollständige Sätze.",
-                a: "Die 6x6 Regel",
-                desc: "Hält die Informationsmenge überschaubar und zwingt zur Kürze."
+                q: "Das Gehirn hat nur eine begrenzte Kapazität, um Informationen aufzunehmen und zu verarbeiten. Zu viele Infos auf einmal überfordern uns.",
+                a: "Cognitive Load Theory",
+                desc: "(Theorie zur kognitiven Belastung)"
             },
             {
-                q: "\"Keep It Short and Simple\". Die Folie soll den Vortrag unterstützen, nicht ersetzen.",
-                a: "Weniger ist mehr (KISS)",
-                desc: "Vermeide überladene Folien mit zu vielen Informationen."
+                q: "Das Gehirn verarbeitet Informationen am besten über zwei getrennte Kanäle gleichzeitig: verbal (Worte/Sprache) und visuell (Bilder).",
+                a: "Dual Coding Theory",
+                desc: "(Theorie der dualen Codierung)"
             },
             {
-                q: "Das Publikum kann nicht lesen und gleichzeitig zuhören. Konzentriere dich auf einen zentralen Gedanken pro Slide.",
-                a: "Eine Kernbotschaft pro Folie",
-                desc: "Lenkt die Aufmerksamkeit und verhindert Verwirrung."
+                q: "Wenn man Text liest und gleichzeitig jemand spricht, überlastet das den sprachlichen Verarbeitungskanal, da beides verbale Informationen sind.",
+                a: "Cognitive Load Theory",
+                desc: "(Theorie zur kognitiven Belastung) – Insbesondere Redundanz-Effekt."
             },
             {
-                q: "Mindestens Schriftgröße 24pt bis 30pt für Fließtext.",
-                a: "Große, lesbare Schriften",
-                desc: "Damit auch Zuschauer in der letzten Reihe alles mühelos lesen können."
+                q: "Bilder auf der Folie und ein dazu passender, gesprochener Vortrag ergänzen sich perfekt, da sie unterschiedliche Verarbeitungskanäle nutzen.",
+                a: "Dual Coding Theory",
+                desc: "(Theorie der dualen Codierung)"
             },
             {
-                q: "Dunkle Schrift auf hellem Grund oder helle Schrift auf dunklem Grund.",
-                a: "Starke Kontraste",
-                desc: "Achte auf gute Lesbarkeit auch bei schlechten Beamer-Verhältnissen."
+                q: "Wenn eine Grafik und der dazugehörige erklärende Text räumlich oder zeitlich weit voneinander getrennt sind, muss das Gehirn unnötig viel Arbeit leisten, um beides zusammenzuführen.",
+                a: "Split-Attention Effect",
+                desc: "(Effekt der geteilten Aufmerksamkeit)"
             },
             {
-                q: "Visualisiere Konzepte mit Diagrammen, Icons oder aussagekräftigen Fotos anstelle von Textblöcken.",
-                a: "Bilder statt Text",
-                desc: "Ein Bild sagt mehr als tausend Worte."
+                q: "Ein Bild ist auf Folie 1, die Erklärung dazu auf Folie 2. Das Publikum muss hin und her blättern (im Kopf). Das strengt an.",
+                a: "Split-Attention Effect",
+                desc: "(Effekt der geteilten Aufmerksamkeit)"
             },
             {
-                q: "Bleibe bei 1-2 Schriftarten und einem festen Farbschema.",
-                a: "Einheitliches Design (Corporate Design)",
-                desc: "Verwende für gleiche Elemente immer die gleichen Farben und Layouts."
+                q: "Das Kurzzeitgedächtnis kann sich im Durchschnitt nur 4 bis 7 'Chunks' (Informationseinheiten) gleichzeitig merken.",
+                a: "Limited Working Memory",
+                desc: "(Begrenzung des Arbeitsgedächtnisses)"
             },
             {
-                q: "Zeige keine komplexen Excel-Tabellen. Nutze stattdessen klare Diagramme, um Trends sofort sichtbar zu machen.",
-                a: "Daten visualisieren",
-                desc: "Balken-, Torten- oder Liniendiagramme sind schneller erfassbar als reine Zahlen."
-            },
-            {
-                q: "Nutze nicht jeden Quadratzentimeter der Folie. \"Atempause\" auf der Folie erhöht die Lesbarkeit.",
-                a: "Freiraum (White Space) lassen",
-                desc: "Lenkt den Fokus auf das Wesentliche."
-            },
-            {
-                q: "Animationen nur gezielt nutzen, um Spannung aufzubauen. Keine wild fliegenden Texte oder störende Sounds.",
-                a: "Sanfte Animationen, kein Kitsch",
-                desc: "Der Fokus soll auf dem Inhalt und dem Vortragenden liegen, nicht auf wilden Effekten."
+                q: "Eine Folie mit 15 unabhängigen Stichpunkten ist schlecht, weil das Gehirn nach ein paar Punkten die ersten schon wieder vergisst.",
+                a: "Limited Working Memory",
+                desc: "(Begrenzung des Arbeitsgedächtnisses)"
             }
         ];
 
