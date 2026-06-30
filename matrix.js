@@ -45,6 +45,9 @@ let drops = [];
 let lastKpDrop = [];
 let activeKPs = [];
 let particles = [];
+let minigameScore = parseInt(sessionStorage.getItem('matrixScore') || '0');
+let floatingTexts = [];
+let crashPhase = 0;
 
 // Create explosion function
 function createExplosion(x, y) {
@@ -58,6 +61,23 @@ function createExplosion(x, y) {
             life: 1.0, // alpha
             decay: Math.random() * 0.05 + 0.02
         });
+    }
+}
+
+// Draw floating texts function
+function drawFloatingTexts() {
+    ctx.font = 'bold 16px "Fira Code", monospace';
+    for (let i = floatingTexts.length - 1; i >= 0; i--) {
+        let ft = floatingTexts[i];
+        ft.y -= 1; // Float up
+        ft.life -= 0.02; // Fade out
+
+        if (ft.life <= 0) {
+            floatingTexts.splice(i, 1);
+        } else {
+            ctx.fillStyle = `rgba(16, 185, 129, ${ft.life})`; // emerald-500
+            ctx.fillText('+1', ft.x, ft.y);
+        }
     }
 }
 
@@ -114,12 +134,97 @@ if (!isInitialized) {
 }
 
 function draw() {
-    if (currentStyle === 'classic') {
+    if (crashPhase > 0) {
+        drawCrash();
+    } else if (currentStyle === 'classic') {
         drawClassic();
     } else {
         drawCustom();
     }
     drawParticles();
+    drawFloatingTexts();
+}
+
+function drawCrash() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // slightly faster fade
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = initialsColor;
+    ctx.font = fontSize + 'px "Fira Code", monospace';
+
+    for (let i = 0; i < drops.length; i++) {
+        let text = Math.random() > 0.5 ? 'K' : 'P';
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (crashPhase === 1) {
+            // Normal reset
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.9) {
+                drops[i] = 0;
+            }
+        }
+        // In Phase 2, drops don't reset when they fall off screen
+
+        drops[i] += 1.5; // Fall faster
+    }
+}
+
+function triggerKPCrash() {
+    crashPhase = 1;
+
+    // Phase 2: Drops stop resetting
+    setTimeout(() => {
+        crashPhase = 2;
+    }, 3000);
+
+    // Phase 3: Text Overlay
+    setTimeout(() => {
+        crashPhase = 3;
+
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+        overlay.style.zIndex = '999999';
+        overlay.style.display = 'flex';
+        overlay.style.justifyContent = 'center';
+        overlay.style.alignItems = 'center';
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.2s ease-in-out';
+        document.body.appendChild(overlay);
+
+        const textContainer = document.createElement('div');
+        textContainer.style.color = '#EF4444'; // red-500 for error
+        textContainer.style.fontFamily = '"Fira Code", monospace';
+        textContainer.style.fontSize = '3rem';
+        textContainer.style.fontWeight = 'bold';
+        textContainer.style.textAlign = 'center';
+        textContainer.innerHTML = 'FATAL ERROR<br/>KP OVERLOAD';
+        // Add glitch effect classes (simulated by simple animation in css or just raw style)
+        textContainer.style.animation = 'pulse 0.5s infinite';
+        overlay.appendChild(textContainer);
+
+        // Fade in
+        setTimeout(() => {
+            overlay.style.opacity = '1';
+        }, 50);
+
+        // Cleanup and Reset
+        setTimeout(() => {
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                document.body.removeChild(overlay);
+                crashPhase = 0;
+                ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                initDrops();
+            }, 500);
+        }, 3000);
+
+    }, 5000);
 }
 
 function drawClassic() {
@@ -239,9 +344,28 @@ if (!isOverviewPage && !isInitialized) {
     }
 }
 
+function updateScoreDisplay() {
+    let scoreDisplay = document.getElementById('matrix-score-display');
+    if (!scoreDisplay) {
+        scoreDisplay = document.createElement('div');
+        scoreDisplay.id = 'matrix-score-display';
+        scoreDisplay.className = 'fixed top-16 left-4 text-indigo-400 font-mono text-lg z-50 glass-card p-2 rounded-lg pointer-events-none transition-opacity duration-300';
+        document.body.appendChild(scoreDisplay);
+    }
+
+    scoreDisplay.textContent = `Score: ${minigameScore}`;
+
+    if (isGameEnabled && currentStyle === 'custom') {
+        scoreDisplay.style.opacity = '1';
+    } else {
+        scoreDisplay.style.opacity = '0';
+    }
+}
+
 function toggleMatrixStyle() {
     currentStyle = currentStyle === 'custom' ? 'classic' : 'custom';
     sessionStorage.setItem('matrixStyle', currentStyle);
+    updateScoreDisplay();
 
     // Update button text if it exists
     const styleBtn = document.getElementById('settings-matrix-style-toggle');
@@ -331,6 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameBtn.classList.replace('text-indigo-400', 'text-slate-400');
                 gameBtn.classList.replace('border-indigo-500/30', 'border-slate-700');
             }
+            updateScoreDisplay();
         });
     }
 
@@ -339,6 +464,8 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePauseButtonIcon();
         pauseBtn.addEventListener('click', togglePause);
     }
+
+    updateScoreDisplay();
 });
 
 // --- Minigame ---
@@ -363,8 +490,21 @@ window.addEventListener('click', (e) => {
         if (distK < clickRadius || distP < clickRadius) {
             // Create explosion at click
             createExplosion(kpX, kpY + (fontSize/2));
+
+            // Score update and floating text
+            minigameScore++;
+            sessionStorage.setItem('matrixScore', minigameScore.toString());
+            floatingTexts.push({ x: kpX, y: kpY, life: 1.0 });
+            updateScoreDisplay();
+
             // Remove the hit block to prevent double-clicking
             activeKPs.splice(i, 1);
+
+            // Check for crash event
+            if (minigameScore > 0 && minigameScore % 50 === 0 && crashPhase === 0) {
+                triggerKPCrash();
+            }
+
             break;
         }
     }
