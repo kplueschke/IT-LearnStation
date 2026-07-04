@@ -31,14 +31,7 @@
     </div>
 
     <div class="container mx-auto px-4 py-8 relative z-10 flex-grow flex flex-col">
-        <div class="flex items-center justify-between mb-8">
-            <button onclick="window.location.href='pug.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                Zurück zur Übersicht
-            </button>
-        </div>
+
         <div class="text-center mb-12">
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-400 mb-4">
                 BBiG-Quiz
@@ -47,6 +40,17 @@
                 Teste dein Wissen zu Rechten und Pflichten in der Ausbildung (Probezeit, Kündigung, etc.).
             </p>
         </div>
+
+        <!-- Back Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+            <button onclick="window.location.href='pug.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
 
         <div class="flex-grow flex items-center justify-center max-w-3xl mx-auto w-full">
             <div class="glass-card rounded-2xl p-8 w-full relative overflow-hidden">
