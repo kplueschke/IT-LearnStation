@@ -50,6 +50,15 @@
         </div>
 
         <div class="max-w-4xl mx-auto w-full relative z-10 flex-grow">
+            <div class="flex justify-end mb-6">
+                <button onclick="generateTask()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg border border-slate-700 transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    Neue Aufgabe generieren
+                </button>
+            </div>
+
             <div class="grid md:grid-cols-2 gap-6 items-start">
 
                 <!-- Schema Panel -->
@@ -67,7 +76,7 @@
                 <div class="glass-card rounded-2xl p-6 flex flex-col gap-6">
                     <div class="flex justify-between items-center text-sm font-mono text-slate-400 border-b border-slate-700/50 pb-2">
                         <span>Aufgabe</span>
-                        <span>Fortschritt: <span id="score-display" class="text-white">0 / 0</span></span>
+                        <span>Korrekte Antworten: <span id="score-display" class="text-white">0</span> / Versuche: <span id="attempts-display" class="text-white">0</span></span>
                     </div>
 
                     <div class="mb-2">
@@ -141,43 +150,9 @@
             }
         };
 
-        const tasks = [
-            {
-                schema: "mitarbeiterDB",
-                description: "Wähle den Vor- und Nachnamen aller Mitarbeiter aus.",
-                solution: "SELECT vorname, nachname FROM mitarbeiter;",
-                explanation: "Verwende SELECT, um die Spalten 'vorname' und 'nachname' auszuwählen. Mit FROM gibst du die Tabelle 'mitarbeiter' an."
-            },
-            {
-                schema: "mitarbeiterDB",
-                description: "Füge einen neuen Mitarbeiter namens 'Max Mustermann' mit der abteilung_id 1 und einem Gehalt von 3500 hinzu. (Die ID wird automatisch vergeben).",
-                solution: "INSERT INTO mitarbeiter (vorname, nachname, abteilung_id, gehalt) VALUES ('Max', 'Mustermann', 1, 3500);",
-                explanation: "Verwende INSERT INTO gefolgt vom Tabellennamen und den Spaltennamen in Klammern. VALUES gefolgt von den einzufügenden Werten in der gleichen Reihenfolge."
-            },
-            {
-                schema: "mitarbeiterDB",
-                description: "Erhöhe das Gehalt aller Mitarbeiter in der Abteilung mit der ID 2 auf 4000.",
-                solution: "UPDATE mitarbeiter SET gehalt = 4000 WHERE abteilung_id = 2;",
-                explanation: "UPDATE ändert Datensätze. SET gibt an, welche Spalte(n) welchen neuen Wert bekommen. Die WHERE-Klausel schränkt ein, welche Datensätze betroffen sind."
-            },
-            {
-                schema: "shopDB",
-                description: "Lösche alle Kunden aus der Tabelle 'kunden', die in der Stadt 'Berlin' wohnen.",
-                solution: "DELETE FROM kunden WHERE stadt = 'Berlin';",
-                explanation: "DELETE FROM löscht Zeilen aus einer Tabelle. Mit WHERE definierst du die Bedingung (stadt = 'Berlin'), damit nicht alle Kunden gelöscht werden."
-            },
-            {
-                schema: "shopDB",
-                description: "Ermittle den Namen des Kunden und den Betrag seiner Bestellungen. Verbinde dazu die Tabellen 'kunden' und 'bestellungen'.",
-                solution: "SELECT kunden.name, bestellungen.betrag FROM kunden JOIN bestellungen ON kunden.kunden_id = bestellungen.kunden_id;",
-                explanation: "Um Daten aus mehreren Tabellen abzufragen, benutzt man JOIN. Hier verbindest du 'kunden' und 'bestellungen' über das gemeinsame Feld 'kunden_id' (ON Bedingung)."
-            }
-        ];
-
-        let currentTaskIndex = -1;
+        let currentTask = null;
         let attempts = 0;
         let correctAnswers = 0;
-        let taskQueue = [];
 
         const schemaDisplay = document.getElementById('schema-display');
         const taskDescription = document.getElementById('task-description');
@@ -186,17 +161,93 @@
         const nextBtn = document.getElementById('next-btn');
         const feedbackEl = document.getElementById('feedback');
         const scoreDisplay = document.getElementById('score-display');
+        const attemptsDisplay = document.getElementById('attempts-display');
 
-        function initQueue() {
-            taskQueue = [...Array(tasks.length).keys()];
-            shuffleArray(taskQueue);
-        }
+        function generateTask() {
+            const schemaKeys = Object.keys(schemas);
+            const randomSchemaKey = schemaKeys[Math.floor(Math.random() * schemaKeys.length)];
+            const schema = schemas[randomSchemaKey];
 
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+            const operations = ["SELECT", "INSERT", "UPDATE", "DELETE", "JOIN"];
+            const randomOp = operations[Math.floor(Math.random() * operations.length)];
+
+            let description = "";
+            let solution = "";
+            let explanation = "";
+
+            if (randomSchemaKey === "mitarbeiterDB") {
+                if (randomOp === "SELECT") {
+                    description = "Wähle den Vor- und Nachnamen aller Mitarbeiter aus.";
+                    solution = "SELECT vorname, nachname FROM mitarbeiter;";
+                    explanation = "Verwende SELECT, um die Spalten 'vorname' und 'nachname' auszuwählen. Mit FROM gibst du die Tabelle 'mitarbeiter' an.";
+                } else if (randomOp === "INSERT") {
+                    const rndSal = Math.floor(Math.random() * 2000) + 3000;
+                    description = `Füge einen neuen Mitarbeiter namens 'Max Mustermann' mit der abteilung_id 1 und einem Gehalt von ${rndSal} hinzu.`;
+                    solution = `INSERT INTO mitarbeiter (vorname, nachname, abteilung_id, gehalt) VALUES ('Max', 'Mustermann', 1, ${rndSal});`;
+                    explanation = "Verwende INSERT INTO gefolgt vom Tabellennamen und den Spaltennamen in Klammern. VALUES gefolgt von den einzufügenden Werten in der gleichen Reihenfolge.";
+                } else if (randomOp === "UPDATE") {
+                    const rndAbt = Math.floor(Math.random() * 5) + 1;
+                    const rndSal = Math.floor(Math.random() * 1000) + 4000;
+                    description = `Erhöhe das Gehalt aller Mitarbeiter in der Abteilung mit der ID ${rndAbt} auf ${rndSal}.`;
+                    solution = `UPDATE mitarbeiter SET gehalt = ${rndSal} WHERE abteilung_id = ${rndAbt};`;
+                    explanation = "UPDATE ändert Datensätze. SET gibt an, welche Spalte(n) welchen neuen Wert bekommen. Die WHERE-Klausel schränkt ein, welche Datensätze betroffen sind.";
+                } else if (randomOp === "DELETE") {
+                    const rndAbt = Math.floor(Math.random() * 5) + 1;
+                    description = `Lösche alle Mitarbeiter, die in der Abteilung mit der ID ${rndAbt} arbeiten.`;
+                    solution = `DELETE FROM mitarbeiter WHERE abteilung_id = ${rndAbt};`;
+                    explanation = "DELETE FROM löscht Zeilen aus einer Tabelle. Mit WHERE definierst du die Bedingung, damit nicht alle Mitarbeiter gelöscht werden.";
+                } else if (randomOp === "JOIN") {
+                    description = "Ermittle den Vor- und Nachnamen des Mitarbeiters sowie den Namen seiner Abteilung.";
+                    solution = "SELECT mitarbeiter.vorname, mitarbeiter.nachname, abteilungen.name FROM mitarbeiter JOIN abteilungen ON mitarbeiter.abteilung_id = abteilungen.id;";
+                    explanation = "Verwende JOIN, um die Tabellen 'mitarbeiter' und 'abteilungen' über die Fremdschlüssel-Beziehung (abteilung_id = id) zu verbinden.";
+                }
+            } else if (randomSchemaKey === "shopDB") {
+                if (randomOp === "SELECT") {
+                    description = "Wähle den Namen und die Stadt aller Kunden aus.";
+                    solution = "SELECT name, stadt FROM kunden;";
+                    explanation = "Verwende SELECT, um die gewünschten Spalten aus der Tabelle 'kunden' auszuwählen.";
+                } else if (randomOp === "INSERT") {
+                    const cities = ['Berlin', 'München', 'Hamburg', 'Köln'];
+                    const rndCity = cities[Math.floor(Math.random() * cities.length)];
+                    description = `Füge einen neuen Kunden namens 'Erika Musterfrau' aus der Stadt '${rndCity}' hinzu.`;
+                    solution = `INSERT INTO kunden (name, stadt) VALUES ('Erika Musterfrau', '${rndCity}');`;
+                    explanation = "Verwende INSERT INTO gefolgt vom Tabellennamen und den Spaltennamen in Klammern. VALUES gefolgt von den einzufügenden Werten.";
+                } else if (randomOp === "UPDATE") {
+                    const rndAmount = (Math.random() * 100 + 50).toFixed(2);
+                    description = `Ändere den Betrag der Bestellung mit der ID 1 auf ${rndAmount}.`;
+                    solution = `UPDATE bestellungen SET betrag = ${rndAmount} WHERE bestell_id = 1;`;
+                    explanation = "UPDATE ändert den Datensatz der Tabelle 'bestellungen'. SET aktualisiert den 'betrag' für die spezifische 'bestell_id'.";
+                } else if (randomOp === "DELETE") {
+                    const cities = ['Berlin', 'München', 'Hamburg', 'Köln'];
+                    const rndCity = cities[Math.floor(Math.random() * cities.length)];
+                    description = `Lösche alle Kunden, die in der Stadt '${rndCity}' wohnen.`;
+                    solution = `DELETE FROM kunden WHERE stadt = '${rndCity}';`;
+                    explanation = "DELETE FROM löscht Zeilen. Mit WHERE schränkst du das Löschen auf Kunden der angegebenen Stadt ein.";
+                } else if (randomOp === "JOIN") {
+                    description = "Ermittle den Namen des Kunden und das Datum seiner Bestellungen.";
+                    solution = "SELECT kunden.name, bestellungen.datum FROM kunden JOIN bestellungen ON kunden.kunden_id = bestellungen.kunden_id;";
+                    explanation = "Nutze JOIN, um die Tabellen 'kunden' und 'bestellungen' über das gemeinsame Feld 'kunden_id' zu verknüpfen.";
+                }
             }
+
+            currentTask = {
+                schema: randomSchemaKey,
+                description: description,
+                solution: solution,
+                explanation: explanation
+            };
+
+            renderSchema(currentTask.schema);
+            taskDescription.textContent = currentTask.description;
+            sqlInput.value = '';
+            sqlInput.disabled = false;
+            sqlInput.focus();
+
+            checkBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            document.getElementById('eval-btns').classList.add('hidden');
+            feedbackEl.classList.add('hidden');
+            feedbackEl.className = 'mt-2 p-4 rounded-xl hidden font-medium transition-all text-sm border flex flex-col gap-2';
         }
 
         function renderSchema(schemaKey) {
@@ -216,29 +267,8 @@
             schemaDisplay.innerHTML = html;
         }
 
-        function renderTask() {
-            if (taskQueue.length === 0) {
-                initQueue();
-            }
-
-            currentTaskIndex = taskQueue.pop();
-            const task = tasks[currentTaskIndex];
-
-            renderSchema(task.schema);
-            taskDescription.textContent = task.description;
-            sqlInput.value = '';
-            sqlInput.disabled = false;
-            sqlInput.focus();
-
-            checkBtn.classList.remove('hidden');
-            nextBtn.classList.add('hidden');
-            document.getElementById('eval-btns').classList.add('hidden');
-            feedbackEl.classList.add('hidden');
-            feedbackEl.className = 'mt-2 p-4 rounded-xl hidden font-medium transition-all text-sm border flex flex-col gap-2';
-        }
-
         function showSolution() {
-            const task = tasks[currentTaskIndex];
+            const task = currentTask;
 
             // Lock input and hide check button
             sqlInput.disabled = true;
@@ -292,7 +322,8 @@
                 sqlInput.classList.add('border-red-500');
             }
 
-            scoreDisplay.textContent = `${correctAnswers} / ${attempts}`;
+            scoreDisplay.textContent = correctAnswers;
+            attemptsDisplay.textContent = attempts;
             nextBtn.classList.remove('hidden');
             nextBtn.focus();
         }
@@ -300,7 +331,7 @@
         function nextTask() {
             sqlInput.classList.remove('border-emerald-500', 'border-red-500');
             sqlInput.classList.add('border-slate-700');
-            renderTask();
+            generateTask();
         }
 
         // Allow executing via Ctrl+Enter
@@ -314,8 +345,7 @@
         });
 
         // Initialize
-        initQueue();
-        renderTask();
+        generateTask();
     </script>
 </body>
 </html>
