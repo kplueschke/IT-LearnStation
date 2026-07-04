@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>SQL Basics - Theorie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#0a0a0a] text-slate-300 min-h-screen flex flex-col font-sans antialiased overflow-x-hidden selection:bg-red-500/30">
+
+    <!-- Matrix Background -->
+    <canvas id="matrix-bg" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 relative z-10 flex-grow">
+
+        <!-- Navigation -->
+        <div class="mb-8">
+            <button onclick="window.location.href='ap.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Zurück zur Übersicht
+            </button>
+        </div>
+
+        <!-- Page Header -->
+        <header class="mb-12">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-red-600 mb-4 font-mono">
+                SQL Basics (Theorie)
+            </h1>
+            <p class="text-slate-400 max-w-3xl leading-relaxed text-lg">
+                SQL (Structured Query Language) ist die Standardsprache zur Kommunikation mit relationalen Datenbanken.
+                Hier findest du alle grundlegenden Befehle und Konzepte als Nachschlagewerk.
+            </p>
+        </header>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+
+            <!-- DML Section (Data Manipulation Language) -->
+            <div class="glass-card rounded-2xl p-8 shadow-xl">
+                <h2 class="text-2xl font-bold text-red-400 mb-6 flex items-center gap-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                    </svg>
+                    Datenmanipulation (DML)
+                </h2>
+
+                <div class="space-y-8">
+                    <!-- SELECT -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-200 mb-2 font-mono">SELECT</h3>
+                        <p class="text-slate-400 mb-3 text-sm leading-relaxed">
+                            Liest Daten aus einer oder mehreren Tabellen.
+                        </p>
+                        <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
+<pre><code><span class="text-purple-400">SELECT</span> spalte1, spalte2
+<span class="text-purple-400">FROM</span> tabellenname;
+
+<span class="text-slate-500">-- Alle Spalten auswählen:</span>
+<span class="text-purple-400">SELECT</span> * <span class="text-purple-400">FROM</span> kunden;</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- INSERT -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-200 mb-2 font-mono">INSERT INTO</h3>
+                        <p class="text-slate-400 mb-3 text-sm leading-relaxed">
+                            Fügt neue Datensätze in eine Tabelle ein.
+                        </p>
+                        <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
+<pre><code><span class="text-purple-400">INSERT INTO</span> tabellenname (spalte1, spalte2)
+<span class="text-purple-400">VALUES</span> (<span class="text-green-400">'wert1'</span>, <span class="text-green-400">'wert2'</span>);</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- UPDATE -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-200 mb-2 font-mono">UPDATE</h3>
+                        <p class="text-slate-400 mb-3 text-sm leading-relaxed">
+                            Ändert bestehende Datensätze in einer Tabelle.
+                        </p>
+                        <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
+<pre><code><span class="text-purple-400">UPDATE</span> tabellenname
+<span class="text-purple-400">SET</span> spalte1 = <span class="text-green-400">'neuer_wert'</span>
+<span class="text-purple-400">WHERE</span> bedingung;</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- DELETE -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-200 mb-2 font-mono">DELETE</h3>
+                        <p class="text-slate-400 mb-3 text-sm leading-relaxed">
+                            Löscht Datensätze aus einer Tabelle.
+                        </p>
+                        <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
+<pre><code><span class="text-purple-400">DELETE FROM</span> tabellenname
+<span class="text-purple-400">WHERE</span> bedingung;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtering & Sorting Section -->
+            <div class="glass-card rounded-2xl p-8 shadow-xl">
+                <h2 class="text-2xl font-bold text-red-400 mb-6 flex items-center gap-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                    </svg>
+                    Filtern & Sortieren
+                </h2>
+
+                <div class="space-y-8">
+                    <!-- WHERE -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-200 mb-2 font-mono">WHERE</h3>
+                        <p class="text-slate-400 mb-3 text-sm leading-relaxed">
+                            Filtert Datensätze, die eine bestimmte Bedingung erfüllen.
+                        </p>
+                        <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
+<pre><code><span class="text-purple-400">SELECT</span> * <span class="text-purple-400">FROM</span> mitarbeiter
+<span class="text-purple-400">WHERE</span> gehalt > <span class="text-blue-400">3000</span> <span class="text-purple-400">AND</span> abteilung = <span class="text-green-400">'IT'</span>;
+
+<span class="text-slate-500">-- Operatoren: =, <>, >, <, >=, <=, LIKE, IN, BETWEEN</span></code></pre>
+                        </div>
+                    </div>
+
+                    <!-- ORDER BY -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-200 mb-2 font-mono">ORDER BY</h3>
+                        <p class="text-slate-400 mb-3 text-sm leading-relaxed">
+                            Sortiert das Resultat nach einer oder mehreren Spalten.
+                        </p>
+                        <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
+<pre><code><span class="text-purple-400">SELECT</span> * <span class="text-purple-400">FROM</span> kunden
+<span class="text-purple-400">ORDER BY</span> nachname <span class="text-purple-400">ASC</span>, vorname <span class="text-purple-400">DESC</span>;
+<span class="text-slate-500">-- ASC: Aufsteigend (Standard), DESC: Absteigend</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aggregation Section -->
+            <div class="glass-card rounded-2xl p-8 shadow-xl">
+                <h2 class="text-2xl font-bold text-red-400 mb-6 flex items-center gap-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    Aggregieren & Gruppieren
+                </h2>
+
+                <div class="space-y-8">
+                    <!-- Aggregatfunktionen -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-200 mb-2 font-mono">Aggregatfunktionen</h3>
+                        <p class="text-slate-400 mb-3 text-sm leading-relaxed">
+                            Führen eine Berechnung an einer Menge von Werten durch und geben einen einzelnen Wert zurück.
+                        </p>
+                        <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
+<pre><code><span class="text-purple-400">COUNT</span>(spalte) <span class="text-slate-500">-- Zählt die Anzahl der Zeilen</span>
+<span class="text-purple-400">SUM</span>(spalte)   <span class="text-slate-500">-- Summiert die Werte</span>
+<span class="text-purple-400">AVG</span>(spalte)   <span class="text-slate-500">-- Berechnet den Durchschnitt</span>
+<span class="text-purple-400">MIN</span>(spalte)   <span class="text-slate-500">-- Findet den kleinsten Wert</span>
+<span class="text-purple-400">MAX</span>(spalte)   <span class="text-slate-500">-- Findet den größten Wert</span></code></pre>
+                        </div>
+                    </div>
+
+                    <!-- GROUP BY & HAVING -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-200 mb-2 font-mono">GROUP BY & HAVING</h3>
+                        <p class="text-slate-400 mb-3 text-sm leading-relaxed">
+                            Fasst Zeilen mit gleichen Werten in Zeilengruppen zusammen. <code class="text-red-400 bg-red-400/10 px-1 rounded">HAVING</code> filtert Gruppen (wie WHERE für Zeilen).
+                        </p>
+                        <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
+<pre><code><span class="text-purple-400">SELECT</span> abteilung_id, <span class="text-purple-400">COUNT</span>(*) <span class="text-purple-400">AS</span> anzahl_mitarbeiter
+<span class="text-purple-400">FROM</span> mitarbeiter
+<span class="text-purple-400">GROUP BY</span> abteilung_id
+<span class="text-purple-400">HAVING COUNT</span>(*) > <span class="text-blue-400">5</span>;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JOINS Section -->
+            <div class="glass-card rounded-2xl p-8 shadow-xl">
+                <h2 class="text-2xl font-bold text-red-400 mb-6 flex items-center gap-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                    </svg>
+                    Tabellen verknüpfen (JOIN)
+                </h2>
+
+                <div class="space-y-8">
+                    <!-- INNER JOIN -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-200 mb-2 font-mono">INNER JOIN</h3>
+                        <p class="text-slate-400 mb-3 text-sm leading-relaxed">
+                            Gibt Datensätze zurück, die in beiden Tabellen übereinstimmende Werte haben.
+                        </p>
+                        <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
+<pre><code><span class="text-purple-400">SELECT</span> m.vorname, a.name
+<span class="text-purple-400">FROM</span> mitarbeiter m
+<span class="text-purple-400">JOIN</span> abteilungen a <span class="text-purple-400">ON</span> m.abteilung_id = a.id;</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- LEFT / RIGHT JOIN -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-200 mb-2 font-mono">LEFT (OUTER) JOIN</h3>
+                        <p class="text-slate-400 mb-3 text-sm leading-relaxed">
+                            Gibt alle Datensätze aus der linken Tabelle und die übereinstimmenden aus der rechten Tabelle zurück (sonst NULL).
+                        </p>
+                        <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
+<pre><code><span class="text-purple-400">SELECT</span> m.vorname, a.name
+<span class="text-purple-400">FROM</span> mitarbeiter m
+<span class="text-purple-400">LEFT JOIN</span> abteilungen a <span class="text-purple-400">ON</span> m.abteilung_id = a.id;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <!-- Scripts -->
+    <script src="matrix.js"></script>
+</body>
+</html>
