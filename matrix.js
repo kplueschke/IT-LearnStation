@@ -349,7 +349,7 @@ function updateScoreDisplay() {
     if (!scoreDisplay) {
         scoreDisplay = document.createElement('div');
         scoreDisplay.id = 'matrix-score-display';
-        scoreDisplay.className = 'fixed top-4 left-4 inline-flex items-center justify-center px-4 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 font-mono text-sm z-50 pointer-events-none transition-opacity duration-300';
+        scoreDisplay.className = 'fixed top-4 left-16 inline-flex items-center justify-center px-4 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 font-mono text-sm z-50 pointer-events-none transition-opacity duration-300';
         document.body.appendChild(scoreDisplay);
     }
 

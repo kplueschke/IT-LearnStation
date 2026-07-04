@@ -14,6 +14,15 @@
     <canvas id="matrix-bg" class="fixed inset-0 z-0"></canvas>
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-orange-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
 
+        <!-- Left Header Controls -->
+    <div class="absolute top-4 left-4 flex gap-4 z-50">
+        <a href="itag.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Zurück">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+        </a>
+    </div>
+
     <!-- Header Controls -->
     <div class="absolute top-4 right-4 flex gap-4 z-50">
         <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
@@ -46,15 +55,7 @@
             </p>
         </div>
 
-        <!-- Back Button -->
-        <div class="mb-8 flex justify-center md:justify-start">
-            <button onclick="window.location.href='itag.html'" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                Zurück zur Übersicht
-            </button>
-        </div>
+
 
         <!-- Analyzer UI Container -->
         <div class="w-full max-w-5xl mx-auto flex flex-col gap-8">
