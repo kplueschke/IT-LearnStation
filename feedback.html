@@ -49,7 +49,7 @@
         <!-- Header -->
         <div class="text-center mb-10">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium uppercase tracking-wider mb-4">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.829 1.58-1.995 1.05-.189 1.964-.445 2.82-.767a5.25 5.25 0 003.35-4.912V8.25a5.25 5.25 0 00-5.25-5.25h-9.5A5.25 5.25 0 002.25 8.25v2.984a5.25 5.25 0 003.35 4.912c.856.322 1.77.578 2.82.767.922.166 1.58 1.012 1.58 1.995v.192"></path></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.829 1.58-1.995 1.05-.189 1.964-.445 2.82-.767a5.25 5.25 0 003.35-4.912V8.25a5.25 5.25 0 00-5.25-5.25c-2.898 0-5.25 2.352-5.25 5.25v2.984a5.25 5.25 0 003.35 4.912c.856.322 1.77.578 2.82.767.922.166 1.58 1.012 1.58 1.995v.192"></path></svg>
                 <span class="font-mono">Feedback & Ideen</span>
             </div>
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">Hilf mit, die Learnstation zu verbessern</h1>
@@ -57,48 +57,15 @@
         </div>
 
         <!-- Feedback Form -->
-        <div class="glass-card glass-card-hover-blue rounded-2xl p-8 relative overflow-hidden">
-            <!-- Formspree Endpoint: REPLACE 'YOUR_FORM_ID' WITH ACTUAL ID -->
-            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="space-y-6">
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-slate-400 mb-2 font-mono">Name (Optional)</label>
-                        <input type="text" id="name" name="name" class="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all font-mono text-sm" placeholder="Dein Name">
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-slate-400 mb-2 font-mono">E-Mail (Optional)</label>
-                        <input type="email" id="email" name="email" class="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all font-mono text-sm" placeholder="Für Rückfragen">
-                    </div>
-                </div>
-
-                <div>
-                    <label for="type" class="block text-sm font-medium text-slate-400 mb-2 font-mono">Art des Feedbacks</label>
-                    <div class="relative">
-                        <select id="type" name="type" required class="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all font-mono text-sm appearance-none cursor-pointer">
-                            <option value="Feature Request">💡 Neue Idee / Tool-Vorschlag</option>
-                            <option value="Bug Report">🐛 Fehler melden</option>
-                            <option value="General Feedback">💬 Allgemeines Feedback</option>
-                            <option value="Other">❓ Sonstiges</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <label for="message" class="block text-sm font-medium text-slate-400 mb-2 font-mono">Deine Nachricht</label>
-                    <textarea id="message" name="message" rows="5" required class="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all font-mono text-sm resize-y" placeholder="Beschreibe deine Idee oder dein Anliegen..."></textarea>
-                </div>
-
-                <div class="pt-2">
-                    <button type="submit" class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-6 rounded-xl transition-all hover:scale-[1.02] shadow-lg shadow-blue-900/20 cursor-pointer">
-                        <span>Nachricht senden</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"></path></svg>
-                    </button>
-                </div>
-            </form>
+        <div class="glass-card glass-card-hover-blue rounded-2xl p-8 relative overflow-hidden text-center">
+            <p class="text-slate-300 mb-6 font-mono text-sm leading-relaxed">
+                Wir freuen uns über dein Feedback! Um die Learnstation stetig zu verbessern, nutzen wir Google Forms.
+                Klicke auf den untenstehenden Button, um uns Fehler zu melden, neue Tools vorzuschlagen oder allgemeines Feedback zu hinterlassen.
+            </p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6hIrpXNLYCkJtnc9NRqPZGXWuLej5o-fqFKndF3USXjyPEg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-6 rounded-xl transition-all hover:scale-[1.02] shadow-lg shadow-blue-900/20 cursor-pointer">
+                <span>Zum Feedback-Formular</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg>
+            </a>
         </div>
     </div>
 
