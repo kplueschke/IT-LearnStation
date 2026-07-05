@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 <body class="bg-[#0a0a0a] text-slate-300 min-h-screen flex flex-col font-sans antialiased overflow-x-hidden selection:bg-red-500/30">
 
@@ -51,6 +52,16 @@
     <!-- Main Content Container -->
     <div class="container mx-auto px-4 py-8 relative z-10 flex-grow">
 
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumb-nav text-sm text-slate-400 font-mono mb-8 flex items-center gap-2 overflow-x-auto whitespace-nowrap">
+            <a href="index.html" class="hover:text-white transition-colors">Home</a>
+            <span class="text-slate-600">/</span>
+            <a href="ap.html" class="hover:text-white transition-colors">AP</a>
+            <span class="text-slate-600">/</span>
+            <span class="text-slate-200">SQL Basics (Theorie)</span>
+        </nav>
+
+
         <!-- Navigation -->
 
 
@@ -85,11 +96,11 @@
                             Liest Daten aus einer oder mehreren Tabellen.
                         </p>
                         <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
-<pre><code><span class="text-purple-400">SELECT</span> spalte1, spalte2
-<span class="text-purple-400">FROM</span> tabellenname;
+<pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-sql">SELECT spalte1, spalte2
+FROM tabellenname;
 
-<span class="text-slate-500">-- Alle Spalten auswählen:</span>
-<span class="text-purple-400">SELECT</span> * <span class="text-purple-400">FROM</span> kunden;</code></pre>
+-- Alle Spalten auswählen:
+SELECT * FROM kunden;</code></pre>
                         </div>
                     </div>
 
@@ -100,8 +111,8 @@
                             Fügt neue Datensätze in eine Tabelle ein.
                         </p>
                         <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
-<pre><code><span class="text-purple-400">INSERT INTO</span> tabellenname (spalte1, spalte2)
-<span class="text-purple-400">VALUES</span> (<span class="text-green-400">'wert1'</span>, <span class="text-green-400">'wert2'</span>);</code></pre>
+<pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-sql">INSERT INTO tabellenname (spalte1, spalte2)
+VALUES ('wert1', 'wert2');</code></pre>
                         </div>
                     </div>
 
@@ -112,9 +123,9 @@
                             Ändert bestehende Datensätze in einer Tabelle.
                         </p>
                         <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
-<pre><code><span class="text-purple-400">UPDATE</span> tabellenname
-<span class="text-purple-400">SET</span> spalte1 = <span class="text-green-400">'neuer_wert'</span>
-<span class="text-purple-400">WHERE</span> bedingung;</code></pre>
+<pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-sql">UPDATE tabellenname
+SET spalte1 = 'neuer_wert'
+WHERE bedingung;</code></pre>
                         </div>
                     </div>
 
@@ -125,8 +136,8 @@
                             Löscht Datensätze aus einer Tabelle.
                         </p>
                         <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
-<pre><code><span class="text-purple-400">DELETE FROM</span> tabellenname
-<span class="text-purple-400">WHERE</span> bedingung;</code></pre>
+<pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-sql">DELETE FROM tabellenname
+WHERE bedingung;</code></pre>
                         </div>
                     </div>
                 </div>
@@ -149,10 +160,10 @@
                             Filtert Datensätze, die eine bestimmte Bedingung erfüllen.
                         </p>
                         <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
-<pre><code><span class="text-purple-400">SELECT</span> * <span class="text-purple-400">FROM</span> mitarbeiter
-<span class="text-purple-400">WHERE</span> gehalt > <span class="text-blue-400">3000</span> <span class="text-purple-400">AND</span> abteilung = <span class="text-green-400">'IT'</span>;
+<pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-sql">SELECT * FROM mitarbeiter
+WHERE gehalt > 3000 AND abteilung = 'IT';
 
-<span class="text-slate-500">-- Operatoren: =, <>, >, <, >=, <=, LIKE, IN, BETWEEN</span></code></pre>
+-- Operatoren: =, <>, >, <, >=, <=, LIKE, IN, BETWEEN</code></pre>
                         </div>
                     </div>
 
@@ -163,9 +174,9 @@
                             Sortiert das Resultat nach einer oder mehreren Spalten.
                         </p>
                         <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
-<pre><code><span class="text-purple-400">SELECT</span> * <span class="text-purple-400">FROM</span> kunden
-<span class="text-purple-400">ORDER BY</span> nachname <span class="text-purple-400">ASC</span>, vorname <span class="text-purple-400">DESC</span>;
-<span class="text-slate-500">-- ASC: Aufsteigend (Standard), DESC: Absteigend</span></code></pre>
+<pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-sql">SELECT * FROM kunden
+ORDER BY nachname ASC, vorname DESC;
+-- ASC: Aufsteigend (Standard), DESC: Absteigend</code></pre>
                         </div>
                     </div>
                 </div>
@@ -188,11 +199,11 @@
                             Führen eine Berechnung an einer Menge von Werten durch und geben einen einzelnen Wert zurück.
                         </p>
                         <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
-<pre><code><span class="text-purple-400">COUNT</span>(spalte) <span class="text-slate-500">-- Zählt die Anzahl der Zeilen</span>
-<span class="text-purple-400">SUM</span>(spalte)   <span class="text-slate-500">-- Summiert die Werte</span>
-<span class="text-purple-400">AVG</span>(spalte)   <span class="text-slate-500">-- Berechnet den Durchschnitt</span>
-<span class="text-purple-400">MIN</span>(spalte)   <span class="text-slate-500">-- Findet den kleinsten Wert</span>
-<span class="text-purple-400">MAX</span>(spalte)   <span class="text-slate-500">-- Findet den größten Wert</span></code></pre>
+<pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-sql">COUNT(spalte) -- Zählt die Anzahl der Zeilen
+SUM(spalte)   -- Summiert die Werte
+AVG(spalte)   -- Berechnet den Durchschnitt
+MIN(spalte)   -- Findet den kleinsten Wert
+MAX(spalte)   -- Findet den größten Wert</code></pre>
                         </div>
                     </div>
 
@@ -203,10 +214,10 @@
                             Fasst Zeilen mit gleichen Werten in Zeilengruppen zusammen. <code class="text-red-400 bg-red-400/10 px-1 rounded">HAVING</code> filtert Gruppen (wie WHERE für Zeilen).
                         </p>
                         <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
-<pre><code><span class="text-purple-400">SELECT</span> abteilung_id, <span class="text-purple-400">COUNT</span>(*) <span class="text-purple-400">AS</span> anzahl_mitarbeiter
-<span class="text-purple-400">FROM</span> mitarbeiter
-<span class="text-purple-400">GROUP BY</span> abteilung_id
-<span class="text-purple-400">HAVING COUNT</span>(*) > <span class="text-blue-400">5</span>;</code></pre>
+<pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-sql">SELECT abteilung_id, COUNT(*) AS anzahl_mitarbeiter
+FROM mitarbeiter
+GROUP BY abteilung_id
+HAVING COUNT(*) > 5;</code></pre>
                         </div>
                     </div>
                 </div>
@@ -229,9 +240,9 @@
                             Gibt Datensätze zurück, die in beiden Tabellen übereinstimmende Werte haben.
                         </p>
                         <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
-<pre><code><span class="text-purple-400">SELECT</span> m.vorname, a.name
-<span class="text-purple-400">FROM</span> mitarbeiter m
-<span class="text-purple-400">JOIN</span> abteilungen a <span class="text-purple-400">ON</span> m.abteilung_id = a.id;</code></pre>
+<pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-sql">SELECT m.vorname, a.name
+FROM mitarbeiter m
+JOIN abteilungen a ON m.abteilung_id = a.id;</code></pre>
                         </div>
                     </div>
 
@@ -242,9 +253,9 @@
                             Gibt alle Datensätze aus der linken Tabelle und die übereinstimmenden aus der rechten Tabelle zurück (sonst NULL).
                         </p>
                         <div class="bg-[#0f172a] rounded-lg p-4 font-mono text-sm border border-slate-700/50 overflow-x-auto shadow-inner">
-<pre><code><span class="text-purple-400">SELECT</span> m.vorname, a.name
-<span class="text-purple-400">FROM</span> mitarbeiter m
-<span class="text-purple-400">LEFT JOIN</span> abteilungen a <span class="text-purple-400">ON</span> m.abteilung_id = a.id;</code></pre>
+<pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-sql">SELECT m.vorname, a.name
+FROM mitarbeiter m
+LEFT JOIN abteilungen a ON m.abteilung_id = a.id;</code></pre>
                         </div>
                     </div>
                 </div>
@@ -260,5 +271,36 @@
 
     <!-- Scripts -->
     <script src="matrix.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('pre').forEach((pre) => {
+        if (!pre.querySelector('code')) return;
+
+        pre.style.position = 'relative';
+        const btn = document.createElement('button');
+        btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>';
+        btn.className = 'absolute top-2 right-2 p-2 bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 rounded-md transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100';
+        btn.title = 'Code kopieren';
+
+        pre.classList.add('group');
+        pre.appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            const code = pre.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                setTimeout(() => btn.innerHTML = originalHtml, 2000);
+            });
+        });
+    });
+});
+</script>
+
 </body>
 </html>
