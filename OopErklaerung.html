@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col justify-between">
 
@@ -53,6 +54,16 @@
     <!-- Main Content Container -->
     <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
 
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumb-nav text-sm text-slate-400 font-mono mb-8 flex items-center gap-2 overflow-x-auto whitespace-nowrap">
+            <a href="index.html" class="hover:text-white transition-colors">Home</a>
+            <span class="text-slate-600">/</span>
+            <a href="ap.html" class="hover:text-white transition-colors">AP</a>
+            <span class="text-slate-600">/</span>
+            <span class="text-slate-200">OOP Grundlagen</span>
+        </nav>
+
+
         <!-- Header -->
         <div class="text-center mb-10">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium uppercase tracking-wider mb-4">
@@ -84,20 +95,20 @@
                     <p class="text-slate-400 text-sm leading-relaxed mb-4">
                         Eine <strong>Klasse</strong> ist der Bauplan oder die Schablone, die Eigenschaften (Attribute) und Verhalten (Methoden) definiert. Ein <strong>Objekt</strong> (Instanz) ist die konkrete Umsetzung dieses Bauplans im Speicher.
                     </p>
-                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code><span class="text-slate-500">// Die Klasse (Bauplan)</span>
-<span class="text-purple-400">class</span> <span class="text-blue-400">Auto</span>
+                    <pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-csharp">// Die Klasse (Bauplan)
+class Auto
 {
-    <span class="text-purple-400">public</span> <span class="text-purple-400">string</span> Marke; <span class="text-slate-500">// Attribut</span>
-    <span class="text-purple-400">public</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Hupen</span>()  <span class="text-slate-500">// Methode</span>
+    public string Marke; // Attribut
+    public void Hupen()  // Methode
     {
-        Console.<span class="text-blue-400">WriteLine</span>(<span class="text-green-400">"Tuut!"</span>);
+        Console.WriteLine("Tuut!");
     }
 }
 
-<span class="text-slate-500">// Die Nutzung (Objekte/Instanzen)</span>
-<span class="text-blue-400">Auto</span> meinAuto = <span class="text-purple-400">new</span> <span class="text-blue-400">Auto</span>();
-meinAuto.Marke = <span class="text-green-400">"VW"</span>;
-meinAuto.<span class="text-blue-400">Hupen</span>();</code></pre>
+// Die Nutzung (Objekte/Instanzen)
+Auto meinAuto = new Auto();
+meinAuto.Marke = "VW";
+meinAuto.Hupen();</code></pre>
                 </div>
             </div>
 
@@ -114,21 +125,21 @@ meinAuto.<span class="text-blue-400">Hupen</span>();</code></pre>
                         Daten (Attribute) werden vor unberechtigtem Zugriff geschützt. Der Zugriff erfolgt nur über definierte Schnittstellen (Methoden oder in C# Properties/Getter und Setter). Dies schützt den internen Zustand des Objekts.
                         <strong>Sichtbarkeiten (Access Modifier):</strong> <code>public</code> (jeder), <code>private</code> (nur die Klasse selbst), <code>protected</code> (Klasse und abgeleitete Klassen).
                     </p>
-                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code><span class="text-purple-400">class</span> <span class="text-blue-400">Bankkonto</span>
+                    <pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-csharp">class Bankkonto
 {
-    <span class="text-slate-500">// private: Von außen nicht direkt änderbar</span>
-    <span class="text-purple-400">private</span> <span class="text-purple-400">decimal</span> kontostand;
+    // private: Von außen nicht direkt änderbar
+    private decimal kontostand;
 
-    <span class="text-slate-500">// public Property: Kontrollierter Zugriff</span>
-    <span class="text-purple-400">public</span> <span class="text-purple-400">decimal</span> Kontostand
+    // public Property: Kontrollierter Zugriff
+    public decimal Kontostand
     {
-        <span class="text-purple-400">get</span> { <span class="text-purple-400">return</span> kontostand; }
-        <span class="text-purple-400">private</span> <span class="text-purple-400">set</span> { kontostand = value; } <span class="text-slate-500">// Setzen nur intern</span>
+        get { return kontostand; }
+        private set { kontostand = value; } // Setzen nur intern
     }
 
-    <span class="text-purple-400">public</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Einzahlen</span>(<span class="text-purple-400">decimal</span> betrag)
+    public void Einzahlen(decimal betrag)
     {
-        <span class="text-purple-400">if</span>(betrag > <span class="text-amber-400">0</span>) kontostand += betrag;
+        if(betrag > 0) kontostand += betrag;
     }
 }</code></pre>
                 </div>
@@ -146,20 +157,20 @@ meinAuto.<span class="text-blue-400">Hupen</span>();</code></pre>
                     <p class="text-slate-400 text-sm leading-relaxed mb-4">
                         Eine neue Klasse (Kindklasse) übernimmt Attribute und Methoden einer existierenden Klasse (Elternklasse/Basisklasse). Das fördert die Wiederverwendbarkeit von Code ("Is-A" Beziehung).
                     </p>
-                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code><span class="text-purple-400">class</span> <span class="text-blue-400">Tier</span> <span class="text-slate-500">// Basisklasse</span>
+                    <pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-csharp">class Tier // Basisklasse
 {
-    <span class="text-purple-400">public</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Atmen</span>() { Console.<span class="text-blue-400">WriteLine</span>(<span class="text-green-400">"Atmet..."</span>); }
+    public void Atmen() { Console.WriteLine("Atmet..."); }
 }
 
-<span class="text-slate-500">// Hund erbt von Tier (nutzt den Doppelpunkt :)</span>
-<span class="text-purple-400">class</span> <span class="text-blue-400">Hund</span> : <span class="text-blue-400">Tier</span>
+// Hund erbt von Tier (nutzt den Doppelpunkt :)
+class Hund : Tier
 {
-    <span class="text-purple-400">public</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Bellen</span>() { Console.<span class="text-blue-400">WriteLine</span>(<span class="text-green-400">"Wuff!"</span>); }
+    public void Bellen() { Console.WriteLine("Wuff!"); }
 }
 
-<span class="text-blue-400">Hund</span> meinHund = <span class="text-purple-400">new</span> <span class="text-blue-400">Hund</span>();
-meinHund.<span class="text-blue-400">Atmen</span>(); <span class="text-slate-500">// Geerbt von Tier</span>
-meinHund.<span class="text-blue-400">Bellen</span>(); <span class="text-slate-500">// Eigene Methode</span></code></pre>
+Hund meinHund = new Hund();
+meinHund.Atmen(); // Geerbt von Tier
+meinHund.Bellen(); // Eigene Methode</code></pre>
                 </div>
             </div>
 
@@ -175,20 +186,20 @@ meinHund.<span class="text-blue-400">Bellen</span>(); <span class="text-slate-50
                     <p class="text-slate-400 text-sm leading-relaxed mb-4">
                         Objekte verschiedener Klassen können über eine gemeinsame Basisklasse oder ein Interface auf die gleiche Weise angesprochen werden. Eine geerbte Methode kann von der Kindklasse <strong>überschrieben</strong> werden, um ein eigenes Verhalten zu definieren (Overriding).
                     </p>
-                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code><span class="text-purple-400">class</span> <span class="text-blue-400">Figur</span>
+                    <pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-csharp">class Figur
 {
-    <span class="text-slate-500">// 'virtual' erlaubt das Überschreiben</span>
-    <span class="text-purple-400">public</span> <span class="text-purple-400">virtual</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Zeichnen</span>() { Console.<span class="text-blue-400">WriteLine</span>(<span class="text-green-400">"Zeichne Figur"</span>); }
+    // 'virtual' erlaubt das Überschreiben
+    public virtual void Zeichnen() { Console.WriteLine("Zeichne Figur"); }
 }
 
-<span class="text-purple-400">class</span> <span class="text-blue-400">Kreis</span> : <span class="text-blue-400">Figur</span>
+class Kreis : Figur
 {
-    <span class="text-slate-500">// 'override' ersetzt das Verhalten</span>
-    <span class="text-purple-400">public</span> <span class="text-purple-400">override</span> <span class="text-purple-400">void</span> <span class="text-blue-400">Zeichnen</span>() { Console.<span class="text-blue-400">WriteLine</span>(<span class="text-green-400">"Zeichne Kreis"</span>); }
+    // 'override' ersetzt das Verhalten
+    public override void Zeichnen() { Console.WriteLine("Zeichne Kreis"); }
 }
 
-<span class="text-blue-400">Figur</span> f = <span class="text-purple-400">new</span> <span class="text-blue-400">Kreis</span>();
-f.<span class="text-blue-400">Zeichnen</span>(); <span class="text-slate-500">// Ruft "Zeichne Kreis" auf!</span></code></pre>
+Figur f = new Kreis();
+f.Zeichnen(); // Ruft "Zeichne Kreis" auf!</code></pre>
                 </div>
             </div>
 
@@ -204,24 +215,24 @@ f.<span class="text-blue-400">Zeichnen</span>(); <span class="text-slate-500">//
                     <p class="text-slate-400 text-sm leading-relaxed mb-4">
                         Ein <strong>struct</strong> (Werttyp) wird im Stack gespeichert. Bei Zuweisung wird eine Kopie erstellt. Eine <strong>class</strong> (Referenztyp) wird im Heap gespeichert. Bei Zuweisung wird nur der Verweis (Pointer) kopiert. Structs eignen sich für kleine Datenstrukturen (z.B. Koordinaten, Vektoren), Klassen für komplexe Objekte.
                     </p>
-                    <pre class="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-slate-300 border border-slate-800"><code><span class="text-purple-400">struct</span> <span class="text-blue-400">Punkt</span>
+                    <pre class="bg-slate-900/80 p-4 rounded-xl overflow-x-auto text-sm font-mono border border-slate-700/50 my-4 shadow-lg"><code class="language-csharp">struct Punkt
 {
-    <span class="text-purple-400">public</span> <span class="text-purple-400">int</span> X;
-    <span class="text-purple-400">public</span> <span class="text-purple-400">int</span> Y;
+    public int X;
+    public int Y;
 }
 
-<span class="text-blue-400">Punkt</span> p1 = <span class="text-purple-400">new</span> <span class="text-blue-400">Punkt</span> { X = <span class="text-amber-400">10</span>, Y = <span class="text-amber-400">20</span> };
-<span class="text-blue-400">Punkt</span> p2 = p1; <span class="text-slate-500">// p2 ist eine Kopie</span>
-p2.X = <span class="text-amber-400">50</span>;     <span class="text-slate-500">// p1.X bleibt 10 (Werttyp!)</span>
+Punkt p1 = new Punkt { X = 10, Y = 20 };
+Punkt p2 = p1; // p2 ist eine Kopie
+p2.X = 50;     // p1.X bleibt 10 (Werttyp!)
 
-<span class="text-purple-400">class</span> <span class="text-blue-400">Person</span>
+class Person
 {
-    <span class="text-purple-400">public</span> <span class="text-purple-400">string</span> Name;
+    public string Name;
 }
 
-<span class="text-blue-400">Person</span> pers1 = <span class="text-purple-400">new</span> <span class="text-blue-400">Person</span> { Name = <span class="text-green-400">"Alice"</span> };
-<span class="text-blue-400">Person</span> pers2 = pers1; <span class="text-slate-500">// pers2 zeigt auf dasselbe Objekt</span>
-pers2.Name = <span class="text-green-400">"Bob"</span>;   <span class="text-slate-500">// pers1.Name ist jetzt auch "Bob" (Referenztyp!)</span></code></pre>
+Person pers1 = new Person { Name = "Alice" };
+Person pers2 = pers1; // pers2 zeigt auf dasselbe Objekt
+pers2.Name = "Bob";   // pers1.Name ist jetzt auch "Bob" (Referenztyp!)</code></pre>
                 </div>
             </div>
 
@@ -235,6 +246,37 @@ pers2.Name = <span class="text-green-400">"Bob"</span>;   <span class="text-slat
     </footer>
 
     <script src="matrix.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('pre').forEach((pre) => {
+        if (!pre.querySelector('code')) return;
+
+        pre.style.position = 'relative';
+        const btn = document.createElement('button');
+        btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>';
+        btn.className = 'absolute top-2 right-2 p-2 bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 rounded-md transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100';
+        btn.title = 'Code kopieren';
+
+        pre.classList.add('group');
+        pre.appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            const code = pre.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                setTimeout(() => btn.innerHTML = originalHtml, 2000);
+            });
+        });
+    });
+});
+</script>
 
 </body>
 </html>
