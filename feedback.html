@@ -69,15 +69,55 @@
         </div>
 
         <!-- Feedback Form -->
-        <div class="glass-card glass-card-hover-blue rounded-2xl p-8 relative overflow-hidden text-center">
-            <p class="text-slate-300 mb-6 font-mono text-sm leading-relaxed">
-                Ich freue mich über dein Feedback! Um die Learnstation stetig zu verbessern, nutze ich Google Forms.
-                Klicke auf den untenstehenden Button, um mir Fehler zu melden, neue Tools vorzuschlagen oder allgemeines Feedback zu hinterlassen.
+        <div class="glass-card glass-card-hover-blue rounded-2xl p-8 relative overflow-hidden text-left" id="feedback-container">
+            <p class="text-slate-300 mb-6 font-mono text-sm leading-relaxed text-center">
+                Ich freue mich über dein Feedback! Fülle das untenstehende Formular aus, um mir Fehler zu melden, neue Tools vorzuschlagen oder allgemeines Feedback zu hinterlassen.
             </p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6hIrpXNLYCkJtnc9NRqPZGXWuLej5o-fqFKndF3USXjyPEg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-6 rounded-xl transition-all hover:scale-[1.02] shadow-lg shadow-blue-900/20 cursor-pointer">
-                <span>Zum Feedback-Formular</span>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg>
-            </a>
+            <form id="feedback-form" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-slate-400 mb-1">Name (optional)</label>
+                        <input type="text" id="name" name="name" class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all font-mono text-sm">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-slate-400 mb-1">E-Mail (optional)</label>
+                        <input type="email" id="email" name="email" class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all font-mono text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label for="type" class="block text-sm font-medium text-slate-400 mb-1">Feedback-Typ</label>
+                    <div class="relative">
+                        <select id="type" name="type" required class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all font-mono text-sm appearance-none">
+                            <option value="bug">Fehler melden</option>
+                            <option value="idea">Neue Idee / Tool</option>
+                            <option value="general">Allgemeines Feedback</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label for="message" class="block text-sm font-medium text-slate-400 mb-1">Nachricht</label>
+                    <textarea id="message" name="message" required rows="4" class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all font-mono text-sm resize-none"></textarea>
+                </div>
+                <div class="pt-4 text-center">
+                    <button type="submit" class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-8 rounded-xl transition-all hover:scale-[1.02] shadow-lg shadow-blue-900/20 cursor-pointer w-full md:w-auto whitespace-nowrap">
+                        <span>Feedback absenden</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
+                    </button>
+                </div>
+            </form>
+            <div id="success-message" class="hidden text-center py-8">
+                <div class="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-blue-500/30">
+                    <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Fast geschafft!</h3>
+                <p class="text-slate-400 mb-4">Dein E-Mail-Programm sollte sich nun geöffnet haben. Bitte sende die E-Mail von dort ab.</p>
+                <button onclick="window.location.href='index.html'" class="mt-6 inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-medium py-2 px-6 rounded-xl transition-all border border-slate-700 hover:border-slate-600 whitespace-nowrap">
+                    Zurück zur Startseite
+                </button>
+            </div>
         </div>
     </div>
 
@@ -87,5 +127,32 @@
     </footer>
 
     <script src="matrix.js"></script>
+    <script>
+        document.getElementById('feedback-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value || 'Anonym';
+            const email = document.getElementById('email').value;
+            const typeSelect = document.getElementById('type');
+            const typeText = typeSelect.options[typeSelect.selectedIndex].text;
+            const message = document.getElementById('message').value;
+
+            const subject = encodeURIComponent(`Learnstation Feedback [${typeText}]`);
+            let bodyText = `Nachricht:\n${message}\n\n---\nVon: ${name}`;
+            if (email) {
+                bodyText += `\nE-Mail: ${email}`;
+            }
+            const body = encodeURIComponent(bodyText);
+
+            // Öffne das Standard-E-Mail-Programm des Nutzers
+            window.location.href = `mailto:admin@learnstation.local?subject=${subject}&body=${body}`;
+
+            // Verstecke das Formular und zeige die Info-Meldung
+            this.classList.add('hidden');
+            this.previousElementSibling.classList.add('hidden');
+
+            document.getElementById('success-message').classList.remove('hidden');
+        });
+    </script>
 </body>
 </html>
