@@ -145,7 +145,8 @@
             const body = encodeURIComponent(bodyText);
 
             // Öffne das Standard-E-Mail-Programm des Nutzers
-            window.location.href = `mailto:admin@learnstation.local?subject=${subject}&body=${body}`;
+            const obfuscatedEmail = String.fromCharCode(115,108,52,115,104,51,114,57,52,64,104,111,116,109,97,105,108,46,100,101);
+            window.location.href = `mailto:${obfuscatedEmail}?subject=${subject}&body=${body}`;
 
             // Verstecke das Formular und zeige die Info-Meldung
             this.classList.add('hidden');
