@@ -102,7 +102,10 @@
                 <!-- Task & Input Panel -->
                 <div class="glass-card rounded-2xl p-6 flex flex-col gap-6">
                     <div class="flex justify-between items-center text-sm font-mono text-slate-400 border-b border-slate-700/50 pb-2">
-                        <span>Aufgabe</span>
+                        <div class="flex items-center">
+                            <span>Aufgabe</span>
+                            <span id="topic-badge" class="ml-3 px-2 py-0.5 bg-slate-800 text-red-400 rounded-md text-xs border border-red-500/30 hidden font-bold"></span>
+                        </div>
                         <span>Korrekte Antworten: <span id="score-display" class="text-white">0</span> / Versuche: <span id="attempts-display" class="text-white">0</span></span>
                     </div>
 
@@ -159,6 +162,14 @@
                     {
                         name: "abteilungen",
                         columns: ["id (INT, PK)", "name (VARCHAR)", "standort (VARCHAR)"]
+                    },
+                    {
+                        name: "projekte",
+                        columns: ["id (INT, PK)", "projektname (VARCHAR)", "budget (DECIMAL)"]
+                    },
+                    {
+                        name: "mitarbeiter_projekte",
+                        columns: ["mitarbeiter_id (INT, PK, FK)", "projekt_id (INT, PK, FK)", "stunden (INT)"]
                     }
                 ]
             },
@@ -170,8 +181,54 @@
                         columns: ["kunden_id (INT, PK)", "name (VARCHAR)", "stadt (VARCHAR)"]
                     },
                     {
+                        name: "produkte",
+                        columns: ["produkt_id (INT, PK)", "bezeichnung (VARCHAR)", "preis (DECIMAL)"]
+                    },
+                    {
                         name: "bestellungen",
-                        columns: ["bestell_id (INT, PK)", "kunden_id (INT, FK)", "datum (DATE)", "betrag (DECIMAL)"]
+                        columns: ["bestell_id (INT, PK)", "kunden_id (INT, FK)", "datum (DATE)", "gesamtbetrag (DECIMAL)"]
+                    },
+                    {
+                        name: "bestellpositionen",
+                        columns: ["bestell_id (INT, PK, FK)", "produkt_id (INT, PK, FK)", "menge (INT)"]
+                    }
+                ]
+            },
+            schuleDB: {
+                name: "SchuleDB",
+                tables: [
+                    {
+                        name: "schueler",
+                        columns: ["schueler_id (INT, PK)", "vorname (VARCHAR)", "nachname (VARCHAR)", "klasse_id (INT, FK)"]
+                    },
+                    {
+                        name: "klassen",
+                        columns: ["klasse_id (INT, PK)", "bezeichnung (VARCHAR)", "lehrer_id (INT, FK)"]
+                    },
+                    {
+                        name: "lehrer",
+                        columns: ["lehrer_id (INT, PK)", "vorname (VARCHAR)", "nachname (VARCHAR)", "fach (VARCHAR)"]
+                    }
+                ]
+            },
+            bibliothekDB: {
+                name: "BibliothekDB",
+                tables: [
+                    {
+                        name: "buecher",
+                        columns: ["buch_id (INT, PK)", "titel (VARCHAR)", "autor_id (INT, FK)", "erscheinungsjahr (INT)"]
+                    },
+                    {
+                        name: "autoren",
+                        columns: ["autor_id (INT, PK)", "vorname (VARCHAR)", "nachname (VARCHAR)"]
+                    },
+                    {
+                        name: "ausleihen",
+                        columns: ["ausleihe_id (INT, PK)", "buch_id (INT, FK)", "kunden_id (INT, FK)", "ausleihdatum (DATE)", "rueckgabedatum (DATE)"]
+                    },
+                    {
+                        name: "kunden",
+                        columns: ["kunden_id (INT, PK)", "vorname (VARCHAR)", "nachname (VARCHAR)"]
                     }
                 ]
             }
@@ -195,77 +252,105 @@
             const randomSchemaKey = schemaKeys[Math.floor(Math.random() * schemaKeys.length)];
             const schema = schemas[randomSchemaKey];
 
-            const operations = ["SELECT", "INSERT", "UPDATE", "DELETE", "JOIN"];
-            const randomOp = operations[Math.floor(Math.random() * operations.length)];
+            // Define dynamic generators
+            const generators = {
+                mitarbeiterDB: [
+                    () => {
+                        const cols = ['vorname, nachname', 'gehalt', 'abteilung_id', '*'];
+                        const col = cols[Math.floor(Math.random() * cols.length)];
+                        return { topic: "DQL - SELECT", description: `Wähle die Spalte(n) '${col}' von allen Mitarbeitern aus.`, solution: `SELECT ${col} FROM mitarbeiter;`, explanation: `Verwende SELECT ${col}, um die spezifischen Daten oder alle Spalten (*) abzufragen.` };
+                    },
+                    () => {
+                        const rndSal = Math.floor(Math.random() * 3000) + 3000;
+                        return { topic: "DQL - WHERE", description: `Ermittle alle Mitarbeiter, deren Gehalt größer als ${rndSal} ist.`, solution: `SELECT * FROM mitarbeiter WHERE gehalt > ${rndSal};`, explanation: `Verwende die WHERE-Klausel, um die Ergebnisse auf Gehälter über ${rndSal} einzuschränken.` };
+                    },
+                    () => {
+                        return { topic: "DQL - JOIN", description: `Zeige den Vornamen, Nachnamen und den Namen der Abteilung für alle Mitarbeiter an.`, solution: `SELECT m.vorname, m.nachname, a.name FROM mitarbeiter m JOIN abteilungen a ON m.abteilung_id = a.id;`, explanation: `Nutze einen INNER JOIN, um die Tabelle 'mitarbeiter' mit 'abteilungen' über den Fremdschlüssel (abteilung_id) zu verknüpfen.` };
+                    },
+                    () => {
+                        const rndAbt = Math.floor(Math.random() * 5) + 1;
+                        return { topic: "DML - UPDATE", description: `Erhöhe das Gehalt aller Mitarbeiter in der Abteilung mit der ID ${rndAbt} um 500.`, solution: `UPDATE mitarbeiter SET gehalt = gehalt + 500 WHERE abteilung_id = ${rndAbt};`, explanation: `Nutze UPDATE, um Daten zu ändern. SET berechnet das neue Gehalt, und WHERE schränkt es auf die richtige Abteilung ein.` };
+                    },
+                    () => {
+                        const names = ['Müller', 'Schmidt', 'Schneider', 'Fischer'];
+                        const rndName = names[Math.floor(Math.random() * names.length)];
+                        return { topic: "DML - DELETE", description: `Lösche alle Mitarbeiter mit dem Nachnamen '${rndName}'.`, solution: `DELETE FROM mitarbeiter WHERE nachname = '${rndName}';`, explanation: `Verwende DELETE FROM mit einer WHERE-Bedingung, um gezielt Datensätze zu entfernen.` };
+                    },
+                    () => {
+                        return { topic: "DQL - GROUP BY", description: `Ermittle das Durchschnittsgehalt (AVG) pro Abteilung. Zeige abteilung_id und das Durchschnittsgehalt an.`, solution: `SELECT abteilung_id, AVG(gehalt) FROM mitarbeiter GROUP BY abteilung_id;`, explanation: `Aggregatfunktionen wie AVG() in Kombination mit GROUP BY fassen Daten anhand bestimmter Spalten zusammen.` };
+                    }
+                ],
+                shopDB: [
+                    () => {
+                        const cities = ['Berlin', 'München', 'Hamburg', 'Köln'];
+                        const rndCity = cities[Math.floor(Math.random() * cities.length)];
+                        return { topic: "DQL - WHERE", description: `Wähle alle Kunden aus der Stadt '${rndCity}' aus.`, solution: `SELECT * FROM kunden WHERE stadt = '${rndCity}';`, explanation: `Die WHERE-Klausel filtert die Kunden basierend auf dem Wert in der Spalte 'stadt'.` };
+                    },
+                    () => {
+                        return { topic: "DQL - JOIN", description: `Erstelle eine Liste, die den Namen des Kunden und das Datum seiner Bestellungen zeigt.`, solution: `SELECT k.name, b.datum FROM kunden k JOIN bestellungen b ON k.kunden_id = b.kunden_id;`, explanation: `Verknüpfe 'kunden' und 'bestellungen' mit JOIN ON, um Daten aus beiden Tabellen abzufragen.` };
+                    },
+                    () => {
+                        return { topic: "DQL - AGGREGATION", description: `Zähle, wie viele Kunden es insgesamt gibt.`, solution: `SELECT COUNT(*) FROM kunden;`, explanation: `Die Aggregatfunktion COUNT(*) zählt die Gesamtanzahl der Zeilen in der Tabelle.` };
+                    },
+                    () => {
+                        const betrag = Math.floor(Math.random() * 500) + 100;
+                        return { topic: "DQL - WHERE (Vergleich)", description: `Zeige alle Bestellungen an, deren Gesamtbetrag kleiner als ${betrag} ist.`, solution: `SELECT * FROM bestellungen WHERE gesamtbetrag < ${betrag};`, explanation: `Nutze den Vergleichsoperator '<', um die Ergebnisse in der WHERE-Klausel zu filtern.` };
+                    },
+                    () => {
+                        const names = ['Max', 'Anna', 'Tom'];
+                        const cities = ['Bonn', 'Kiel', 'Ulm'];
+                        const n = names[Math.floor(Math.random() * names.length)];
+                        const c = cities[Math.floor(Math.random() * cities.length)];
+                        return { topic: "DML - INSERT", description: `Füge einen neuen Kunden mit dem Namen '${n}' aus '${c}' hinzu. (kunden_id wird automatisch vergeben)`, solution: `INSERT INTO kunden (name, stadt) VALUES ('${n}', '${c}');`, explanation: `INSERT INTO erstellt neue Datensätze. Gib in den ersten Klammern die Spalten und in den VALUES-Klammern die entsprechenden Werte an.` };
+                    }
+                ],
+                schuleDB: [
+                    () => {
+                        const names = ['Informatik', 'Mathematik', 'Englisch'];
+                        const rndName = names[Math.floor(Math.random() * names.length)];
+                        return { topic: "DQL - WHERE", description: `Zeige alle Lehrer an, die das Fach '${rndName}' unterrichten.`, solution: `SELECT * FROM lehrer WHERE fach = '${rndName}';`, explanation: `Verwende WHERE, um Lehrer nach ihrem Fach zu filtern.` };
+                    },
+                    () => {
+                        return { topic: "DQL - JOIN", description: `Zeige den Vornamen und Nachnamen der Schüler zusammen mit der Bezeichnung ihrer Klasse an.`, solution: `SELECT s.vorname, s.nachname, k.bezeichnung FROM schueler s JOIN klassen k ON s.klasse_id = k.klasse_id;`, explanation: `Ein JOIN verknüpft die Schüler mit ihren Klassen über die gemeinsame 'klasse_id'.` };
+                    },
+                    () => {
+                        return { topic: "DQL - ORDER BY", description: `Liste alle Schüler auf, alphabetisch sortiert nach ihrem Nachnamen.`, solution: `SELECT * FROM schueler ORDER BY nachname ASC;`, explanation: `ORDER BY sortiert die Ergebnisse. 'ASC' steht für aufsteigend (Standardeinstellung).` };
+                    }
+                ],
+                bibliothekDB: [
+                    () => {
+                        const years = [2010, 2015, 2020, 2023];
+                        const rndYear = years[Math.floor(Math.random() * years.length)];
+                        return { topic: "DQL - WHERE", description: `Welche Bücher sind nach dem Jahr ${rndYear} erschienen? Zeige den Titel und das Erscheinungsjahr.`, solution: `SELECT titel, erscheinungsjahr FROM buecher WHERE erscheinungsjahr > ${rndYear};`, explanation: `Verwende den '>' Operator in der WHERE-Klausel.` };
+                    },
+                    () => {
+                        return { topic: "DQL - JOIN", description: `Zeige den Titel des Buches und den Nachnamen des Autors an.`, solution: `SELECT b.titel, a.nachname FROM buecher b JOIN autoren a ON b.autor_id = a.autor_id;`, explanation: `Verknüpfe die Tabellen 'buecher' und 'autoren' anhand der 'autor_id'.` };
+                    },
+                    () => {
+                        return { topic: "DQL - LIKE", description: `Finde alle Kunden, deren Vorname mit 'A' beginnt.`, solution: `SELECT * FROM kunden WHERE vorname LIKE 'A%';`, explanation: `Der LIKE-Operator in Kombination mit dem Prozentzeichen '%' als Platzhalter findet alle Werte, die mit 'A' beginnen.` };
+                    }
+                ]
+            };
 
-            let description = "";
-            let solution = "";
-            let explanation = "";
-
-            if (randomSchemaKey === "mitarbeiterDB") {
-                if (randomOp === "SELECT") {
-                    description = "Wähle den Vor- und Nachnamen aller Mitarbeiter aus.";
-                    solution = "SELECT vorname, nachname FROM mitarbeiter;";
-                    explanation = "Verwende SELECT, um die Spalten 'vorname' und 'nachname' auszuwählen. Mit FROM gibst du die Tabelle 'mitarbeiter' an.";
-                } else if (randomOp === "INSERT") {
-                    const rndSal = Math.floor(Math.random() * 2000) + 3000;
-                    description = `Füge einen neuen Mitarbeiter namens 'Max Mustermann' mit der abteilung_id 1 und einem Gehalt von ${rndSal} hinzu.`;
-                    solution = `INSERT INTO mitarbeiter (vorname, nachname, abteilung_id, gehalt) VALUES ('Max', 'Mustermann', 1, ${rndSal});`;
-                    explanation = "Verwende INSERT INTO gefolgt vom Tabellennamen und den Spaltennamen in Klammern. VALUES gefolgt von den einzufügenden Werten in der gleichen Reihenfolge.";
-                } else if (randomOp === "UPDATE") {
-                    const rndAbt = Math.floor(Math.random() * 5) + 1;
-                    const rndSal = Math.floor(Math.random() * 1000) + 4000;
-                    description = `Erhöhe das Gehalt aller Mitarbeiter in der Abteilung mit der ID ${rndAbt} auf ${rndSal}.`;
-                    solution = `UPDATE mitarbeiter SET gehalt = ${rndSal} WHERE abteilung_id = ${rndAbt};`;
-                    explanation = "UPDATE ändert Datensätze. SET gibt an, welche Spalte(n) welchen neuen Wert bekommen. Die WHERE-Klausel schränkt ein, welche Datensätze betroffen sind.";
-                } else if (randomOp === "DELETE") {
-                    const rndAbt = Math.floor(Math.random() * 5) + 1;
-                    description = `Lösche alle Mitarbeiter, die in der Abteilung mit der ID ${rndAbt} arbeiten.`;
-                    solution = `DELETE FROM mitarbeiter WHERE abteilung_id = ${rndAbt};`;
-                    explanation = "DELETE FROM löscht Zeilen aus einer Tabelle. Mit WHERE definierst du die Bedingung, damit nicht alle Mitarbeiter gelöscht werden.";
-                } else if (randomOp === "JOIN") {
-                    description = "Ermittle den Vor- und Nachnamen des Mitarbeiters sowie den Namen seiner Abteilung.";
-                    solution = "SELECT mitarbeiter.vorname, mitarbeiter.nachname, abteilungen.name FROM mitarbeiter JOIN abteilungen ON mitarbeiter.abteilung_id = abteilungen.id;";
-                    explanation = "Verwende JOIN, um die Tabellen 'mitarbeiter' und 'abteilungen' über die Fremdschlüssel-Beziehung (abteilung_id = id) zu verbinden.";
-                }
-            } else if (randomSchemaKey === "shopDB") {
-                if (randomOp === "SELECT") {
-                    description = "Wähle den Namen und die Stadt aller Kunden aus.";
-                    solution = "SELECT name, stadt FROM kunden;";
-                    explanation = "Verwende SELECT, um die gewünschten Spalten aus der Tabelle 'kunden' auszuwählen.";
-                } else if (randomOp === "INSERT") {
-                    const cities = ['Berlin', 'München', 'Hamburg', 'Köln'];
-                    const rndCity = cities[Math.floor(Math.random() * cities.length)];
-                    description = `Füge einen neuen Kunden namens 'Erika Musterfrau' aus der Stadt '${rndCity}' hinzu.`;
-                    solution = `INSERT INTO kunden (name, stadt) VALUES ('Erika Musterfrau', '${rndCity}');`;
-                    explanation = "Verwende INSERT INTO gefolgt vom Tabellennamen und den Spaltennamen in Klammern. VALUES gefolgt von den einzufügenden Werten.";
-                } else if (randomOp === "UPDATE") {
-                    const rndAmount = (Math.random() * 100 + 50).toFixed(2);
-                    description = `Ändere den Betrag der Bestellung mit der ID 1 auf ${rndAmount}.`;
-                    solution = `UPDATE bestellungen SET betrag = ${rndAmount} WHERE bestell_id = 1;`;
-                    explanation = "UPDATE ändert den Datensatz der Tabelle 'bestellungen'. SET aktualisiert den 'betrag' für die spezifische 'bestell_id'.";
-                } else if (randomOp === "DELETE") {
-                    const cities = ['Berlin', 'München', 'Hamburg', 'Köln'];
-                    const rndCity = cities[Math.floor(Math.random() * cities.length)];
-                    description = `Lösche alle Kunden, die in der Stadt '${rndCity}' wohnen.`;
-                    solution = `DELETE FROM kunden WHERE stadt = '${rndCity}';`;
-                    explanation = "DELETE FROM löscht Zeilen. Mit WHERE schränkst du das Löschen auf Kunden der angegebenen Stadt ein.";
-                } else if (randomOp === "JOIN") {
-                    description = "Ermittle den Namen des Kunden und das Datum seiner Bestellungen.";
-                    solution = "SELECT kunden.name, bestellungen.datum FROM kunden JOIN bestellungen ON kunden.kunden_id = bestellungen.kunden_id;";
-                    explanation = "Nutze JOIN, um die Tabellen 'kunden' und 'bestellungen' über das gemeinsame Feld 'kunden_id' zu verknüpfen.";
-                }
-            }
+            const schemaGens = generators[randomSchemaKey];
+            const randomGen = schemaGens[Math.floor(Math.random() * schemaGens.length)];
+            const taskData = randomGen();
 
             currentTask = {
                 schema: randomSchemaKey,
-                description: description,
-                solution: solution,
-                explanation: explanation
+                topic: taskData.topic,
+                description: taskData.description,
+                solution: taskData.solution,
+                explanation: taskData.explanation
             };
 
             renderSchema(currentTask.schema);
             taskDescription.textContent = currentTask.description;
+
+            const badge = document.getElementById('topic-badge');
+            badge.textContent = currentTask.topic;
+            badge.classList.remove('hidden');
+
             sqlInput.value = '';
             sqlInput.disabled = false;
             sqlInput.focus();
