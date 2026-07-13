@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AP1 Themenübersicht - Theorie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#0a0a0a] text-slate-300 min-h-screen flex flex-col font-sans antialiased overflow-x-hidden selection:bg-red-500/30">
+
+    <!-- Matrix Background -->
+    <canvas id="matrix-bg" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
+
+        <!-- Left Header Controls -->
+    <div class="absolute top-4 left-4 flex gap-4 z-50">
+        <a href="index.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Home">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+        </a>
+        <a href="ap1.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Zurück">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Header Controls -->
+    <div class="absolute top-4 right-4 flex gap-4 z-50">
+        <a href="feedback.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Feedback & Ideen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 1 2 1.5 3.5.7.8 1.3 1.5 1.5 2.5" />
+                <path d="M9 18h6" />
+                <path d="M10 22h4" />
+            </svg>
+        </a>
+        <button id="matrix-pause-btn" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Matrix-Regen pausieren/fortsetzen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+        </button>
+        <a href="einstellungen.html" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors cursor-pointer" title="Einstellungen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl relative z-10 flex-grow flex flex-col justify-start">
+
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumb-nav text-sm text-slate-400 font-mono mb-8 flex items-center gap-2 overflow-x-auto whitespace-nowrap">
+            <a href="index.html" class="hover:text-white transition-colors">Home</a>
+            <span class="text-slate-600">/</span>
+            <a href="ap1.html" class="hover:text-white transition-colors">AP Teil 1</a>
+            <span class="text-slate-600">/</span>
+            <span class="text-slate-200">AP1 Themenübersicht</span>
+        </nav>
+
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+                <span class="font-mono">AP Teil 1 Workspace</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                AP1 Themenübersicht
+            </h1>
+            <p class="mt-4 text-sm md:text-lg text-slate-400 max-w-2xl mx-auto">
+                Eine Übersicht aller aktuell relevanten Prüfungsthemen für die AP1.
+            </p>
+        </div>
+
+
+
+        <!-- Main Content Section -->
+        <section class="w-full max-w-5xl mx-auto mb-16 space-y-6">
+
+            <!-- Schicht 7 -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-emerald-400 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded">Layer 7</span>
+                        <h3 class="text-xl font-bold text-white mt-2">Application (Anwendungsschicht)</h3>
+                    </div>
+                    <div class="text-right md:text-left text-sm text-slate-400 bg-slate-900/50 px-3 py-2 rounded">
+                        <strong>PDU:</strong> Data / Data Stream
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm mb-4">
+                    Schnittstelle zwischen dem Netzwerk und den Anwendungsprogrammen. Hier finden die eigentlichen Netzwerkanwendungen statt (z.B. Webbrowser, E-Mail-Client).
+                </p>
+                <div class="flex flex-wrap gap-2 text-xs font-mono">
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">HTTP/HTTPS</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">FTP</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">SMTP/IMAP</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">DNS</span>
+                </div>
+            </div>
+
+            <!-- Schicht 6 -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-emerald-500 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-red-500 bg-red-500/10 px-2 py-1 rounded">Layer 6</span>
+                        <h3 class="text-xl font-bold text-white mt-2">Presentation (Darstellungsschicht)</h3>
+                    </div>
+                    <div class="text-right md:text-left text-sm text-slate-400 bg-slate-900/50 px-3 py-2 rounded">
+                        <strong>PDU:</strong> Data / Data Stream
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm mb-4">
+                    Übersetzt Datenformate (z.B. ASCII in EBCDIC). Verantwortlich für Datenkompression und Verschlüsselung (TLS/SSL).
+                </p>
+                <div class="flex flex-wrap gap-2 text-xs font-mono">
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">JPEG/PNG</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">ASCII/UTF-8</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">TLS/SSL</span>
+                </div>
+            </div>
+
+            <!-- Schicht 5 -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-emerald-600 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-emerald-600 bg-emerald-600/10 px-2 py-1 rounded">Layer 5</span>
+                        <h3 class="text-xl font-bold text-white mt-2">Session (Sitzungsschicht)</h3>
+                    </div>
+                    <div class="text-right md:text-left text-sm text-slate-400 bg-slate-900/50 px-3 py-2 rounded">
+                        <strong>PDU:</strong> Data / Data Stream
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm mb-4">
+                    Aufbau, Verwaltung und Beendigung von Sitzungen (Sessions) zwischen zwei Systemen. Bietet Mechanismen für Checkpoints (Wiederaufsetzen nach Abbruch).
+                </p>
+                <div class="flex flex-wrap gap-2 text-xs font-mono">
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">NetBIOS</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">RPC</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">PPTP</span>
+                </div>
+            </div>
+
+            <!-- Schicht 4 -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-teal-500 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-teal-400 bg-teal-500/10 px-2 py-1 rounded">Layer 4</span>
+                        <h3 class="text-xl font-bold text-white mt-2">Transport (Transportschicht)</h3>
+                    </div>
+                    <div class="text-right md:text-left text-sm text-slate-400 bg-slate-900/50 px-3 py-2 rounded">
+                        <strong>PDU:</strong> Segment (TCP) / Datagram (UDP)
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm mb-4">
+                    End-zu-End-Kontrolle. Segmentierung von Datenströmen. Multiplexing (Zuordnung zu Ports). Wahlweiser zuverlässiger (TCP) oder unzuverlässiger (UDP) Transport.
+                </p>
+                <div class="flex flex-wrap gap-2 text-xs font-mono">
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">TCP</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">UDP</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Ports (z.B. 80, 443)</span>
+                </div>
+            </div>
+
+            <!-- Schicht 3 -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-cyan-500 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2 py-1 rounded">Layer 3</span>
+                        <h3 class="text-xl font-bold text-white mt-2">Network (Vermittlungsschicht)</h3>
+                    </div>
+                    <div class="text-right md:text-left text-sm text-slate-400 bg-slate-900/50 px-3 py-2 rounded">
+                        <strong>PDU:</strong> Packet (Paket)
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm mb-4">
+                    Logische Adressierung (IP-Adressen). Routing der Pakete durch verschiedene Netzwerke (Wegfindung).
+                </p>
+                <div class="flex flex-wrap gap-2 text-xs font-mono">
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">IPv4/IPv6</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">ICMP (Ping)</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">IPsec</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-cyan-300 border border-cyan-500/30">Gerät: Router / Layer-3-Switch</span>
+                </div>
+            </div>
+
+            <!-- Schicht 2 -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-sky-500 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-sky-400 bg-sky-500/10 px-2 py-1 rounded">Layer 2</span>
+                        <h3 class="text-xl font-bold text-white mt-2">Data Link (Sicherungsschicht)</h3>
+                    </div>
+                    <div class="text-right md:text-left text-sm text-slate-400 bg-slate-900/50 px-3 py-2 rounded">
+                        <strong>PDU:</strong> Frame (Rahmen)
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm mb-4">
+                    Physische Adressierung (MAC-Adressen). Erkennung (und teils Behebung) von Übertragungsfehlern auf der physischen Schicht. Zugangskontrolle zum Medium (CSMA/CD).
+                </p>
+                <div class="flex flex-wrap gap-2 text-xs font-mono">
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Ethernet (IEEE 802.3)</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">WLAN (IEEE 802.11)</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">MAC-Adressen</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-sky-300 border border-sky-500/30">Gerät: Switch / Bridge</span>
+                </div>
+            </div>
+
+            <!-- Schicht 1 -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-blue-500 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-red-400 bg-blue-500/10 px-2 py-1 rounded">Layer 1</span>
+                        <h3 class="text-xl font-bold text-white mt-2">Physical (Bitübertragungsschicht)</h3>
+                    </div>
+                    <div class="text-right md:text-left text-sm text-slate-400 bg-slate-900/50 px-3 py-2 rounded">
+                        <strong>PDU:</strong> Bit / Symbol
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm mb-4">
+                    Übertragung unstrukturierter Bitströme über ein physikalisches Medium (Kabel, Funk, Licht). Definiert Spannungspegel, Pinbelegungen, Kabeltypen.
+                </p>
+                <div class="flex flex-wrap gap-2 text-xs font-mono">
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Kupfer (Twisted Pair)</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Glasfaser</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Funkwellen</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-blue-300 border border-red-500/30">Gerät: Hub / Repeater / Kabel</span>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 border-t border-slate-900 text-xs text-slate-600 font-mono relative z-10 bg-black/20 backdrop-blur-sm mt-auto">
+        &copy; 2026 kplueschke All rights reserved.
+    </footer>
+
+    <script src="matrix.js"></script>
+
+</body>
+</html>
