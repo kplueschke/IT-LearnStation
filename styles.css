@@ -202,6 +202,7 @@ input[type=range]::-moz-range-track {
 .stagger-5 { animation-delay: 0.5s; }
 .stagger-6 { animation-delay: 0.6s; }
 .stagger-7 { animation-delay: 0.7s; }
+.stagger-8 { animation-delay: 0.8s; }
 
 /* Subject H2 Color Hover States */
 .glass-card-hover-indigo:hover h2 { color: #818cf8; /* indigo-400 */ }
