@@ -80,93 +80,143 @@
         <!-- Main Content Section -->
         <section class="w-full max-w-5xl mx-auto mb-16 space-y-6">
 
-            <!-- Topic: Hardware & Beschaffung -->
+            <!-- Topic 1: Hardware, Betriebssysteme & Arbeitsplatzeinrichtung -->
             <div class="glass-card rounded-xl p-6 border-l-4 border-l-cyan-400 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <div>
                         <span class="text-xs font-mono text-cyan-400 bg-cyan-400/10 px-2 py-1 rounded">Thema 1</span>
-                        <h3 class="text-xl font-bold text-white mt-2">Hardware & Beschaffung</h3>
+                        <h3 class="text-xl font-bold text-white mt-2">Hardware, Betriebssysteme & Arbeitsplatzeinrichtung</h3>
                     </div>
                 </div>
-                <p class="text-slate-300 text-sm mb-4">
-                    Auswahl, Vergleich und Beschaffung von Hard- und Softwarekomponenten. Analyse von Anforderungen und Erstellen von Nutzwertanalysen.
-                </p>
+                <div class="text-slate-300 text-sm mb-4 space-y-2">
+                    <p>In diesem Bereich geht es darum, die physische und logische Basis für einen IT-Arbeitsplatz zu planen und bereitzustellen.</p>
+                    <ul class="list-disc list-inside space-y-1 ml-2">
+                        <li><strong>Hardwarekomponenten & Speichermedien:</strong> Unterschiede und Einsatzgebiete von SSD (SATA, NVMe) und klassischen HDDs. Schnittstellen (USB-C, Thunderbolt, HDMI, DisplayPort).</li>
+                        <li><strong>USV (Unterbrechungsfreie Stromversorgung):</strong> Typen kennen (z. B. Offline/VFD, Line-Interactive/VI, Online/VFI) und benötigte Scheinleistung ($S = U \cdot I$) berechnen können.</li>
+                        <li><strong>Betriebssysteme & Software:</strong> Auswahl nach Einsatzzweck (Client, Server, Virtualisierung). Installationsarten, Lizenzmodelle (Open Source, proprietär, Volumenlizenzen). Dateisysteme (NTFS, ext4, APFS) und Berechtigungsmanagement.</li>
+                        <li><strong>Ergonomie & Ökologie:</strong> Ergonomische Anforderungen an Bildschirmarbeitsplätze (Haltung, Beleuchtung, Tisch- und Stuhlhöhe). Ökologische Aspekte: Energieverbrauch (Green IT), Nutzungsdauer, Recyclingfähigkeit.</li>
+                    </ul>
+                </div>
                 <div class="flex flex-wrap gap-2 text-xs font-mono">
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Nutzwertanalyse</span>
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Hardwarekomponenten</span>
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Angebotsvergleich</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Hardware</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">OS</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Ergonomie</span>
                 </div>
             </div>
 
-            <!-- Topic: Netzwerkgrundlagen -->
+            <!-- Topic 2: Netzwerkgrundlagen (IPv4, IPv6 & Diagnose) -->
             <div class="glass-card rounded-xl p-6 border-l-4 border-l-cyan-500 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <div>
                         <span class="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2 py-1 rounded">Thema 2</span>
-                        <h3 class="text-xl font-bold text-white mt-2">Netzwerkgrundlagen</h3>
+                        <h3 class="text-xl font-bold text-white mt-2">Netzwerkgrundlagen (IPv4, IPv6 & Diagnose)</h3>
                     </div>
                 </div>
-                <p class="text-slate-300 text-sm mb-4">
-                    Einrichtung und Konfiguration von Netzwerken an Arbeitsplätzen. Verständnis von Topologien, Medien, IPv4/IPv6 und Netzwerkkomponenten.
-                </p>
+                <div class="text-slate-300 text-sm mb-4 space-y-2">
+                    <p>Netzwerke bilden das Rückgrat jeder IT-Infrastruktur. Hier musst du absolut sattelfest sein.</p>
+                    <ul class="list-disc list-inside space-y-1 ml-2">
+                        <li><strong>OSI-Schichtmodell:</strong> Die 7 Schichten (Bitübertragung bis Anwendung) verstehen und typische Protokolle (HTTP, TCP, IP, Ethernet) zuordnen können.</li>
+                        <li><strong>IP-Addressing & Subnetzberechnung:</strong> <strong>IPv4:</strong> Subnetzmasken, Netz-ID, Broadcast-Adresse, nutzbare Host-IPs berechnen (binär und dezimal). <strong>IPv6:</strong> Adressaufbau (Hexadezimal, Kürzungsregeln), Link-Local-Adressen, Unterschiede zu IPv4.</li>
+                        <li><strong>Netzwerkdiagnose & Befehle:</strong> Kommandozeilen-Tools beherrschen: ping, tracert/traceroute, ipconfig/ifconfig, nslookup, arp.</li>
+                        <li><strong>Wichtige Protokolle verstehen:</strong> DHCP, DNS, VPN (z. B. WireGuard, IPsec).</li>
+                    </ul>
+                </div>
                 <div class="flex flex-wrap gap-2 text-xs font-mono">
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">IPv4 / IPv6</span>
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">OSI-Modell</span>
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Subnetting</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">OSI</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">IPv4/IPv6</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Diagnose</span>
                 </div>
             </div>
 
-            <!-- Topic: IT-Sicherheit & Datenschutz -->
+            <!-- Topic 3: Softwareentwicklung & Datenbanken (FIAE-Schwerpunkt) -->
             <div class="glass-card rounded-xl p-6 border-l-4 border-l-cyan-600 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <div>
                         <span class="text-xs font-mono text-cyan-400 bg-cyan-600/10 px-2 py-1 rounded">Thema 3</span>
-                        <h3 class="text-xl font-bold text-white mt-2">IT-Sicherheit & Datenschutz</h3>
+                        <h3 class="text-xl font-bold text-white mt-2">Softwareentwicklung & Datenbanken (FIAE-Schwerpunkt)</h3>
                     </div>
                 </div>
-                <p class="text-slate-300 text-sm mb-4">
-                    Grundlagen der Informationssicherheit (CIA-Triade), Schutzziele, Backup-Strategien, Malware-Arten und DSGVO.
-                </p>
+                <div class="text-slate-300 text-sm mb-4 space-y-2">
+                    <p>Auch wenn die AP1 für alle IT-Berufe identisch ist, kommen grundlegende Programmier- und Datenkonzepte regelmäßig vor.</p>
+                    <ul class="list-disc list-inside space-y-1 ml-2">
+                        <li><strong>Pseudocode & Algorithmen:</strong> Logisches Verständnis von Schleifen (for, while), Bedingungen (if-else) und Verzweigungen. <em>Hinweis: Klassische Struktogramme (Nassi-Shneiderman) und Programmablaufpläne (PAP) wurden im reformierten Stoffkatalog abgewertet, stattdessen steht die direkte Interpretation und Optimierung von (Pseudo-)Code im Vordergrund.</em></li>
+                        <li><strong>Datenbankmodellierung (Konzeptionell):</strong> Erstellung und Interpretation von ERMs (Entity-Relationship-Modellen). Bestimmung von Kardinalitäten (1:1, 1:n, m:n) und Primär-/Fremdschlüsseln. Normalisierung (1. bis 3. Normalform). (Reine SQL-Abfragen sind meist eher Thema der AP2, schaden aber als Basis nicht).</li>
+                        <li><strong>Moderne Entwicklungsparadigmen:</strong> Grundlegendes Verständnis von Test-Driven Development (TDD) und der Gestaltung barrierefreier Software.</li>
+                    </ul>
+                </div>
                 <div class="flex flex-wrap gap-2 text-xs font-mono">
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Schutzziele (CIA)</span>
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Malware</span>
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">RAID & Backups</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Algorithmen</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">ERM</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">TDD</span>
                 </div>
             </div>
 
-            <!-- Topic: Stromversorgung & Ergonomie -->
+            <!-- Topic 4: Projektmanagement, Qualitätssicherung & Kundenservice -->
             <div class="glass-card rounded-xl p-6 border-l-4 border-l-sky-400 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <div>
-                        <span class="text-xs font-mono text-cyan-400 bg-sky-500/10 px-2 py-1 rounded">Thema 4</span>
-                        <h3 class="text-xl font-bold text-white mt-2">Stromversorgung & Ergonomie</h3>
+                        <span class="text-xs font-mono text-cyan-400 bg-sky-400/10 px-2 py-1 rounded">Thema 4</span>
+                        <h3 class="text-xl font-bold text-white mt-2">Projektmanagement, Qualitätssicherung & Kundenservice</h3>
                     </div>
                 </div>
-                <p class="text-slate-300 text-sm mb-4">
-                    Berechnung von Stromkosten, USV-Anlagen, sowie die ergonomische Gestaltung von IT-Arbeitsplätzen (Beleuchtung, Sitzhaltung, Bildschirm).
-                </p>
+                <div class="text-slate-300 text-sm mb-4 space-y-2">
+                    <p>Ein erfolgreiches IT-Projekt erfordert strukturierte Planung und klare Kommunikation.</p>
+                    <ul class="list-disc list-inside space-y-1 ml-2">
+                        <li><strong>Vorgehensmodelle:</strong> Klassisch (Wasserfallmodell, V-Modell) vs. Agile Methoden (Scrum, Kanban). Definition und Formulierung von SMART-Zielen.</li>
+                        <li><strong>Projektplanungstools:</strong> Erstellung und Interpretation von Gantt-Diagrammen und Netzplänen (Ermittlung des kritischen Pfades, Pufferzeiten). Unterschied zwischen Lastenheft (Was will der Kunde?) und Pflichtenheft (Wie setzt der Auftragnehmer es um?).</li>
+                        <li><strong>Qualitätssicherung & Übergabe:</strong> Erstellung von Abnahmeprotokollen. Umgang mit Leistungsstörungen bei der Übergabe (Schlechtleistung, Minderlieferung, Falschlieferung).</li>
+                    </ul>
+                </div>
                 <div class="flex flex-wrap gap-2 text-xs font-mono">
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">USV</span>
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Stromkostenberechnung</span>
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Ergonomie-Richtlinien</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Agile</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Scrum</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Qualität</span>
                 </div>
             </div>
 
-            <!-- Topic: Anforderungsanalyse (Requirement Engineering) -->
+            <!-- Topic 5: IT-Sicherheit & Datenschutz -->
             <div class="glass-card rounded-xl p-6 border-l-4 border-l-sky-500 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <div>
                         <span class="text-xs font-mono text-cyan-400 bg-sky-500/10 px-2 py-1 rounded">Thema 5</span>
-                        <h3 class="text-xl font-bold text-white mt-2">Anforderungsanalyse</h3>
+                        <h3 class="text-xl font-bold text-white mt-2">IT-Sicherheit & Datenschutz</h3>
                     </div>
                 </div>
-                <p class="text-slate-300 text-sm mb-4">
-                    Ermittlung von Kundenanforderungen (Lastenheft/Pflichtenheft) und Grundlagen des Projektmanagements für die Einrichtung von Arbeitsplätzen.
-                </p>
+                <div class="text-slate-300 text-sm mb-4 space-y-2">
+                    <p>Diese Querschnittsthemen ziehen sich durch jede Prüfungsaufgabe.</p>
+                    <ul class="list-disc list-inside space-y-1 ml-2">
+                        <li><strong>Schutzziele der IT-Sicherheit:</strong> Integrität, Verfügbarkeit und Vertraulichkeit (CIA-Triade).</li>
+                        <li><strong>Sicherheitsmaßnahmen & Konzepte:</strong> Technisch-Organisatorische Maßnahmen (TOM) nach DSGVO. Konzepte wie Mehr-Faktor-Authentifizierung (MFA/2FA), Firewalls, Backup-Strategien (z.B. 3-2-1-Regel).</li>
+                        <li><strong>Verschlüsselungsverfahren:</strong> Symmetrisch (AES) vs. Asymmetrisch (RSA, Schlüsselpaar-Prinzip) und hybride Verfahren. Hashing-Verfahren (SHA-256) zur Sicherung der Datenintegrität.</li>
+                        <li><strong>Datenschutz (DSGVO):</strong> Umgang mit personenbezogenen Daten. Rechte der Betroffenen (Auskunft, Löschung). Anonymisierung vs. Pseudonymisierung von Daten. Rollenverteilung: Unterschied zwischen dem IT-Sicherheitsbeauftragten und dem Datenschutzbeauftragten.</li>
+                    </ul>
+                </div>
                 <div class="flex flex-wrap gap-2 text-xs font-mono">
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Lasten-/Pflichtenheft</span>
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">User Stories</span>
-                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Use Case Diagramme</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">CIA-Triade</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">DSGVO</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Verschlüsselung</span>
+                </div>
+            </div>
+
+            <!-- Topic 6: Wirtschafts- und Sozialkunde (WiSo) & kaufmännische Prozesse -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-sky-600 border-t border-r border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-cyan-400 bg-sky-600/10 px-2 py-1 rounded">Thema 6</span>
+                        <h3 class="text-xl font-bold text-white mt-2">Wirtschafts- und Sozialkunde (WiSo) & kaufmännische Prozesse</h3>
+                    </div>
+                </div>
+                <div class="text-slate-300 text-sm mb-4 space-y-2">
+                    <p>Kaufmännische Berechnungen sind ein extrem beliebter und punktereicher Bestandteil der AP1.</p>
+                    <ul class="list-disc list-inside space-y-1 ml-2">
+                        <li><strong>Wirtschaftlichkeitsberechnungen:</strong> Angebotsvergleiche: Ermittlung des günstigsten Angebots unter Berücksichtigung von Rabatten, Skonti und Bezugskosten. Nutzwertanalyse (NWA): Gewichtung und Bewertung verschiedener Kriterien zur Entscheidungsfindung. Kalkulationen: Anschaffungskosten, Gesamtbetriebskosten (TCO - Total Cost of Ownership), Make-or-Buy-Entscheidungen.</li>
+                        <li><strong>Arbeitsrecht & Organisation:</strong> Vertragsarten (Kaufvertrag, Werkvertrag, Dienstvertrag). Rechte und Pflichten des Azubis und des Ausbildungsbetriebs (BBiG). Mitbestimmung (Betriebsrat, Jugend- und Auszubildendenvertretung) und Kündigungsschutz.</li>
+                    </ul>
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs font-mono">
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">WiSo</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">TCO</span>
+                    <span class="bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700">Arbeitsrecht</span>
                 </div>
             </div>
 
