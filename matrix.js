@@ -29,7 +29,7 @@ const classicChars = classicAlphabet.split("");
 function getInitialsColor() {
     const path = window.location.pathname.toLowerCase();
     if (path.includes('ap.html')) return 'rgba(239, 68, 68, 0.5)'; // red-500
-    if (path.includes('ap1.html')) return 'rgba(239, 68, 68, 0.5)'; // red-500
+    if (path.includes('ap1.html')) return 'rgba(6, 182, 212, 0.5)'; // cyan-500
     if (path.includes('bgp.html')) return 'rgba(168, 85, 247, 0.5)'; // purple-500
     if (path.includes('englisch.html')) return 'rgba(234, 179, 8, 0.5)'; // yellow-500
     if (path.includes('itag.html')) return 'rgba(249, 115, 22, 0.5)'; // orange-500
