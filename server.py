@@ -9,9 +9,11 @@ DATA_FILE = 'feedback.json'
 
 class FeedbackHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
-        if self.path == '/api/feedback':
+        parsed_path = urllib.parse.urlparse(self.path).path
+        if parsed_path == '/api/feedback':
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
+            self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
             self.end_headers()
 
             if os.path.exists(DATA_FILE):
@@ -28,7 +30,8 @@ class FeedbackHandler(http.server.SimpleHTTPRequestHandler):
             super().do_GET()
 
     def do_POST(self):
-        if self.path == '/api/feedback':
+        parsed_path = urllib.parse.urlparse(self.path).path
+        if parsed_path == '/api/feedback':
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
 
@@ -62,8 +65,9 @@ class FeedbackHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
 
     def do_DELETE(self):
-        if self.path.startswith('/api/feedback/'):
-            pin_id = self.path.split('/')[-1]
+        parsed_path = urllib.parse.urlparse(self.path).path
+        if parsed_path.startswith('/api/feedback/'):
+            pin_id = parsed_path.split('/')[-1]
 
             if os.path.exists(DATA_FILE):
                 with open(DATA_FILE, 'r') as f:
