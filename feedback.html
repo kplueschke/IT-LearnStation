@@ -137,7 +137,7 @@
         async function loadPins() {
             let pins = [];
             try {
-                const response = await fetch('/api/feedback');
+                const response = await fetch('/api/feedback?t=' + Date.now());
                 if (response.ok) {
                     pins = await response.json();
                 }
@@ -178,11 +178,11 @@
                             </button>
                         </div>
 
-                        <p class="text-slate-300 font-mono text-sm leading-relaxed mb-6 whitespace-pre-wrap">${pin.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
+                        <p class="text-slate-300 font-mono text-sm leading-relaxed mb-6 whitespace-pre-wrap">${(pin.message || '').replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
                     </div>
 
                     <div class="flex justify-between items-end border-t border-slate-800/50 pt-4 mt-auto">
-                        <span class="text-slate-400 text-sm font-semibold">${pin.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>
+                        <span class="text-slate-400 text-sm font-semibold">${(pin.name || '').replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>
                         <span class="text-slate-500 text-xs font-mono">${dateStr}</span>
                     </div>
                 `;
