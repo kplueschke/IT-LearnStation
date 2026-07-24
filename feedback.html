@@ -231,8 +231,11 @@
             }
         });
 
-        // Load initially
-        document.addEventListener('DOMContentLoaded', loadPins);
+        // Load initially and set up real-time sync (poll every 10 seconds)
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPins();
+            setInterval(loadPins, 10000);
+        });
     </script>
 </body>
 </html>
