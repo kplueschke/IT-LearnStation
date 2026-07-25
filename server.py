@@ -5,7 +5,8 @@ import os
 import urllib.parse
 
 PORT = 8000
-DATA_FILE = 'feedback.json'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_FILE = os.path.join(BASE_DIR, 'feedback.json')
 
 class FeedbackHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
@@ -17,9 +18,11 @@ class FeedbackHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
 
             if os.path.exists(DATA_FILE):
-                with open(DATA_FILE, 'r') as f:
+                with open(DATA_FILE, 'r', encoding='utf-8') as f:
                     try:
                         data = json.load(f)
+                        if not isinstance(data, list):
+                            data = []
                     except json.JSONDecodeError:
                         data = []
             else:
@@ -43,9 +46,11 @@ class FeedbackHandler(http.server.SimpleHTTPRequestHandler):
                 return
 
             if os.path.exists(DATA_FILE):
-                with open(DATA_FILE, 'r') as f:
+                with open(DATA_FILE, 'r', encoding='utf-8') as f:
                     try:
                         data = json.load(f)
+                        if not isinstance(data, list):
+                            data = []
                     except json.JSONDecodeError:
                         data = []
             else:
@@ -53,8 +58,8 @@ class FeedbackHandler(http.server.SimpleHTTPRequestHandler):
 
             data.append(new_pin)
 
-            with open(DATA_FILE, 'w') as f:
-                json.dump(data, f, indent=4)
+            with open(DATA_FILE, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=4, ensure_ascii=False)
 
             self.send_response(201)
             self.send_header('Content-type', 'application/json')
@@ -70,9 +75,11 @@ class FeedbackHandler(http.server.SimpleHTTPRequestHandler):
             pin_id = parsed_path.split('/')[-1]
 
             if os.path.exists(DATA_FILE):
-                with open(DATA_FILE, 'r') as f:
+                with open(DATA_FILE, 'r', encoding='utf-8') as f:
                     try:
                         data = json.load(f)
+                        if not isinstance(data, list):
+                            data = []
                     except json.JSONDecodeError:
                         data = []
             else:
@@ -82,8 +89,8 @@ class FeedbackHandler(http.server.SimpleHTTPRequestHandler):
             data = [p for p in data if p.get('id') != pin_id]
 
             if len(data) < original_len:
-                with open(DATA_FILE, 'w') as f:
-                    json.dump(data, f, indent=4)
+                with open(DATA_FILE, 'w', encoding='utf-8') as f:
+                    json.dump(data, f, indent=4, ensure_ascii=False)
                 self.send_response(200)
             else:
                 self.send_response(404)
