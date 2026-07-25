@@ -72,46 +72,16 @@
             <p class="mt-4 text-sm md:text-base text-slate-400 max-w-xl mx-auto">Hast du einen Fehler gefunden, wünschst du dir ein neues Tool oder hast du allgemeines Feedback? Lass es mich wissen!</p>
         </div>
 
-        <!-- Feedback Form -->
-        <div class="glass-card glass-card-hover-blue rounded-2xl p-8 relative overflow-hidden text-left" id="feedback-container">
-            <p class="text-slate-300 mb-6 font-mono text-sm leading-relaxed text-center">
-                Ich freue mich über dein Feedback! Fülle das untenstehende Formular aus, um mir Fehler zu melden, neue Tools vorzuschlagen oder allgemeines Feedback zu hinterlassen. Dein Eintrag wird auf dieser Pinnwand für alle sichtbar gespeichert.
-            </p>
-            <form id="feedback-form" class="space-y-4">
-                <div>
-                    <label for="name" class="block text-sm font-medium text-slate-400 mb-1">Name (optional)</label>
-                    <input type="text" id="name" name="name" class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all font-mono text-sm">
-                </div>
-                <div>
-                    <label for="type" class="block text-sm font-medium text-slate-400 mb-1">Feedback-Typ</label>
-                    <div class="relative">
-                        <select id="type" name="type" required class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all font-mono text-sm appearance-none">
-                            <option value="bug">Fehler melden</option>
-                            <option value="idea">Neue Idee / Tool</option>
-                            <option value="general">Allgemeines Feedback</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <label for="message" class="block text-sm font-medium text-slate-400 mb-1">Nachricht</label>
-                    <textarea id="message" name="message" required rows="4" class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all font-mono text-sm resize-none"></textarea>
-                </div>
-                <div class="pt-4 text-center">
-                    <button type="submit" class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-8 rounded-xl transition-all hover:scale-[1.02] shadow-lg shadow-blue-900/20 cursor-pointer w-full md:w-auto whitespace-nowrap">
-                        <span>Anpinnen</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div class="mt-12">
-             <h2 class="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 mb-6 text-center">Pinnwand</h2>
-             <div id="pinned-feedback-board" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-full">
-             </div>
+        <!-- Feedback Form (Google Forms) -->
+        <div class="glass-card glass-card-hover-blue rounded-2xl p-4 md:p-8 relative overflow-hidden text-left" id="feedback-container">
+            <iframe
+                src="https://docs.google.com/forms/d/e/1FAIpQLSf6hIrpXNLYCkJtnc9NRqPZGXWuLej5o-fqFKndF3USXjyPEg/viewform?embedded=true"
+                class="w-full min-h-[800px] border-0 rounded-xl"
+                frameborder="0"
+                marginheight="0"
+                marginwidth="0">
+                Wird geladen…
+            </iframe>
         </div>
     </div>
 
@@ -121,121 +91,5 @@
     </footer>
 
     <script src="matrix.js"></script>
-    <script>
-        function getTypeConfig(type) {
-            switch(type) {
-                case 'bug':
-                    return { text: 'Fehler', color: 'red', svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />' };
-                case 'idea':
-                    return { text: 'Idee / Tool', color: 'green', svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />' };
-                case 'general':
-                default:
-                    return { text: 'Allgemein', color: 'blue', svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />' };
-            }
-        }
-
-        async function loadPins() {
-            let pins = [];
-            try {
-                const response = await fetch('/api/feedback?t=' + Date.now());
-                if (response.ok) {
-                    pins = await response.json();
-                }
-            } catch (error) {
-                console.error('Error fetching pins:', error);
-            }
-
-            const board = document.getElementById('pinned-feedback-board');
-            board.innerHTML = '';
-
-            if(pins.length === 0) {
-                 board.innerHTML = '<div class="col-span-full text-center text-slate-500 font-mono text-sm py-8">Die Pinnwand ist noch leer. Mache den ersten Eintrag!</div>';
-                 return;
-            }
-
-            pins.reverse().forEach(pin => {
-                const config = getTypeConfig(pin.type);
-
-                const card = document.createElement('div');
-                card.className = `glass-card glass-card-hover-${config.color} p-6 rounded-xl flex flex-col justify-between group text-left relative`;
-
-                const dateObj = new Date(pin.date);
-                const dateStr = dateObj.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-
-                card.innerHTML = `
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-${config.color}-500/10 border border-${config.color}-500/20 text-${config.color}-400 text-xs font-medium uppercase tracking-wider">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    ${config.svg}
-                                </svg>
-                                <span>${config.text}</span>
-                            </div>
-                            <button onclick="deletePin('${pin.id}')" class="text-slate-500 hover:text-red-400 transition-colors cursor-pointer p-1 rounded-lg hover:bg-slate-800/50" title="Eintrag löschen">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <p class="text-slate-300 font-mono text-sm leading-relaxed mb-6 whitespace-pre-wrap">${(pin.message || '').replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
-                    </div>
-
-                    <div class="flex justify-between items-end border-t border-slate-800/50 pt-4 mt-auto">
-                        <span class="text-slate-400 text-sm font-semibold">${(pin.name || '').replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>
-                        <span class="text-slate-500 text-xs font-mono">${dateStr}</span>
-                    </div>
-                `;
-                board.appendChild(card);
-            });
-        }
-
-        window.deletePin = async function(id) {
-            try {
-                await fetch(`/api/feedback/${id}`, {
-                    method: 'DELETE'
-                });
-                await loadPins();
-            } catch (error) {
-                console.error('Error deleting pin:', error);
-            }
-        };
-
-        document.getElementById('feedback-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const name = document.getElementById('name').value || 'Anonym';
-            const type = document.getElementById('type').value;
-            const message = document.getElementById('message').value;
-
-            const newPin = {
-                id: 'pin_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-                name: name,
-                type: type,
-                message: message,
-                date: new Date().toISOString()
-            };
-
-            try {
-                await fetch('/api/feedback', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(newPin)
-                });
-                this.reset();
-                await loadPins();
-            } catch (error) {
-                console.error('Error saving pin:', error);
-            }
-        });
-
-        // Load initially and set up real-time sync (poll every 10 seconds)
-        document.addEventListener('DOMContentLoaded', () => {
-            loadPins();
-            setInterval(loadPins, 10000);
-        });
-    </script>
 </body>
 </html>
