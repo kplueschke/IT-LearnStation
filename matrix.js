@@ -1,3 +1,4 @@
+(function() {
 const canvas = document.getElementById('matrix-bg');
 const ctx = canvas.getContext('2d');
 
@@ -609,3 +610,11 @@ function triggerNeoEasterEgg() {
     setTimeout(typeWriter, 1500);
 }
 // -------------------
+
+
+  // Expose necessary functions to the global scope for HTML event handlers if any
+  window.toggleMatrixStyle = toggleMatrixStyle;
+  window.togglePause = togglePause;
+  window.triggerKPCrash = triggerKPCrash;
+  window.triggerNeoEasterEgg = triggerNeoEasterEgg;
+})();
