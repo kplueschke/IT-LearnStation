@@ -278,8 +278,38 @@ input[type=range]::-moz-range-track {
     margin-bottom: 8px;
 }
 
-.glossary-term:hover::after {
+.glossary-term:hover::after,
+.glossary-term:focus::after,
+.glossary-term:active::after {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
+}
+
+/* Global Focus States for A11y */
+*:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #0f172a, 0 0 0 4px #6366f1; /* slate-900, indigo-500 */
+    border-radius: 2px;
+}
+
+/* Rounded elements need rounded focus rings */
+.rounded-full:focus-visible {
+    border-radius: 9999px;
+}
+.rounded-xl:focus-visible, .glass-card:focus-visible {
+    border-radius: 0.75rem;
+}
+.rounded-2xl:focus-visible {
+    border-radius: 1rem;
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
